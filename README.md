@@ -197,3 +197,7 @@ flutter build windows --debug
 ---
 
 _项目最后构建时间: 2026-06-03_
+
+## Build via GitHub Actions
+
+Updated: Thu Jun  4 01:55:35 CST 2026
