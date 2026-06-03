@@ -11,6 +11,7 @@ import 'dart:io';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:intl/intl.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
@@ -189,7 +190,38 @@ class AppDatabase extends _$AppDatabase {
           await m.createAll();
           await _seedForbiddenFoods();
         },
+        onUpgrade: (m, from, to) async {
+          // schemaVersion 还是 1 → 未来 v2/v3 加迁移步
+          // 示例模板 (留给以后):
+          // if (from < 2) {
+          //   await m.addColumn(pets, pets.newField);
+          // }
+        },
+        beforeOpen: (details) async {
+          // 打开前防御：验证数据库完整性
+          await customStatement('PRAGMA foreign_keys = ON');
+          // 如果是新升级(had upgrade)，自动备份一次
+          if (details.wasUpgrade) {
+            try {
+              await _autoBackupOnUpgrade();
+            } catch (_) {
+              // backup 失败不应阻断 db 打开
+            }
+          }
+        },
       );
+
+  Future<void> _autoBackupOnUpgrade() async {
+    if (kIsWeb) return;
+    final dir = await getApplicationDocumentsDirectory();
+    final dbFile = File(p.join(dir.path, 'dog_diary.db'));
+    if (!await dbFile.exists()) return;
+    final backupDir = Directory(p.join(dir.path, 'dog_diary_backups'));
+    if (!await backupDir.exists()) await backupDir.create(recursive: true);
+    final ts = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
+    final backup = File(p.join(backupDir.path, 'pre_upgrade_$ts.db'));
+    await dbFile.copy(backup.path);
+  }
 
   // ---- 种子数据: 禁食食物 ----
   Future<void> _seedForbiddenFoods() async {

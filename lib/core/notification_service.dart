@@ -19,6 +19,24 @@ class NotificationService {
       macOS: DarwinInitializationSettings(),
     );
     await _plugin.initialize(initSettings);
+
+    // Android 13+ 运行时申请 POST_NOTIFICATIONS 权限
+    final androidImpl = _plugin.resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>();
+    if (androidImpl != null) {
+      final granted = await androidImpl.requestNotificationsPermission();
+      // granted 可以是 null (老 Android) / true / false
+      // false 不 throw，scheduleReminder 失败时会吞错
+    }
+  }
+
+  /// 手动重新请求通知权限（设置页可调）
+  static Future<bool?> requestPermission() async {
+    if (kIsWeb) return null;
+    final androidImpl = _plugin.resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>();
+    if (androidImpl == null) return null;
+    return await androidImpl.requestNotificationsPermission();
   }
 
   static Future<void> showNow({
@@ -32,7 +50,11 @@ class NotificationService {
       iOS: DarwinNotificationDetails(),
       macOS: DarwinNotificationDetails(),
     );
-    await _plugin.show(id, title, body, details);
+    try {
+      await _plugin.show(id, title, body, details);
+    } catch (e) {
+      debugPrint('⚠️ showNow 失败: $e');
+    }
   }
 
   static Future<void> scheduleReminder({
@@ -48,14 +70,19 @@ class NotificationService {
       iOS: DarwinNotificationDetails(),
       macOS: DarwinNotificationDetails(),
     );
-    await _plugin.zonedSchedule(
-      id,
-      title,
-      body,
-      tz.TZDateTime.from(when, tz.local),
-      details,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
-    );
+    try {
+      await _plugin.zonedSchedule(
+        id,
+        title,
+        body,
+        tz.TZDateTime.from(when, tz.local),
+        details,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      );
+    } catch (e) {
+      // 权限被拒绝/未授权时吞错，不让功能崩
+      debugPrint('⚠️ scheduleReminder 失败: $e');
+    }
   }
 }
