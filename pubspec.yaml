@@ -1,0 +1,50 @@
+name: dog_diary
+description: "养狗日记 - 纯本地单机养宠管理软件"
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # 状态管理
+  flutter_riverpod: ^2.5.1
+
+  # 数据库 (drift = 类型安全 SQLite)
+  drift: ^2.20.0
+  drift_flutter: ^0.2.0
+  sqlite3_flutter_libs: ^0.5.24
+  path_provider: ^2.1.4
+  path: ^1.9.0
+
+  # 图表
+  fl_chart: ^0.69.0
+
+  # 通知
+  flutter_local_notifications: ^17.2.3
+  timezone: ^0.9.4
+
+  # 工具
+  intl: ^0.19.0
+  uuid: ^4.5.1
+  share_plus: ^10.0.2
+  file_picker: ^8.1.2
+  excel: ^4.0.2
+
+  # UI
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  drift_dev: ^2.20.0
+  build_runner: ^2.4.13
+
+flutter:
+  uses-material-design: true
+  # assets:
+  #   - assets/fonts/
