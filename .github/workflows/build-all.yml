@@ -1,0 +1,99 @@
+name: Build All Platforms
+
+on:
+  push:
+    branches: [ main, dog-diary ]
+  workflow_dispatch:
+
+jobs:
+  android:
+    name: Android APK
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.44.1'
+          channel: stable
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Generate drift code
+        run: dart run build_runner build --delete-conflicting-outputs
+      - name: Build debug APK
+        run: flutter build apk --debug
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: dog-diary-android-debug
+          path: build/app/outputs/flutter-apk/app-debug.apk
+
+  macos:
+    name: macOS .app
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.44.1'
+          channel: stable
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Generate drift code
+        run: dart run build_runner build --delete-conflicting-outputs
+      - name: Build macOS
+        run: flutter build macos --debug
+      - name: Upload .app
+        uses: actions/upload-artifact@v4
+        with:
+          name: dog-diary-macos
+          path: build/macos/Build/Products/Debug/dog_diary.app
+
+  web:
+    name: Web (UI only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.44.1'
+          channel: stable
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Generate drift code
+        run: dart run build_runner build --delete-conflicting-outputs
+      - name: Build web
+        run: flutter build web --release
+      - name: Upload web
+        uses: actions/upload-artifact@v4
+        with:
+          name: dog-diary-web
+          path: build/web/
+
+  windows:
+    name: Windows .exe
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.44.1'
+          channel: stable
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Generate drift code
+        run: dart run build_runner build --delete-conflicting-outputs
+      - name: Build Windows
+        run: flutter build windows --debug
+      - name: Upload .exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: dog-diary-windows
+          path: build/windows/x64/runner/Debug/dog_diary.exe
