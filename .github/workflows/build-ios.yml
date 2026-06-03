@@ -1,0 +1,48 @@
+name: Build iOS .app
+
+on:
+  push:
+    branches: [ main, dog-diary ]
+  workflow_dispatch:
+
+jobs:
+  ios:
+    name: iOS .app (no-codesign)
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.44.1'
+          channel: stable
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate drift code
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build iOS (no codesign)
+        run: flutter build ios --debug --no-codesign
+
+      - name: Create ipa (unsigned)
+        run: |
+          cd build/ios/iphoneos
+          mkdir -p Payload
+          cp -R Runner.app Payload/
+          zip -r dog_diary-unsigned.ipa Payload/
+          ls -la dog_diary-unsigned.ipa
+
+      - name: Upload .app
+        uses: actions/upload-artifact@v4
+        with:
+          name: dog-diary-ios-app
+          path: build/ios/iphoneos/Runner.app
+
+      - name: Upload unsigned ipa
+        uses: actions/upload-artifact@v4
+        with:
+          name: dog-diary-ios-ipa-unsigned
+          path: build/ios/iphoneos/dog_diary-unsigned.ipa
