@@ -2,7 +2,6 @@
 //  狗粮库存 + 喂食记录
 // ============================================================
 
-import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -321,7 +320,7 @@ class _FeedS extends ConsumerState<_FeedSheet> {
               if (pets.isEmpty) return const Text('请先创建宠物');
               _petId ??= pets.first.id;
               return DropdownButtonFormField<int>(
-                value: _petId,
+                initialValue: _petId,
                 decoration: const InputDecoration(labelText: '宠物', border: OutlineInputBorder()),
                 items: [for (final p in pets) DropdownMenuItem(value: p.id, child: Text(p.name))],
                 onChanged: (v) => setState(() => _petId = v),
@@ -333,7 +332,7 @@ class _FeedS extends ConsumerState<_FeedSheet> {
           invAsync.maybeWhen(
             data: (list) {
               return DropdownButtonFormField<int?>(
-                value: _foodId,
+                initialValue: _foodId,
                 decoration: const InputDecoration(labelText: '狗粮 (可选, 选后会扣库存)', border: OutlineInputBorder()),
                 items: [
                   const DropdownMenuItem(value: null, child: Text('不关联')),

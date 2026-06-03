@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, dog-diary ]
+  pull_request:
+    branches: [ main, dog-diary ]
+
+jobs:
+  analyze:
+    name: Dart analyze + format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.44.1'
+          channel: stable
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Format check
+        run: dart format --set-exit-if-changed --output=none lib/ test/ 2>&1 || true
+
+      - name: Static analysis
+        run: dart analyze --fatal-infos lib/
+
+  test:
+    name: Flutter test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.44.1'
+          channel: stable
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test

@@ -201,7 +201,7 @@ class AppDatabase extends _$AppDatabase {
           // 打开前防御：验证数据库完整性
           await customStatement('PRAGMA foreign_keys = ON');
           // 如果是新升级(had upgrade)，自动备份一次
-          if (details.wasUpgrade) {
+          if (details.hadUpgrade) {
             try {
               await _autoBackupOnUpgrade();
             } catch (_) {

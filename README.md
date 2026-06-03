@@ -11,12 +11,12 @@
 | **macOS** | ✅ 编译 + 启动 + 数据库 | `flutter build macos` → 进程 PID 验证 + sqlite3 表验证 |
 | **iOS 真机** | ✅ 编译 | `flutter build ios --no-codesign` → `Runner.app` 生成 |
 | **iOS 模拟器** | ✅ 编译 + 安装 + 启动 | `xcrun simctl install/launch` → PID 验证 |
-| **Android** | ⚠️ 平台生成 + 子项目完整 | Gradle 9.1.0 + AGP 9.0.1 网络下载卡死，未能完成首次构建 |
-| **Windows** | ⚠️ 平台生成 | 需 Windows 机器构建 |
-| **Web** | ❌ dart:ffi 不支持 (sqlite3_flutter_libs) | 需切换到 drift/wasm |
+| **Android** | ✅ GitHub Actions 编译 | Flutter 3.44 + AGP 9.0.1 + Gradle 9.1.0 + NDK 28.2.13676358 |
+| **Windows** | ✅ 平台生成 + GitHub Actions 编译 | workflow `build-windows.yml` |
+| **Web** | ⚠️ 不支持 (drift_flutter 0.2 不支持 wasm) | UI 加载可以但数据库连不上。未来可升 drift_flutter 0.4+ |
 
-**已验证跑通**：macOS + iOS 真机 + iOS 模拟器
-**未跑通（环境问题，非代码问题）**：Android 首次构建卡在网络/Gradle 9 大版本下载、Web 端 sqlite3 兼容性
+**已验证跑通**：macOS + iOS 真机 + iOS 模拟器 + Android (via CI) + Windows (via CI)
+**未跑通**：Web 数据库（需升 drift_flutter）
 
 ---
 
@@ -201,3 +201,57 @@ _项目最后构建时间: 2026-06-03_
 ## Build via GitHub Actions
 
 Updated: Thu Jun  4 01:55:35 CST 2026
+
+---
+
+## 部署 / Deployment
+
+### 前置要求
+
+- **Flutter 3.44.1+** (stable channel)
+- **JDK 17+** (Android / Gradle)
+- **Xcode 15+** (iOS / macOS)
+- **Android SDK + NDK 28.2.13676358** (Android)
+- **CMake 3.22.1+** (Android NDK 编译)
+
+### 本地编译
+
+```bash
+# 安装依赖
+flutter pub get
+
+# 生成 drift 代码
+dart run build_runner build --delete-conflicting-outputs
+
+# 5 平台
+flutter build apk --release          # Android APK
+flutter build appbundle --release    # Android AAB (Google Play)
+flutter build ios --release          # iOS
+flutter build macos --release        # macOS
+flutter build windows --release      # Windows
+flutter build web --release          # Web (UI only, 无 DB)
+```
+
+### GitHub Actions 自动编译
+
+- **Android**: `.github/workflows/build-android.yml` (macos-latest runner)
+- **Windows**: `.github/workflows/build-windows.yml` (windows-latest runner)
+- **CI 体检**: `.github/workflows/ci.yml` (lint + analyze + test)
+
+触发方式：
+- push 到 `main` / `dog-diary` 分支
+- 手动 `Run workflow`
+
+### 调试
+
+```bash
+flutter run -d <device-id>          # 调试模式
+flutter logs                        # 查看日志
+flutter analyze                     # 静态分析
+dart format lib/ test/              # 格式化
+flutter test                        # 跑测试
+```
+
+## 隐私
+
+详见 [PRIVACY.md](./PRIVACY.md) — **零网络请求、零第三方 SDK、零用户数据收集**。

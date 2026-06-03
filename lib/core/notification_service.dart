@@ -24,9 +24,8 @@ class NotificationService {
     final androidImpl = _plugin.resolvePlatformSpecificImplementation<
         AndroidFlutterLocalNotificationsPlugin>();
     if (androidImpl != null) {
-      final granted = await androidImpl.requestNotificationsPermission();
-      // granted 可以是 null (老 Android) / true / false
-      // false 不 throw，scheduleReminder 失败时会吞错
+      // 返回值不使用 (权限失败时 scheduleReminder 会 try-catch)
+      await androidImpl.requestNotificationsPermission();
     }
   }
 

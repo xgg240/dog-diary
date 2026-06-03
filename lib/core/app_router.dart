@@ -3,7 +3,6 @@
 // ============================================================
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../features/contacts/contacts_page.dart';
 import '../features/dashboard/dashboard_page.dart';

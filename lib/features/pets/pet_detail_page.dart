@@ -2,7 +2,6 @@
 //  宠物详情 + 体重曲线 + 体重录入
 // ============================================================
 
-import 'package:drift/drift.dart' as drift;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -221,6 +220,7 @@ class PetDetailPage extends ConsumerWidget {
                         lastDate: DateTime.now(),
                       );
                       if (d != null) {
+                        if (!ctx.mounted) return;
                         final t = await showTimePicker(
                           context: ctx,
                           initialTime: TimeOfDay.fromDateTime(measuredAt),
@@ -280,7 +280,7 @@ class _WeightChart extends StatelessWidget {
         maxY: maxY,
         gridData: const FlGridData(show: true, drawVerticalLine: false),
         titlesData: FlTitlesData(
-          leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 32)),
+          leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 32)),
           rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
           topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
           bottomTitles: AxisTitles(

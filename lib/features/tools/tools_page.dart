@@ -227,7 +227,7 @@ class ToolsPage extends ConsumerWidget {
       await ref.read(_dataIOProvider).restoreDatabaseFrom(path);
       messenger.showSnackBar(const SnackBar(
         content: Text('数据库已恢复！请重启 App 加载新数据'),
-        duration: const Duration(seconds: 6),
+        duration: Duration(seconds: 6),
       ));
     } catch (e) {
       messenger.showSnackBar(SnackBar(content: Text('失败: $e')));

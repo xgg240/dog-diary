@@ -2,13 +2,11 @@
 //  记账 + 月度图表
 // ============================================================
 
-import 'package:drift/drift.dart' as drift;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-import '../../core/providers.dart';
 import '../../db/database.dart';
 import 'finance_repository.dart';
 
@@ -71,7 +69,7 @@ class FinancePage extends ConsumerWidget {
           if (list.isEmpty) {
             return Column(
               children: [
-                Expanded(child: Center(child: Text(DateFormat('M 月').format(month) + ' 暂无支出\n点击右下角记录', textAlign: TextAlign.center))),
+                Expanded(child: Center(child: Text('${DateFormat('M 月').format(month)} 暂无支出\n点击右下角记录', textAlign: TextAlign.center))),
               ],
             );
           }

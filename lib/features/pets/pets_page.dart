@@ -4,7 +4,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import '../../core/providers.dart';
 import 'pet_detail_page.dart';
