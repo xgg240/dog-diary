@@ -62,7 +62,7 @@ class _S extends ConsumerState<ForbiddenFoodsPage> {
                     final sev = _sev(f.severity);
                     return ListTile(
                       leading: CircleAvatar(
-                        backgroundColor: sev.color.withOpacity(0.2),
+                        backgroundColor: sev.color.withValues(alpha: 0.2),
                         child: Icon(sev.icon, color: sev.color),
                       ),
                       title: Text(f.name, style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -75,7 +75,7 @@ class _S extends ConsumerState<ForbiddenFoodsPage> {
                       ),
                       trailing: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                        decoration: BoxDecoration(color: sev.color.withOpacity(0.15), borderRadius: BorderRadius.circular(8)),
+                        decoration: BoxDecoration(color: sev.color.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(8)),
                         child: Text(sev.label, style: TextStyle(color: sev.color, fontSize: 11, fontWeight: FontWeight.bold)),
                       ),
                     );

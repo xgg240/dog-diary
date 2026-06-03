@@ -132,7 +132,7 @@ class FinancePage extends ConsumerWidget {
                         },
                         child: ListTile(
                           dense: true,
-                          leading: CircleAvatar(backgroundColor: (_catColors[e.category] ?? Colors.grey).withOpacity(0.2), child: Icon(Icons.payments, color: _catColors[e.category] ?? Colors.grey, size: 18)),
+                          leading: CircleAvatar(backgroundColor: (_catColors[e.category] ?? Colors.grey).withValues(alpha: 0.2), child: Icon(Icons.payments, color: _catColors[e.category] ?? Colors.grey, size: 18)),
                           title: Text(e.description ?? _catLabels[e.category] ?? e.category),
                           subtitle: Text(DateFormat('MM-dd').format(e.spentAt)),
                           trailing: Text('-¥ ${e.amount.toStringAsFixed(2)}', style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),

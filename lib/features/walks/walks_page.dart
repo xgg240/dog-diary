@@ -141,7 +141,7 @@ class _S extends ConsumerState<_WalkSheet> {
                 if (pets.isEmpty) return const Text('请先创建宠物');
                 _petId ??= pets.first.id;
                 return DropdownButtonFormField<int>(
-                  value: _petId,
+                  initialValue: _petId,
                   decoration: const InputDecoration(labelText: '宠物', border: OutlineInputBorder()),
                   items: [for (final p in pets) DropdownMenuItem(value: p.id, child: Text(p.name))],
                   onChanged: (v) => setState(() => _petId = v),
@@ -164,6 +164,7 @@ class _S extends ConsumerState<_WalkSheet> {
               onTap: () async {
                 final picked = await showDatePicker(context: context, initialDate: _walkedAt, firstDate: DateTime(2000), lastDate: DateTime.now());
                 if (picked != null) {
+                  if (!context.mounted) return;
                   final t = await showTimePicker(context: context, initialTime: TimeOfDay.fromDateTime(_walkedAt));
                   if (t != null) setState(() => _walkedAt = DateTime(picked.year, picked.month, picked.day, t.hour, t.minute));
                 }

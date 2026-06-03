@@ -185,7 +185,8 @@ class _S extends ConsumerState<PetEditSheet> {
                     );
                     if (ok == true) {
                       await ref.read(petRepoProvider).delete(widget.existing!.id);
-                      if (mounted) {
+                      if (!mounted) return;
+                      if (context.mounted) {
                         Navigator.pop(context); // 关 sheet
                         Navigator.pop(context); // 回详情
                       }

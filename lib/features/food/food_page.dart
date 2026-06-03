@@ -91,7 +91,7 @@ class _InventoryTab extends ConsumerWidget {
             for (final f in list)
               Card(
                 child: ListTile(
-                  leading: CircleAvatar(backgroundColor: (f.remainingKg <= 1 ? Colors.red : Colors.green).withOpacity(0.2), child: Icon(Icons.kitchen, color: f.remainingKg <= 1 ? Colors.red : Colors.green)),
+                  leading: CircleAvatar(backgroundColor: (f.remainingKg <= 1 ? Colors.red : Colors.green).withValues(alpha: 0.2), child: Icon(Icons.kitchen, color: f.remainingKg <= 1 ? Colors.red : Colors.green)),
                   title: Text('${f.brand} · ${f.productName}', style: const TextStyle(fontWeight: FontWeight.bold)),
                   subtitle: Text('${f.remainingKg.toStringAsFixed(2)} / ${f.totalKg.toStringAsFixed(2)} kg${f.expireDate != null ? ' · 过期 ${DateFormat('yyyy-MM-dd').format(f.expireDate!)}' : ''}'),
                   trailing: IconButton(
@@ -370,6 +370,7 @@ class _FeedS extends ConsumerState<_FeedSheet> {
             onTap: () async {
               final d = await showDatePicker(context: context, initialDate: _fedAt, firstDate: DateTime(2000), lastDate: DateTime.now());
               if (d != null) {
+                if (!context.mounted) return;
                 final t = await showTimePicker(context: context, initialTime: TimeOfDay.fromDateTime(_fedAt));
                 if (t != null) setState(() => _fedAt = DateTime(d.year, d.month, d.day, t.hour, t.minute));
               }

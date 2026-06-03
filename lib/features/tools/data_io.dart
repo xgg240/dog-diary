@@ -5,11 +5,20 @@
 import 'dart:io';
 import 'package:drift/drift.dart' show Value, Variable;
 import 'package:excel/excel.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import '../../db/database.dart';
+
+/// 所有文件 I/O 在 web 平台不支持
+void _throwIfWeb(String op) {
+  if (kIsWeb) {
+    throw UnsupportedError(
+        'Web 平台不支持 $op（Web 浏览器沙箱限制）。请使用 Android / iOS / macOS / Windows 桌面版。');
+  }
+}
 
 class DataIO {
   final AppDatabase db;
@@ -22,6 +31,7 @@ class DataIO {
 
   /// 备份数据库到默认目录 (Documents/dog_diary_backups/)
   Future<File> backupDatabase() async {
+    _throwIfWeb('数据库备份');
     final dir = await getApplicationDocumentsDirectory();
     final backupDir = Directory(p.join(dir.path, 'dog_diary_backups'));
     if (!await backupDir.exists()) await backupDir.create(recursive: true);
@@ -35,6 +45,13 @@ class DataIO {
   /// 备份数据库到用户指定路径
   /// [targetPath] 用户选的完整路径（含文件名 .db）
   Future<File> backupDatabaseTo(String targetPath) async {
+    _throwIfWeb('数据库备份');
+    if (targetPath.trim().isEmpty) {
+      throw ArgumentError('备份路径不能为空');
+    }
+    if (!targetPath.toLowerCase().endsWith('.db')) {
+      throw ArgumentError('备份文件必须以 .db 结尾');
+    }
     final dir = await getApplicationDocumentsDirectory();
     final dbFile = File(p.join(dir.path, 'dog_diary.db'));
     final bytes = await dbFile.readAsBytes();
@@ -47,6 +64,10 @@ class DataIO {
   /// 从指定 .db 文件恢复数据库
   /// 流程：先备份当前 → 关闭 db → 覆盖 → 重新打开
   Future<void> restoreDatabaseFrom(String sourcePath) async {
+    _throwIfWeb('数据库恢复');
+    if (sourcePath.trim().isEmpty) {
+      throw ArgumentError('源文件路径不能为空');
+    }
     final dir = await getApplicationDocumentsDirectory();
     final dbPath = p.join(dir.path, 'dog_diary.db');
 
@@ -67,6 +88,7 @@ class DataIO {
 
   /// 导出全表为 Excel 到默认目录
   Future<File> exportAllToExcel() async {
+    _throwIfWeb('Excel 导出');
     final dir = await getApplicationDocumentsDirectory();
     final exportDir = Directory(p.join(dir.path, 'dog_diary_exports'));
     if (!await exportDir.exists()) await exportDir.create(recursive: true);
@@ -77,6 +99,13 @@ class DataIO {
 
   /// 导出全表为 Excel 到用户指定路径
   Future<File> exportAllToExcelAt(String targetPath) async {
+    _throwIfWeb('Excel 导出');
+    if (targetPath.trim().isEmpty) {
+      throw ArgumentError('Excel 路径不能为空');
+    }
+    if (!targetPath.toLowerCase().endsWith('.xlsx')) {
+      throw ArgumentError('Excel 文件必须以 .xlsx 结尾');
+    }
     final excel = Excel.createExcel();
     excel.rename('Sheet1', 'Pets');
 
@@ -137,6 +166,10 @@ class DataIO {
   /// 策略：按 ID 匹配，存在的更新，不存在的插入
   /// 报告：每张表插入了多少条 / 更新了多少条 / 跳过了多少条
   Future<ImportReport> importExcelFrom(String sourcePath) async {
+    _throwIfWeb('Excel 导入');
+    if (sourcePath.trim().isEmpty) {
+      throw ArgumentError('源文件路径不能为空');
+    }
     final source = File(sourcePath);
     if (!await source.exists()) {
       throw Exception('文件不存在: $sourcePath');

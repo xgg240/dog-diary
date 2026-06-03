@@ -60,7 +60,7 @@ class TrainingPage extends ConsumerWidget {
                 },
                 child: ListTile(
                   leading: CircleAvatar(
-                    backgroundColor: _color(t.performance ?? '').withOpacity(0.2),
+                    backgroundColor: _color(t.performance ?? '').withValues(alpha: 0.2),
                     child: Icon(Icons.school, color: _color(t.performance ?? '')),
                   ),
                   title: Text(t.command),
@@ -150,7 +150,7 @@ class _S extends ConsumerState<_TrainingSheet> {
                 if (pets.isEmpty) return const Text('请先创建宠物');
                 _petId ??= pets.first.id;
                 return DropdownButtonFormField<int>(
-                  value: _petId,
+                  initialValue: _petId,
                   decoration: const InputDecoration(labelText: '宠物', border: OutlineInputBorder()),
                   items: [for (final p in pets) DropdownMenuItem(value: p.id, child: Text(p.name))],
                   onChanged: (v) => setState(() => _petId = v),

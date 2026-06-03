@@ -3,6 +3,7 @@
 // ============================================================
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -115,6 +116,10 @@ class ToolsPage extends ConsumerWidget {
   // ============ 备份/导出 (默认位置) ============
   Future<void> _backupDb(BuildContext context, WidgetRef ref) async {
     final messenger = ScaffoldMessenger.of(context);
+    if (kIsWeb) {
+      messenger.showSnackBar(const SnackBar(content: Text('Web 平台不支持数据库备份（浏览器沙箱限制）。请使用 Android / iOS / 桌面版。')));
+      return;
+    }
     try {
       final file = await ref.read(_dataIOProvider).backupDatabase();
       messenger.showSnackBar(SnackBar(content: Text('已备份: ${file.path}'), duration: const Duration(seconds: 6)));
@@ -125,6 +130,10 @@ class ToolsPage extends ConsumerWidget {
 
   Future<void> _exportExcel(BuildContext context, WidgetRef ref) async {
     final messenger = ScaffoldMessenger.of(context);
+    if (kIsWeb) {
+      messenger.showSnackBar(const SnackBar(content: Text('Web 平台不支持 Excel 导出。请使用 Android / iOS / 桌面版。')));
+      return;
+    }
     try {
       messenger.showSnackBar(const SnackBar(content: Text('生成中...')));
       final file = await ref.read(_dataIOProvider).exportAllToExcel();
@@ -138,6 +147,10 @@ class ToolsPage extends ConsumerWidget {
   // ============ 备份/导出 (自定义位置) ============
   Future<void> _backupDbToPath(BuildContext context, WidgetRef ref) async {
     final messenger = ScaffoldMessenger.of(context);
+    if (kIsWeb) {
+      messenger.showSnackBar(const SnackBar(content: Text('Web 平台不支持数据库备份（浏览器沙箱限制）。请使用 Android / iOS / 桌面版。')));
+      return;
+    }
     try {
       final ts = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
       final result = await FilePicker.platform.saveFile(
@@ -155,6 +168,10 @@ class ToolsPage extends ConsumerWidget {
 
   Future<void> _exportExcelToPath(BuildContext context, WidgetRef ref) async {
     final messenger = ScaffoldMessenger.of(context);
+    if (kIsWeb) {
+      messenger.showSnackBar(const SnackBar(content: Text('Web 平台不支持 Excel 导出。请使用 Android / iOS / 桌面版。')));
+      return;
+    }
     try {
       messenger.showSnackBar(const SnackBar(content: Text('生成中...')));
       final ts = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
@@ -178,6 +195,10 @@ class ToolsPage extends ConsumerWidget {
   // ============ 导入 ============
   Future<void> _importDb(BuildContext context, WidgetRef ref) async {
     final messenger = ScaffoldMessenger.of(context);
+    if (kIsWeb) {
+      messenger.showSnackBar(const SnackBar(content: Text('Web 平台不支持数据库导入。请使用 Android / iOS / 桌面版。')));
+      return;
+    }
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -215,6 +236,10 @@ class ToolsPage extends ConsumerWidget {
 
   Future<void> _importExcel(BuildContext context, WidgetRef ref) async {
     final messenger = ScaffoldMessenger.of(context);
+    if (kIsWeb) {
+      messenger.showSnackBar(const SnackBar(content: Text('Web 平台不支持 Excel 导入。请使用 Android / iOS / 桌面版。')));
+      return;
+    }
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -242,6 +267,7 @@ class ToolsPage extends ConsumerWidget {
         return;
       }
       final report = await ref.read(_dataIOProvider).importExcelFrom(path);
+      if (!context.mounted) return;
       messenger.showSnackBar(SnackBar(
         content: Text('导入完成: ${report.summary()}'),
         duration: const Duration(seconds: 10),

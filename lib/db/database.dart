@@ -10,6 +10,7 @@
 import 'dart:io';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
@@ -222,6 +223,11 @@ class AppDatabase extends _$AppDatabase {
 
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
+    if (kIsWeb) {
+      // Web 平台用 WasmDatabase (需要 sqlite3.wasm)
+      throw UnsupportedError(
+          'Web 平台需要 drift_flutter ^0.4.0+ 的 WasmDatabase 配置。当前 drift_flutter ^0.2.0 不支持 Web。请使用 Android / iOS / 桌面版，或升级 drift_flutter。');
+    }
     final dir = await getApplicationDocumentsDirectory();
     final file = File(p.join(dir.path, 'dog_diary.db'));
     return NativeDatabase.createInBackground(file);

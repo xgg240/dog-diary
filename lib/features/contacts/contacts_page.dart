@@ -58,7 +58,7 @@ class ContactsPage extends ConsumerWidget {
                 },
                 child: ListTile(
                   leading: CircleAvatar(
-                    backgroundColor: _color(c.type).withOpacity(0.2),
+                    backgroundColor: _color(c.type).withValues(alpha: 0.2),
                     child: Icon(_icon(c.type), color: _color(c.type)),
                   ),
                   title: Text(c.name),

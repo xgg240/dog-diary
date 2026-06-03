@@ -110,7 +110,7 @@ class _EventsTab extends ConsumerWidget {
               },
               child: Card(
                 child: ListTile(
-                  leading: CircleAvatar(backgroundColor: _typeColor(e.type).withOpacity(0.2), child: Icon(_typeIcon(e.type), color: _typeColor(e.type))),
+                  leading: CircleAvatar(backgroundColor: _typeColor(e.type).withValues(alpha: 0.2), child: Icon(_typeIcon(e.type), color: _typeColor(e.type))),
                   title: Text(e.title, style: const TextStyle(fontWeight: FontWeight.bold)),
                   subtitle: Text('${_typeLabel(e.type)} · ${DateFormat('yyyy-MM-dd').format(e.eventDate)}${e.vetName != null ? ' · ${e.vetName}' : ''}'),
                   trailing: e.nextDueDate != null
@@ -179,7 +179,7 @@ class _MedsTab extends ConsumerWidget {
             final m = list[i];
             return Card(
               child: ListTile(
-                leading: CircleAvatar(backgroundColor: Colors.teal.withOpacity(0.2), child: const Icon(Icons.medication, color: Colors.teal)),
+                leading: CircleAvatar(backgroundColor: Colors.teal.withValues(alpha: 0.2), child: const Icon(Icons.medication, color: Colors.teal)),
                 title: Text(m.name, style: const TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: Text('${m.dosage ?? '-'} · ${m.frequency ?? '-'} · ${DateFormat('yyyy-MM-dd').format(m.startDate)} 起'),
                 trailing: Switch(
@@ -347,7 +347,7 @@ class _EventS extends ConsumerState<_EventSheet> {
               if (pets.isEmpty) return const Text('请先创建宠物');
               _petId ??= pets.first.id;
               return DropdownButtonFormField<int>(
-                value: _petId,
+                initialValue: _petId,
                 decoration: const InputDecoration(labelText: '宠物', border: OutlineInputBorder()),
                 items: [for (final p in pets) DropdownMenuItem(value: p.id, child: Text(p.name))],
                 onChanged: (v) => setState(() => _petId = v),
@@ -467,7 +467,7 @@ class _MedS extends ConsumerState<_MedSheet> {
               if (pets.isEmpty) return const Text('请先创建宠物');
               _petId ??= pets.first.id;
               return DropdownButtonFormField<int>(
-                value: _petId,
+                initialValue: _petId,
                 decoration: const InputDecoration(labelText: '宠物', border: OutlineInputBorder()),
                 items: [for (final p in pets) DropdownMenuItem(value: p.id, child: Text(p.name))],
                 onChanged: (v) => setState(() => _petId = v),
