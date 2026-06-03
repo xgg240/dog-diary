@@ -37,9 +37,10 @@ class DataIO {
   Future<File> backupDatabaseTo(String targetPath) async {
     final dir = await getApplicationDocumentsDirectory();
     final dbFile = File(p.join(dir.path, 'dog_diary.db'));
+    final bytes = await dbFile.readAsBytes();
     final target = File(targetPath);
     await target.parent.create(recursive: true);
-    await dbFile.copy(target.path);
+    await target.writeAsBytes(bytes, flush: true);
     return target;
   }
 
@@ -122,8 +123,12 @@ class DataIO {
     final bytes = excel.encode();
     if (bytes == null) throw Exception('Excel 编码失败');
     final target = File(targetPath);
-    await target.parent.create(recursive: true);
-    await target.writeAsBytes(bytes);
+    try {
+      await target.parent.create(recursive: true);
+    } catch (_) {
+      // SAF 路径：父目录由系统管理，忽略
+    }
+    await target.writeAsBytes(bytes, flush: true);
     return target;
   }
 

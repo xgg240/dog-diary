@@ -4,6 +4,7 @@
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/providers.dart';
@@ -138,10 +139,14 @@ class ToolsPage extends ConsumerWidget {
   Future<void> _backupDbToPath(BuildContext context, WidgetRef ref) async {
     final messenger = ScaffoldMessenger.of(context);
     try {
-      final dir = await FilePicker.platform.getDirectoryPath(dialogTitle: '选择备份保存目录');
-      if (dir == null) return;
-      final ts = DateTime.now().toIso8601String().replaceAll(':', '-').split('.').first;
-      final file = await ref.read(_dataIOProvider).backupDatabaseTo('$dir/dog_diary_$ts.db');
+      final ts = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
+      final result = await FilePicker.platform.saveFile(
+        dialogTitle: '选择备份保存位置',
+        fileName: 'dog_diary_$ts.db',
+        type: FileType.any,
+      );
+      if (result == null) return;
+      final file = await ref.read(_dataIOProvider).backupDatabaseTo(result);
       messenger.showSnackBar(SnackBar(content: Text('已保存: ${file.path}'), duration: const Duration(seconds: 6)));
     } catch (e) {
       messenger.showSnackBar(SnackBar(content: Text('失败: $e')));
@@ -152,13 +157,17 @@ class ToolsPage extends ConsumerWidget {
     final messenger = ScaffoldMessenger.of(context);
     try {
       messenger.showSnackBar(const SnackBar(content: Text('生成中...')));
-      final dir = await FilePicker.platform.getDirectoryPath(dialogTitle: '选择 Excel 保存目录');
-      if (dir == null) {
+      final ts = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
+      final result = await FilePicker.platform.saveFile(
+        dialogTitle: '选择 Excel 保存位置',
+        fileName: 'dog_diary_$ts.xlsx',
+        type: FileType.any,
+      );
+      if (result == null) {
         messenger.hideCurrentSnackBar();
         return;
       }
-      final ts = DateTime.now().toIso8601String().replaceAll(':', '-').split('.').first;
-      final file = await ref.read(_dataIOProvider).exportAllToExcelAt('$dir/dog_diary_$ts.xlsx');
+      final file = await ref.read(_dataIOProvider).exportAllToExcelAt(result);
       messenger.hideCurrentSnackBar();
       messenger.showSnackBar(SnackBar(content: Text('已保存: ${file.path}'), duration: const Duration(seconds: 6)));
     } catch (e) {
