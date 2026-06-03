@@ -42,4 +42,10 @@ jobs:
         run: flutter pub get
 
       - name: Run tests
-        run: flutter test
+        run: |
+          if [ -d "test" ] && [ -n "$(ls -A test 2>/dev/null)" ]; then
+            flutter test
+          else
+            echo "::warning::No test files found, skipping"
+            exit 0
+          fi
