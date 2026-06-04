@@ -1,5 +1,5 @@
 // ============================================================
-//  主壳 - 5 个底部 Tab
+//  主壳 - 7 个底部 Tab (含养狗百科) + 红色 SOS 急症按钮
 // ============================================================
 
 import 'package:flutter/material.dart';
@@ -11,6 +11,8 @@ import '../features/health/health_page.dart';
 import '../features/food/food_page.dart';
 import '../features/finance/finance_page.dart';
 import '../features/tools/tools_page.dart';
+import '../features/encyclopedia/encyclopedia_page.dart';
+import '../features/encyclopedia/emergency_page.dart';
 
 class AppShell extends ConsumerStatefulWidget {
   const AppShell({super.key});
@@ -28,6 +30,7 @@ class _AppShellState extends ConsumerState<AppShell> {
     FoodPage(),
     FinancePage(),
     ToolsPage(),
+    EncyclopediaPage(),
   ];
 
   @override
@@ -44,7 +47,35 @@ class _AppShellState extends ConsumerState<AppShell> {
           NavigationDestination(icon: Icon(Icons.restaurant_outlined), selectedIcon: Icon(Icons.restaurant), label: '饮食'),
           NavigationDestination(icon: Icon(Icons.account_balance_wallet_outlined), selectedIcon: Icon(Icons.account_balance_wallet), label: '记账'),
           NavigationDestination(icon: Icon(Icons.build_outlined), selectedIcon: Icon(Icons.build), label: '工具'),
+          NavigationDestination(icon: Icon(Icons.menu_book_outlined), selectedIcon: Icon(Icons.menu_book), label: '百科'),
         ],
+      ),
+      // 红色 SOS 急症按钮 - 救命功能
+      floatingActionButton: _SOSButton(onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const EmergencyListPage(), fullscreenDialog: true),
+        );
+      }),
+    );
+  }
+}
+
+class _SOSButton extends StatelessWidget {
+  final VoidCallback onTap;
+  const _SOSButton({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        boxShadow: [BoxShadow(color: Colors.red.withValues(alpha: 0.5), blurRadius: 12, spreadRadius: 2)],
+      ),
+      child: FloatingActionButton(
+        backgroundColor: Colors.red.shade600,
+        onPressed: onTap,
+        child: const Text('SOS', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
       ),
     );
   }

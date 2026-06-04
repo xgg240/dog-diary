@@ -17,6 +17,7 @@ class DataLoader {
   static Map<String, dynamic>? _insurance;
   static Map<String, dynamic>? _bcs;
   static Map<String, dynamic>? _breeding;
+  static Map<String, dynamic>? _emergency;
 
   static Future<Map<String, dynamic>> _load(String path) async {
     final s = await rootBundle.loadString(path);
@@ -76,5 +77,10 @@ class DataLoader {
   static Future<Map<String, dynamic>> breeding() async {
     _breeding ??= await _load('assets/data/breeding.json');
     return _breeding!;
+  }
+
+  static Future<List<dynamic>> emergencies() async {
+    _emergency ??= await _load('assets/data/emergency.json');
+    return _emergency!['emergencies'] as List<dynamic>;
   }
 }
