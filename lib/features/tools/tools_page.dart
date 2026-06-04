@@ -2,11 +2,16 @@
 //  数据工具 + 辅助功能
 // ============================================================
 
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 import '../../core/providers.dart';
 import '../../core/reminder_service.dart';
@@ -153,14 +158,31 @@ class ToolsPage extends ConsumerWidget {
     }
     try {
       final ts = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
+      final fileName = 'dog_diary_$ts.db';
+      // file_picker 8.x 的 saveFile 必须传 bytes。先把 db 复制到临时目录拿到 bytes，
+      // 再让系统保存对话框把 bytes 写到用户选的位置（兼容 Android SAF / iOS Document Picker）。
+      final tmpDir = await getTemporaryDirectory();
+      final tmpFile = File(p.join(tmpDir.path, fileName));
+      final tmpBytes = await File(p.join((await getApplicationDocumentsDirectory()).path, 'dog_diary.db')).readAsBytes();
+      await tmpFile.writeAsBytes(tmpBytes, flush: true);
+
       final result = await FilePicker.platform.saveFile(
         dialogTitle: '选择备份保存位置',
-        fileName: 'dog_diary_$ts.db',
+        fileName: fileName,
         type: FileType.any,
+        bytes: Uint8List.fromList(tmpBytes),
       );
-      if (result == null) return;
-      final file = await ref.read(_dataIOProvider).backupDatabaseTo(result);
-      messenger.showSnackBar(SnackBar(content: Text('已保存: ${file.path}'), duration: const Duration(seconds: 6)));
+      if (result == null) {
+        // 用户取消。清理临时文件。
+        try { await tmpFile.delete(); } catch (_) {}
+        return;
+      }
+      // iOS 上 saveFile 直接把 bytes 写好了；其他平台 result 是路径，dataIO 再写一次保险。
+      if (!Platform.isIOS) {
+        await ref.read(_dataIOProvider).backupDatabaseTo(result);
+      }
+      try { await tmpFile.delete(); } catch (_) {}
+      messenger.showSnackBar(SnackBar(content: Text('已保存: $result'), duration: const Duration(seconds: 6)));
     } catch (e) {
       messenger.showSnackBar(SnackBar(content: Text('失败: $e')));
     }
@@ -175,18 +197,31 @@ class ToolsPage extends ConsumerWidget {
     try {
       messenger.showSnackBar(const SnackBar(content: Text('生成中...')));
       final ts = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
+      final fileName = 'dog_diary_$ts.xlsx';
+      // 先生成 Excel 到临时文件拿 bytes（file_picker 8.x saveFile 必须传 bytes）
+      final tmpDir = await getTemporaryDirectory();
+      final tmpFile = File(p.join(tmpDir.path, fileName));
+      await ref.read(_dataIOProvider).exportAllToExcelAt(tmpFile.path);
+      final tmpBytes = await tmpFile.readAsBytes();
+
       final result = await FilePicker.platform.saveFile(
         dialogTitle: '选择 Excel 保存位置',
-        fileName: 'dog_diary_$ts.xlsx',
+        fileName: fileName,
         type: FileType.any,
+        bytes: Uint8List.fromList(tmpBytes),
       );
       if (result == null) {
         messenger.hideCurrentSnackBar();
+        try { await tmpFile.delete(); } catch (_) {}
         return;
       }
-      final file = await ref.read(_dataIOProvider).exportAllToExcelAt(result);
+      // iOS 上 saveFile 已经把 bytes 写好；其他平台再写一次保险
+      if (!Platform.isIOS) {
+        await ref.read(_dataIOProvider).exportAllToExcelAt(result);
+      }
+      try { await tmpFile.delete(); } catch (_) {}
       messenger.hideCurrentSnackBar();
-      messenger.showSnackBar(SnackBar(content: Text('已保存: ${file.path}'), duration: const Duration(seconds: 6)));
+      messenger.showSnackBar(SnackBar(content: Text('已保存: $result'), duration: const Duration(seconds: 6)));
     } catch (e) {
       messenger.showSnackBar(SnackBar(content: Text('失败: $e')));
     }
