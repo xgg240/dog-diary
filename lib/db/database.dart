@@ -52,11 +52,13 @@ class PetImages extends Table {
 class HealthEvents extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get petId => integer().references(Pets, #id, onDelete: KeyAction.cascade)();
-  TextColumn get type => text()(); // checkup / vaccine / deworm / flea / surgery / other
+  TextColumn get type => text()(); // checkup / vaccine / deworm / flea / surgery / medication / other
   TextColumn get title => text()();
   TextColumn get description => text().nullable()();
   DateTimeColumn get eventDate => dateTime()();
   DateTimeColumn get nextDueDate => dateTime().nullable()();
+  TextColumn get frequency => text().nullable()(); // null=once, 'daily', 'weekly', 'monthly' (used when type=medication)
+  TextColumn get dosage => text().nullable()(); // 用药剂量 (e.g. "5mg/次")
   TextColumn get vetName => text().nullable()();
   TextColumn get vetContact => text().nullable()();
   RealColumn get cost => real().nullable()();
@@ -80,6 +82,7 @@ class Medications extends Table {
 class FoodItems extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get petId => integer().nullable().references(Pets, #id, onDelete: KeyAction.setNull)();
+  TextColumn get category => text().withDefault(const Constant('kibble'))(); // kibble / can / snack / supplement / medicine
   TextColumn get brand => text()();
   TextColumn get productName => text()();
   TextColumn get flavor => text().nullable()();
@@ -182,7 +185,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -191,11 +194,12 @@ class AppDatabase extends _$AppDatabase {
           await _seedForbiddenFoods();
         },
         onUpgrade: (m, from, to) async {
-          // schemaVersion 还是 1 → 未来 v2/v3 加迁移步
-          // 示例模板 (留给以后):
-          // if (from < 2) {
-          //   await m.addColumn(pets, pets.newField);
-          // }
+          if (from < 2) {
+            // v2: 健康事件 + 用药合并 (HealthEvent 加 frequency/dosage)，饮食分类
+            await m.addColumn(healthEvents, healthEvents.frequency);
+            await m.addColumn(healthEvents, healthEvents.dosage);
+            await m.addColumn(foodItems, foodItems.category);
+          }
         },
         beforeOpen: (details) async {
           // 打开前防御：验证数据库完整性

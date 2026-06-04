@@ -1056,6 +1056,17 @@ class $HealthEventsTable extends HealthEvents
   late final GeneratedColumn<DateTime> nextDueDate = GeneratedColumn<DateTime>(
       'next_due_date', aliasedName, true,
       type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _frequencyMeta =
+      const VerificationMeta('frequency');
+  @override
+  late final GeneratedColumn<String> frequency = GeneratedColumn<String>(
+      'frequency', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _dosageMeta = const VerificationMeta('dosage');
+  @override
+  late final GeneratedColumn<String> dosage = GeneratedColumn<String>(
+      'dosage', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _vetNameMeta =
       const VerificationMeta('vetName');
   @override
@@ -1088,6 +1099,8 @@ class $HealthEventsTable extends HealthEvents
         description,
         eventDate,
         nextDueDate,
+        frequency,
+        dosage,
         vetName,
         vetContact,
         cost,
@@ -1142,6 +1155,14 @@ class $HealthEventsTable extends HealthEvents
           nextDueDate.isAcceptableOrUnknown(
               data['next_due_date']!, _nextDueDateMeta));
     }
+    if (data.containsKey('frequency')) {
+      context.handle(_frequencyMeta,
+          frequency.isAcceptableOrUnknown(data['frequency']!, _frequencyMeta));
+    }
+    if (data.containsKey('dosage')) {
+      context.handle(_dosageMeta,
+          dosage.isAcceptableOrUnknown(data['dosage']!, _dosageMeta));
+    }
     if (data.containsKey('vet_name')) {
       context.handle(_vetNameMeta,
           vetName.isAcceptableOrUnknown(data['vet_name']!, _vetNameMeta));
@@ -1185,6 +1206,10 @@ class $HealthEventsTable extends HealthEvents
           .read(DriftSqlType.dateTime, data['${effectivePrefix}event_date'])!,
       nextDueDate: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}next_due_date']),
+      frequency: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}frequency']),
+      dosage: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}dosage']),
       vetName: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}vet_name']),
       vetContact: attachedDatabase.typeMapping
@@ -1210,6 +1235,8 @@ class HealthEvent extends DataClass implements Insertable<HealthEvent> {
   final String? description;
   final DateTime eventDate;
   final DateTime? nextDueDate;
+  final String? frequency;
+  final String? dosage;
   final String? vetName;
   final String? vetContact;
   final double? cost;
@@ -1222,6 +1249,8 @@ class HealthEvent extends DataClass implements Insertable<HealthEvent> {
       this.description,
       required this.eventDate,
       this.nextDueDate,
+      this.frequency,
+      this.dosage,
       this.vetName,
       this.vetContact,
       this.cost,
@@ -1239,6 +1268,12 @@ class HealthEvent extends DataClass implements Insertable<HealthEvent> {
     map['event_date'] = Variable<DateTime>(eventDate);
     if (!nullToAbsent || nextDueDate != null) {
       map['next_due_date'] = Variable<DateTime>(nextDueDate);
+    }
+    if (!nullToAbsent || frequency != null) {
+      map['frequency'] = Variable<String>(frequency);
+    }
+    if (!nullToAbsent || dosage != null) {
+      map['dosage'] = Variable<String>(dosage);
     }
     if (!nullToAbsent || vetName != null) {
       map['vet_name'] = Variable<String>(vetName);
@@ -1268,6 +1303,11 @@ class HealthEvent extends DataClass implements Insertable<HealthEvent> {
       nextDueDate: nextDueDate == null && nullToAbsent
           ? const Value.absent()
           : Value(nextDueDate),
+      frequency: frequency == null && nullToAbsent
+          ? const Value.absent()
+          : Value(frequency),
+      dosage:
+          dosage == null && nullToAbsent ? const Value.absent() : Value(dosage),
       vetName: vetName == null && nullToAbsent
           ? const Value.absent()
           : Value(vetName),
@@ -1292,6 +1332,8 @@ class HealthEvent extends DataClass implements Insertable<HealthEvent> {
       description: serializer.fromJson<String?>(json['description']),
       eventDate: serializer.fromJson<DateTime>(json['eventDate']),
       nextDueDate: serializer.fromJson<DateTime?>(json['nextDueDate']),
+      frequency: serializer.fromJson<String?>(json['frequency']),
+      dosage: serializer.fromJson<String?>(json['dosage']),
       vetName: serializer.fromJson<String?>(json['vetName']),
       vetContact: serializer.fromJson<String?>(json['vetContact']),
       cost: serializer.fromJson<double?>(json['cost']),
@@ -1309,6 +1351,8 @@ class HealthEvent extends DataClass implements Insertable<HealthEvent> {
       'description': serializer.toJson<String?>(description),
       'eventDate': serializer.toJson<DateTime>(eventDate),
       'nextDueDate': serializer.toJson<DateTime?>(nextDueDate),
+      'frequency': serializer.toJson<String?>(frequency),
+      'dosage': serializer.toJson<String?>(dosage),
       'vetName': serializer.toJson<String?>(vetName),
       'vetContact': serializer.toJson<String?>(vetContact),
       'cost': serializer.toJson<double?>(cost),
@@ -1324,6 +1368,8 @@ class HealthEvent extends DataClass implements Insertable<HealthEvent> {
           Value<String?> description = const Value.absent(),
           DateTime? eventDate,
           Value<DateTime?> nextDueDate = const Value.absent(),
+          Value<String?> frequency = const Value.absent(),
+          Value<String?> dosage = const Value.absent(),
           Value<String?> vetName = const Value.absent(),
           Value<String?> vetContact = const Value.absent(),
           Value<double?> cost = const Value.absent(),
@@ -1336,6 +1382,8 @@ class HealthEvent extends DataClass implements Insertable<HealthEvent> {
         description: description.present ? description.value : this.description,
         eventDate: eventDate ?? this.eventDate,
         nextDueDate: nextDueDate.present ? nextDueDate.value : this.nextDueDate,
+        frequency: frequency.present ? frequency.value : this.frequency,
+        dosage: dosage.present ? dosage.value : this.dosage,
         vetName: vetName.present ? vetName.value : this.vetName,
         vetContact: vetContact.present ? vetContact.value : this.vetContact,
         cost: cost.present ? cost.value : this.cost,
@@ -1352,6 +1400,8 @@ class HealthEvent extends DataClass implements Insertable<HealthEvent> {
       eventDate: data.eventDate.present ? data.eventDate.value : this.eventDate,
       nextDueDate:
           data.nextDueDate.present ? data.nextDueDate.value : this.nextDueDate,
+      frequency: data.frequency.present ? data.frequency.value : this.frequency,
+      dosage: data.dosage.present ? data.dosage.value : this.dosage,
       vetName: data.vetName.present ? data.vetName.value : this.vetName,
       vetContact:
           data.vetContact.present ? data.vetContact.value : this.vetContact,
@@ -1371,6 +1421,8 @@ class HealthEvent extends DataClass implements Insertable<HealthEvent> {
           ..write('description: $description, ')
           ..write('eventDate: $eventDate, ')
           ..write('nextDueDate: $nextDueDate, ')
+          ..write('frequency: $frequency, ')
+          ..write('dosage: $dosage, ')
           ..write('vetName: $vetName, ')
           ..write('vetContact: $vetContact, ')
           ..write('cost: $cost, ')
@@ -1380,8 +1432,20 @@ class HealthEvent extends DataClass implements Insertable<HealthEvent> {
   }
 
   @override
-  int get hashCode => Object.hash(id, petId, type, title, description,
-      eventDate, nextDueDate, vetName, vetContact, cost, attachments);
+  int get hashCode => Object.hash(
+      id,
+      petId,
+      type,
+      title,
+      description,
+      eventDate,
+      nextDueDate,
+      frequency,
+      dosage,
+      vetName,
+      vetContact,
+      cost,
+      attachments);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1393,6 +1457,8 @@ class HealthEvent extends DataClass implements Insertable<HealthEvent> {
           other.description == this.description &&
           other.eventDate == this.eventDate &&
           other.nextDueDate == this.nextDueDate &&
+          other.frequency == this.frequency &&
+          other.dosage == this.dosage &&
           other.vetName == this.vetName &&
           other.vetContact == this.vetContact &&
           other.cost == this.cost &&
@@ -1407,6 +1473,8 @@ class HealthEventsCompanion extends UpdateCompanion<HealthEvent> {
   final Value<String?> description;
   final Value<DateTime> eventDate;
   final Value<DateTime?> nextDueDate;
+  final Value<String?> frequency;
+  final Value<String?> dosage;
   final Value<String?> vetName;
   final Value<String?> vetContact;
   final Value<double?> cost;
@@ -1419,6 +1487,8 @@ class HealthEventsCompanion extends UpdateCompanion<HealthEvent> {
     this.description = const Value.absent(),
     this.eventDate = const Value.absent(),
     this.nextDueDate = const Value.absent(),
+    this.frequency = const Value.absent(),
+    this.dosage = const Value.absent(),
     this.vetName = const Value.absent(),
     this.vetContact = const Value.absent(),
     this.cost = const Value.absent(),
@@ -1432,6 +1502,8 @@ class HealthEventsCompanion extends UpdateCompanion<HealthEvent> {
     this.description = const Value.absent(),
     required DateTime eventDate,
     this.nextDueDate = const Value.absent(),
+    this.frequency = const Value.absent(),
+    this.dosage = const Value.absent(),
     this.vetName = const Value.absent(),
     this.vetContact = const Value.absent(),
     this.cost = const Value.absent(),
@@ -1448,6 +1520,8 @@ class HealthEventsCompanion extends UpdateCompanion<HealthEvent> {
     Expression<String>? description,
     Expression<DateTime>? eventDate,
     Expression<DateTime>? nextDueDate,
+    Expression<String>? frequency,
+    Expression<String>? dosage,
     Expression<String>? vetName,
     Expression<String>? vetContact,
     Expression<double>? cost,
@@ -1461,6 +1535,8 @@ class HealthEventsCompanion extends UpdateCompanion<HealthEvent> {
       if (description != null) 'description': description,
       if (eventDate != null) 'event_date': eventDate,
       if (nextDueDate != null) 'next_due_date': nextDueDate,
+      if (frequency != null) 'frequency': frequency,
+      if (dosage != null) 'dosage': dosage,
       if (vetName != null) 'vet_name': vetName,
       if (vetContact != null) 'vet_contact': vetContact,
       if (cost != null) 'cost': cost,
@@ -1476,6 +1552,8 @@ class HealthEventsCompanion extends UpdateCompanion<HealthEvent> {
       Value<String?>? description,
       Value<DateTime>? eventDate,
       Value<DateTime?>? nextDueDate,
+      Value<String?>? frequency,
+      Value<String?>? dosage,
       Value<String?>? vetName,
       Value<String?>? vetContact,
       Value<double?>? cost,
@@ -1488,6 +1566,8 @@ class HealthEventsCompanion extends UpdateCompanion<HealthEvent> {
       description: description ?? this.description,
       eventDate: eventDate ?? this.eventDate,
       nextDueDate: nextDueDate ?? this.nextDueDate,
+      frequency: frequency ?? this.frequency,
+      dosage: dosage ?? this.dosage,
       vetName: vetName ?? this.vetName,
       vetContact: vetContact ?? this.vetContact,
       cost: cost ?? this.cost,
@@ -1519,6 +1599,12 @@ class HealthEventsCompanion extends UpdateCompanion<HealthEvent> {
     if (nextDueDate.present) {
       map['next_due_date'] = Variable<DateTime>(nextDueDate.value);
     }
+    if (frequency.present) {
+      map['frequency'] = Variable<String>(frequency.value);
+    }
+    if (dosage.present) {
+      map['dosage'] = Variable<String>(dosage.value);
+    }
     if (vetName.present) {
       map['vet_name'] = Variable<String>(vetName.value);
     }
@@ -1544,6 +1630,8 @@ class HealthEventsCompanion extends UpdateCompanion<HealthEvent> {
           ..write('description: $description, ')
           ..write('eventDate: $eventDate, ')
           ..write('nextDueDate: $nextDueDate, ')
+          ..write('frequency: $frequency, ')
+          ..write('dosage: $dosage, ')
           ..write('vetName: $vetName, ')
           ..write('vetContact: $vetContact, ')
           ..write('cost: $cost, ')
@@ -2019,6 +2107,14 @@ class $FoodItemsTable extends FoodItems
   late final GeneratedColumn<int> petId = GeneratedColumn<int>(
       'pet_id', aliasedName, true,
       type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _categoryMeta =
+      const VerificationMeta('category');
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+      'category', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: const Constant('kibble'));
   static const VerificationMeta _brandMeta = const VerificationMeta('brand');
   @override
   late final GeneratedColumn<String> brand = GeneratedColumn<String>(
@@ -2074,6 +2170,7 @@ class $FoodItemsTable extends FoodItems
   List<GeneratedColumn> get $columns => [
         id,
         petId,
+        category,
         brand,
         productName,
         flavor,
@@ -2100,6 +2197,10 @@ class $FoodItemsTable extends FoodItems
     if (data.containsKey('pet_id')) {
       context.handle(
           _petIdMeta, petId.isAcceptableOrUnknown(data['pet_id']!, _petIdMeta));
+    }
+    if (data.containsKey('category')) {
+      context.handle(_categoryMeta,
+          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
     }
     if (data.containsKey('brand')) {
       context.handle(
@@ -2170,6 +2271,8 @@ class $FoodItemsTable extends FoodItems
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       petId: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}pet_id']),
+      category: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}category'])!,
       brand: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}brand'])!,
       productName: attachedDatabase.typeMapping
@@ -2200,6 +2303,7 @@ class $FoodItemsTable extends FoodItems
 class FoodInventory extends DataClass implements Insertable<FoodInventory> {
   final int id;
   final int? petId;
+  final String category;
   final String brand;
   final String productName;
   final String? flavor;
@@ -2212,6 +2316,7 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
   const FoodInventory(
       {required this.id,
       this.petId,
+      required this.category,
       required this.brand,
       required this.productName,
       this.flavor,
@@ -2228,6 +2333,7 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
     if (!nullToAbsent || petId != null) {
       map['pet_id'] = Variable<int>(petId);
     }
+    map['category'] = Variable<String>(category);
     map['brand'] = Variable<String>(brand);
     map['product_name'] = Variable<String>(productName);
     if (!nullToAbsent || flavor != null) {
@@ -2253,6 +2359,7 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
       id: Value(id),
       petId:
           petId == null && nullToAbsent ? const Value.absent() : Value(petId),
+      category: Value(category),
       brand: Value(brand),
       productName: Value(productName),
       flavor:
@@ -2277,6 +2384,7 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
     return FoodInventory(
       id: serializer.fromJson<int>(json['id']),
       petId: serializer.fromJson<int?>(json['petId']),
+      category: serializer.fromJson<String>(json['category']),
       brand: serializer.fromJson<String>(json['brand']),
       productName: serializer.fromJson<String>(json['productName']),
       flavor: serializer.fromJson<String?>(json['flavor']),
@@ -2294,6 +2402,7 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'petId': serializer.toJson<int?>(petId),
+      'category': serializer.toJson<String>(category),
       'brand': serializer.toJson<String>(brand),
       'productName': serializer.toJson<String>(productName),
       'flavor': serializer.toJson<String?>(flavor),
@@ -2309,6 +2418,7 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
   FoodInventory copyWith(
           {int? id,
           Value<int?> petId = const Value.absent(),
+          String? category,
           String? brand,
           String? productName,
           Value<String?> flavor = const Value.absent(),
@@ -2321,6 +2431,7 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
       FoodInventory(
         id: id ?? this.id,
         petId: petId.present ? petId.value : this.petId,
+        category: category ?? this.category,
         brand: brand ?? this.brand,
         productName: productName ?? this.productName,
         flavor: flavor.present ? flavor.value : this.flavor,
@@ -2335,6 +2446,7 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
     return FoodInventory(
       id: data.id.present ? data.id.value : this.id,
       petId: data.petId.present ? data.petId.value : this.petId,
+      category: data.category.present ? data.category.value : this.category,
       brand: data.brand.present ? data.brand.value : this.brand,
       productName:
           data.productName.present ? data.productName.value : this.productName,
@@ -2358,6 +2470,7 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
     return (StringBuffer('FoodInventory(')
           ..write('id: $id, ')
           ..write('petId: $petId, ')
+          ..write('category: $category, ')
           ..write('brand: $brand, ')
           ..write('productName: $productName, ')
           ..write('flavor: $flavor, ')
@@ -2372,14 +2485,26 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
   }
 
   @override
-  int get hashCode => Object.hash(id, petId, brand, productName, flavor,
-      totalKg, remainingKg, pricePerKg, purchaseDate, expireDate, notes);
+  int get hashCode => Object.hash(
+      id,
+      petId,
+      category,
+      brand,
+      productName,
+      flavor,
+      totalKg,
+      remainingKg,
+      pricePerKg,
+      purchaseDate,
+      expireDate,
+      notes);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is FoodInventory &&
           other.id == this.id &&
           other.petId == this.petId &&
+          other.category == this.category &&
           other.brand == this.brand &&
           other.productName == this.productName &&
           other.flavor == this.flavor &&
@@ -2394,6 +2519,7 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
 class FoodItemsCompanion extends UpdateCompanion<FoodInventory> {
   final Value<int> id;
   final Value<int?> petId;
+  final Value<String> category;
   final Value<String> brand;
   final Value<String> productName;
   final Value<String?> flavor;
@@ -2406,6 +2532,7 @@ class FoodItemsCompanion extends UpdateCompanion<FoodInventory> {
   const FoodItemsCompanion({
     this.id = const Value.absent(),
     this.petId = const Value.absent(),
+    this.category = const Value.absent(),
     this.brand = const Value.absent(),
     this.productName = const Value.absent(),
     this.flavor = const Value.absent(),
@@ -2419,6 +2546,7 @@ class FoodItemsCompanion extends UpdateCompanion<FoodInventory> {
   FoodItemsCompanion.insert({
     this.id = const Value.absent(),
     this.petId = const Value.absent(),
+    this.category = const Value.absent(),
     required String brand,
     required String productName,
     this.flavor = const Value.absent(),
@@ -2436,6 +2564,7 @@ class FoodItemsCompanion extends UpdateCompanion<FoodInventory> {
   static Insertable<FoodInventory> custom({
     Expression<int>? id,
     Expression<int>? petId,
+    Expression<String>? category,
     Expression<String>? brand,
     Expression<String>? productName,
     Expression<String>? flavor,
@@ -2449,6 +2578,7 @@ class FoodItemsCompanion extends UpdateCompanion<FoodInventory> {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (petId != null) 'pet_id': petId,
+      if (category != null) 'category': category,
       if (brand != null) 'brand': brand,
       if (productName != null) 'product_name': productName,
       if (flavor != null) 'flavor': flavor,
@@ -2464,6 +2594,7 @@ class FoodItemsCompanion extends UpdateCompanion<FoodInventory> {
   FoodItemsCompanion copyWith(
       {Value<int>? id,
       Value<int?>? petId,
+      Value<String>? category,
       Value<String>? brand,
       Value<String>? productName,
       Value<String?>? flavor,
@@ -2476,6 +2607,7 @@ class FoodItemsCompanion extends UpdateCompanion<FoodInventory> {
     return FoodItemsCompanion(
       id: id ?? this.id,
       petId: petId ?? this.petId,
+      category: category ?? this.category,
       brand: brand ?? this.brand,
       productName: productName ?? this.productName,
       flavor: flavor ?? this.flavor,
@@ -2496,6 +2628,9 @@ class FoodItemsCompanion extends UpdateCompanion<FoodInventory> {
     }
     if (petId.present) {
       map['pet_id'] = Variable<int>(petId.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
     }
     if (brand.present) {
       map['brand'] = Variable<String>(brand.value);
@@ -2532,6 +2667,7 @@ class FoodItemsCompanion extends UpdateCompanion<FoodInventory> {
     return (StringBuffer('FoodItemsCompanion(')
           ..write('id: $id, ')
           ..write('petId: $petId, ')
+          ..write('category: $category, ')
           ..write('brand: $brand, ')
           ..write('productName: $productName, ')
           ..write('flavor: $flavor, ')
@@ -5440,6 +5576,8 @@ typedef $$HealthEventsTableCreateCompanionBuilder = HealthEventsCompanion
   Value<String?> description,
   required DateTime eventDate,
   Value<DateTime?> nextDueDate,
+  Value<String?> frequency,
+  Value<String?> dosage,
   Value<String?> vetName,
   Value<String?> vetContact,
   Value<double?> cost,
@@ -5454,6 +5592,8 @@ typedef $$HealthEventsTableUpdateCompanionBuilder = HealthEventsCompanion
   Value<String?> description,
   Value<DateTime> eventDate,
   Value<DateTime?> nextDueDate,
+  Value<String?> frequency,
+  Value<String?> dosage,
   Value<String?> vetName,
   Value<String?> vetContact,
   Value<double?> cost,
@@ -5489,6 +5629,12 @@ class $$HealthEventsTableFilterComposer
 
   ColumnFilters<DateTime> get nextDueDate => $composableBuilder(
       column: $table.nextDueDate, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get frequency => $composableBuilder(
+      column: $table.frequency, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get dosage => $composableBuilder(
+      column: $table.dosage, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get vetName => $composableBuilder(
       column: $table.vetName, builder: (column) => ColumnFilters(column));
@@ -5533,6 +5679,12 @@ class $$HealthEventsTableOrderingComposer
   ColumnOrderings<DateTime> get nextDueDate => $composableBuilder(
       column: $table.nextDueDate, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<String> get frequency => $composableBuilder(
+      column: $table.frequency, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get dosage => $composableBuilder(
+      column: $table.dosage, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<String> get vetName => $composableBuilder(
       column: $table.vetName, builder: (column) => ColumnOrderings(column));
 
@@ -5575,6 +5727,12 @@ class $$HealthEventsTableAnnotationComposer
 
   GeneratedColumn<DateTime> get nextDueDate => $composableBuilder(
       column: $table.nextDueDate, builder: (column) => column);
+
+  GeneratedColumn<String> get frequency =>
+      $composableBuilder(column: $table.frequency, builder: (column) => column);
+
+  GeneratedColumn<String> get dosage =>
+      $composableBuilder(column: $table.dosage, builder: (column) => column);
 
   GeneratedColumn<String> get vetName =>
       $composableBuilder(column: $table.vetName, builder: (column) => column);
@@ -5622,6 +5780,8 @@ class $$HealthEventsTableTableManager extends RootTableManager<
             Value<String?> description = const Value.absent(),
             Value<DateTime> eventDate = const Value.absent(),
             Value<DateTime?> nextDueDate = const Value.absent(),
+            Value<String?> frequency = const Value.absent(),
+            Value<String?> dosage = const Value.absent(),
             Value<String?> vetName = const Value.absent(),
             Value<String?> vetContact = const Value.absent(),
             Value<double?> cost = const Value.absent(),
@@ -5635,6 +5795,8 @@ class $$HealthEventsTableTableManager extends RootTableManager<
             description: description,
             eventDate: eventDate,
             nextDueDate: nextDueDate,
+            frequency: frequency,
+            dosage: dosage,
             vetName: vetName,
             vetContact: vetContact,
             cost: cost,
@@ -5648,6 +5810,8 @@ class $$HealthEventsTableTableManager extends RootTableManager<
             Value<String?> description = const Value.absent(),
             required DateTime eventDate,
             Value<DateTime?> nextDueDate = const Value.absent(),
+            Value<String?> frequency = const Value.absent(),
+            Value<String?> dosage = const Value.absent(),
             Value<String?> vetName = const Value.absent(),
             Value<String?> vetContact = const Value.absent(),
             Value<double?> cost = const Value.absent(),
@@ -5661,6 +5825,8 @@ class $$HealthEventsTableTableManager extends RootTableManager<
             description: description,
             eventDate: eventDate,
             nextDueDate: nextDueDate,
+            frequency: frequency,
+            dosage: dosage,
             vetName: vetName,
             vetContact: vetContact,
             cost: cost,
@@ -5912,6 +6078,7 @@ typedef $$MedicationsTableProcessedTableManager = ProcessedTableManager<
 typedef $$FoodItemsTableCreateCompanionBuilder = FoodItemsCompanion Function({
   Value<int> id,
   Value<int?> petId,
+  Value<String> category,
   required String brand,
   required String productName,
   Value<String?> flavor,
@@ -5925,6 +6092,7 @@ typedef $$FoodItemsTableCreateCompanionBuilder = FoodItemsCompanion Function({
 typedef $$FoodItemsTableUpdateCompanionBuilder = FoodItemsCompanion Function({
   Value<int> id,
   Value<int?> petId,
+  Value<String> category,
   Value<String> brand,
   Value<String> productName,
   Value<String?> flavor,
@@ -5950,6 +6118,9 @@ class $$FoodItemsTableFilterComposer
 
   ColumnFilters<int> get petId => $composableBuilder(
       column: $table.petId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get brand => $composableBuilder(
       column: $table.brand, builder: (column) => ColumnFilters(column));
@@ -5994,6 +6165,9 @@ class $$FoodItemsTableOrderingComposer
   ColumnOrderings<int> get petId => $composableBuilder(
       column: $table.petId, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<String> get brand => $composableBuilder(
       column: $table.brand, builder: (column) => ColumnOrderings(column));
 
@@ -6037,6 +6211,9 @@ class $$FoodItemsTableAnnotationComposer
 
   GeneratedColumn<int> get petId =>
       $composableBuilder(column: $table.petId, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
 
   GeneratedColumn<String> get brand =>
       $composableBuilder(column: $table.brand, builder: (column) => column);
@@ -6094,6 +6271,7 @@ class $$FoodItemsTableTableManager extends RootTableManager<
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int?> petId = const Value.absent(),
+            Value<String> category = const Value.absent(),
             Value<String> brand = const Value.absent(),
             Value<String> productName = const Value.absent(),
             Value<String?> flavor = const Value.absent(),
@@ -6107,6 +6285,7 @@ class $$FoodItemsTableTableManager extends RootTableManager<
               FoodItemsCompanion(
             id: id,
             petId: petId,
+            category: category,
             brand: brand,
             productName: productName,
             flavor: flavor,
@@ -6120,6 +6299,7 @@ class $$FoodItemsTableTableManager extends RootTableManager<
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int?> petId = const Value.absent(),
+            Value<String> category = const Value.absent(),
             required String brand,
             required String productName,
             Value<String?> flavor = const Value.absent(),
@@ -6133,6 +6313,7 @@ class $$FoodItemsTableTableManager extends RootTableManager<
               FoodItemsCompanion.insert(
             id: id,
             petId: petId,
+            category: category,
             brand: brand,
             productName: productName,
             flavor: flavor,

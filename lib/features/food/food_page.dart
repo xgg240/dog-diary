@@ -87,24 +87,90 @@ class _InventoryTab extends ConsumerWidget {
               orElse: () => const SizedBox.shrink(),
             ),
             if (list.isEmpty) const Padding(padding: EdgeInsets.all(32), child: Center(child: Text('暂无库存\n点击右下角入库'))),
-            for (final f in list)
-              Card(
-                child: ListTile(
-                  leading: CircleAvatar(backgroundColor: (f.remainingKg <= 1 ? Colors.red : Colors.green).withValues(alpha: 0.2), child: Icon(Icons.kitchen, color: f.remainingKg <= 1 ? Colors.red : Colors.green)),
-                  title: Text('${f.brand} · ${f.productName}', style: const TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text('${f.remainingKg.toStringAsFixed(2)} / ${f.totalKg.toStringAsFixed(2)} kg${f.expireDate != null ? ' · 过期 ${DateFormat('yyyy-MM-dd').format(f.expireDate!)}' : ''}'),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () async {
-                      await ref.read(foodRepoProvider).deleteInventory(f.id);
-                    },
+            for (final group in _groupByCategory(list).entries) ...[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+                child: Text('${_categoryIcon(group.key)} ${_categoryLabel(group.key)} (${group.value.length})',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: _categoryColor(group.key))),
+              ),
+              for (final f in group.value)
+                Card(
+                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  child: ListTile(
+                    leading: CircleAvatar(backgroundColor: (f.remainingKg <= _lowThreshold(f.category) ? Colors.red : Colors.green).withValues(alpha: 0.2), child: Icon(_categoryIcon(f.category), color: f.remainingKg <= _lowThreshold(f.category) ? Colors.red : _categoryColor(f.category))),
+                    title: Text('${f.brand} · ${f.productName}', style: const TextStyle(fontWeight: FontWeight.bold)),
+                    subtitle: Text('${f.remainingKg.toStringAsFixed(2)} / ${f.totalKg.toStringAsFixed(2)} kg${f.expireDate != null ? ' · 过期 ${DateFormat('yyyy-MM-dd').format(f.expireDate!)}' : ''}'),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete, color: Colors.red),
+                      onPressed: () async {
+                        await ref.read(foodRepoProvider).deleteInventory(f.id);
+                      },
+                    ),
                   ),
                 ),
-              ),
+            ],
           ],
         );
       },
     );
+  }
+
+  Map<String, List<FoodInventory>> _groupByCategory(List<FoodInventory> list) {
+    final map = <String, List<FoodInventory>>{};
+    const order = ['kibble', 'can', 'snack', 'supplement', 'medicine'];
+    for (final cat in order) {
+      final items = list.where((f) => f.category == cat).toList();
+      if (items.isNotEmpty) map[cat] = items;
+    }
+    return map;
+  }
+}
+
+String _categoryLabel(String c) {
+  switch (c) {
+    case 'kibble': return '干粮';
+    case 'can': return '罐头';
+    case 'snack': return '零食';
+    case 'supplement': return '保健品';
+    case 'medicine': return '药品';
+    default: return c;
+  }
+}
+
+IconData _categoryIcon(String c) {
+  switch (c) {
+    case 'kibble': return Icons.bakery_dining;
+    case 'can': return Icons.set_meal;
+    case 'snack': return Icons.cookie;
+    case 'supplement': return Icons.medical_services;
+    case 'medicine': return Icons.medication;
+    default: return Icons.kitchen;
+  }
+}
+
+Color _categoryColor(String c) {
+  switch (c) {
+    case 'kibble': return Colors.brown;
+    case 'can': return Colors.deepOrange;
+    case 'snack': return Colors.amber;
+    case 'supplement': return Colors.teal;
+    case 'medicine': return Colors.red;
+    default: return Colors.grey;
+  }
+}
+
+double _lowThreshold(String category) {
+  // 药品/保健品<0.3kg 紧急，干粮/罐头<1.0kg 警告，零食<0.5kg
+  switch (category) {
+    case 'medicine':
+    case 'supplement':
+      return 0.3;
+    case 'snack':
+      return 0.5;
+    case 'kibble':
+    case 'can':
+    default:
+      return 1.0;
   }
 }
 
@@ -167,6 +233,7 @@ class _InvS extends ConsumerState<_InvSheet> {
   final _flavorCtrl = TextEditingController();
   final _totalCtrl = TextEditingController();
   final _priceCtrl = TextEditingController();
+  String _category = 'kibble';
   DateTime _purchaseDate = DateTime.now();
   DateTime? _expireDate;
   bool _saving = false;
@@ -190,6 +257,7 @@ class _InvS extends ConsumerState<_InvSheet> {
     setState(() => _saving = true);
     try {
       await ref.read(foodRepoProvider).addInventory(
+        category: _category,
         brand: _brandCtrl.text.trim(),
         productName: _prodCtrl.text.trim(),
         flavor: _flavorCtrl.text.trim().isEmpty ? null : _flavorCtrl.text.trim(),
@@ -214,8 +282,21 @@ class _InvS extends ConsumerState<_InvSheet> {
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Text('狗粮入库', style: Theme.of(context).textTheme.titleLarge),
+          Text('入库', style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 16),
+          DropdownButtonFormField<String>(
+            initialValue: _category,
+            decoration: const InputDecoration(labelText: '分类 *', border: OutlineInputBorder()),
+            items: const [
+              DropdownMenuItem(value: 'kibble', child: Text('🥣 干粮')),
+              DropdownMenuItem(value: 'can', child: Text('🥫 罐头')),
+              DropdownMenuItem(value: 'snack', child: Text('🦴 零食')),
+              DropdownMenuItem(value: 'supplement', child: Text('💊 保健品')),
+              DropdownMenuItem(value: 'medicine', child: Text('💉 药品')),
+            ],
+            onChanged: (v) => setState(() => _category = v ?? 'kibble'),
+          ),
+          const SizedBox(height: 12),
           TextField(controller: _brandCtrl, decoration: const InputDecoration(labelText: '品牌 *', border: OutlineInputBorder())),
           const SizedBox(height: 12),
           TextField(controller: _prodCtrl, decoration: const InputDecoration(labelText: '产品名 *', border: OutlineInputBorder())),

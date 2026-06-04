@@ -111,7 +111,11 @@ class _EventsTab extends ConsumerWidget {
                 child: ListTile(
                   leading: CircleAvatar(backgroundColor: _typeColor(e.type).withValues(alpha: 0.2), child: Icon(_typeIcon(e.type), color: _typeColor(e.type))),
                   title: Text(e.title, style: const TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text('${_typeLabel(e.type)} · ${DateFormat('yyyy-MM-dd').format(e.eventDate)}${e.vetName != null ? ' · ${e.vetName}' : ''}'),
+                  subtitle: Text(
+                  e.type == 'medication'
+                      ? '${_typeLabel(e.type)} · ${e.dosage ?? '-'} · ${DateFormat('yyyy-MM-dd').format(e.eventDate)}'
+                      : '${_typeLabel(e.type)} · ${DateFormat('yyyy-MM-dd').format(e.eventDate)}${e.vetName != null ? ' · ${e.vetName}' : ''}',
+                ),
                   trailing: e.nextDueDate != null
                       ? Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -137,6 +141,7 @@ class _EventsTab extends ConsumerWidget {
       case 'deworm': return Colors.orange;
       case 'flea': return Colors.purple;
       case 'surgery': return Colors.red;
+      case 'medication': return Colors.teal;
       default: return Colors.grey;
     }
   }
@@ -147,6 +152,7 @@ class _EventsTab extends ConsumerWidget {
       case 'deworm': return Icons.bug_report;
       case 'flea': return Icons.pest_control;
       case 'surgery': return Icons.local_hospital;
+      case 'medication': return Icons.medication;
       default: return Icons.event_note;
     }
   }
@@ -157,6 +163,7 @@ class _EventsTab extends ConsumerWidget {
       case 'deworm': return '驱虫';
       case 'flea': return '跳蚤';
       case 'surgery': return '手术';
+      case 'medication': return '用药';
       default: return '其他';
     }
   }
@@ -271,6 +278,7 @@ class _AlertsTab extends StatelessWidget {
       case 'deworm': return '驱虫';
       case 'flea': return '跳蚤';
       case 'surgery': return '手术';
+      case 'medication': return '用药';
       default: return '其他';
     }
   }

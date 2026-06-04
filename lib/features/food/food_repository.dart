@@ -27,6 +27,7 @@ class FoodRepository {
 
   Future<int> addInventory({
     int? petId,
+    String category = 'kibble', // kibble / can / snack / supplement / medicine
     required String brand,
     required String productName,
     String? flavor,
@@ -39,6 +40,7 @@ class FoodRepository {
   }) {
     return db.into(db.foodItems).insert(FoodItemsCompanion(
       petId: drift.Value(petId),
+      category: drift.Value(category),
       brand: drift.Value(brand),
       productName: drift.Value(productName),
       flavor: drift.Value(flavor),

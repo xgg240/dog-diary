@@ -81,8 +81,10 @@ class HealthRepository {
     required DateTime startDate,
     DateTime? endDate,
     String? notes,
-  }) {
-    return db.into(db.medications).insert(MedicationsCompanion(
+  }) async {
+    // 双写：Medication 表保留（兼容历史 + 快速开关），同时写一条 HealthEvent(type='medication')
+    // 让 reminder_service 统一扫到，自动按 frequency 算下次提醒。
+    final medId = await db.into(db.medications).insert(MedicationsCompanion(
       petId: drift.Value(petId),
       name: drift.Value(name),
       dosage: drift.Value(dosage),
@@ -92,6 +94,32 @@ class HealthRepository {
       notes: drift.Value(notes),
       active: const drift.Value(true),
     ));
+    await db.into(db.healthEvents).insert(HealthEventsCompanion(
+      petId: drift.Value(petId),
+      type: const drift.Value('medication'),
+      title: drift.Value(name),
+      description: drift.Value(notes),
+      eventDate: drift.Value(startDate),
+      nextDueDate: drift.Value(_nextDue(startDate, frequency)),
+      frequency: drift.Value(frequency),
+      dosage: drift.Value(dosage),
+    ));
+    return medId;
+  }
+
+  /// 按 frequency 算下一次到期时间
+  static DateTime? _nextDue(DateTime start, String? frequency) {
+    if (frequency == null || frequency == 'once') return null;
+    switch (frequency) {
+      case 'daily':
+        return start.add(const Duration(days: 1));
+      case 'weekly':
+        return start.add(const Duration(days: 7));
+      case 'monthly':
+        return DateTime(start.year, start.month + 1, start.day);
+      default:
+        return null;
+    }
   }
 
   Future<int> deleteMedication(int id) =>
