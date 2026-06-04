@@ -27,32 +27,40 @@ class FoodPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return DefaultTabController(
       length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('🍖 饮食'),
-          bottom: const TabBar(tabs: [
-            Tab(icon: Icon(Icons.inventory), text: '库存'),
-            Tab(icon: Icon(Icons.restaurant_menu), text: '喂食'),
-          ]),
-        ),
-        floatingActionButton: Builder(builder: (ctx) {
-          final tab = DefaultTabController.of(ctx).index;
-          return FloatingActionButton.extended(
-            onPressed: () {
-              if (tab == 0) {
-                showModalBottomSheet(context: context, isScrollControlled: true, useSafeArea: true, showDragHandle: true, builder: (_) => const _InvSheet());
-              } else {
-                showModalBottomSheet(context: context, isScrollControlled: true, useSafeArea: true, showDragHandle: true, builder: (_) => const _FeedSheet());
-              }
-            },
-            icon: const Icon(Icons.add),
-            label: Text(tab == 0 ? '入库' : '喂食'),
+      child: Builder(
+        builder: (ctx) {
+          // ctx 在 DefaultTabController 子树内, 可以正确拿到 controller
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('🍖 饮食'),
+              bottom: const TabBar(tabs: [
+                Tab(icon: Icon(Icons.inventory), text: '库存'),
+                Tab(icon: Icon(Icons.restaurant_menu), text: '喂食'),
+              ]),
+            ),
+            floatingActionButton: AnimatedBuilder(
+              animation: DefaultTabController.of(ctx),
+              builder: (innerCtx, _) {
+                final tab = DefaultTabController.of(innerCtx).index;
+                return FloatingActionButton.extended(
+                  onPressed: () {
+                    if (tab == 0) {
+                      showModalBottomSheet(context: innerCtx, isScrollControlled: true, useSafeArea: true, showDragHandle: true, builder: (_) => const _InvSheet());
+                    } else {
+                      showModalBottomSheet(context: innerCtx, isScrollControlled: true, useSafeArea: true, showDragHandle: true, builder: (_) => const _FeedSheet());
+                    }
+                  },
+                  icon: const Icon(Icons.add),
+                  label: Text(tab == 0 ? '入库' : '喂食'),
+                );
+              },
+            ),
+            body: TabBarView(children: [
+              _InventoryTab(),
+              _FeedingsTab(),
+            ]),
           );
-        }),
-        body: TabBarView(children: [
-          _InventoryTab(),
-          _FeedingsTab(),
-        ]),
+        },
       ),
     );
   }

@@ -138,7 +138,7 @@ class _S extends ConsumerState<AgeCalculatorPage> {
   }
 
   String _sizeFromWeight(Pet p) {
-    final w = p.adultWeightKg ?? 10;
+    final w = 10.0; // Pet 表无 adultWeightKg 字段, 默认中型
     if (w < 10) return 'small';
     if (w < 25) return 'medium';
     if (w < 40) return 'large';

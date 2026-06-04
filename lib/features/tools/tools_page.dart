@@ -159,8 +159,12 @@ class ToolsPage extends ConsumerWidget {
     try {
       final ts = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
       final fileName = 'dog_diary_$ts.db';
-      // file_picker 8.x 的 saveFile 必须传 bytes。先把 db 复制到临时目录拿到 bytes，
-      // 再让系统保存对话框把 bytes 写到用户选的位置（兼容 Android SAF / iOS Document Picker）。
+      // file_picker 8.x 平台行为表:
+      //   Android:   saveFile 接 bytes, 系统写好, 返回路径
+      //   iOS:       saveFile 接 bytes, 系统写好, 返回路径
+      //   macOS:     saveFile 拒绝 bytes 抩 UnsupportedError, 返回路径, app 自己写
+      //   Windows/Linux: saveFile 返回路径, app 自己写
+      // 所以所有平台: Android/iOS 传 bytes 一次到位, macOS/Win/Linux 不传 bytes + 拿 result 路径自己写
       final tmpDir = await getTemporaryDirectory();
       final tmpFile = File(p.join(tmpDir.path, fileName));
       final tmpBytes = await File(p.join((await getApplicationDocumentsDirectory()).path, 'dog_diary.db')).readAsBytes();
@@ -170,15 +174,16 @@ class ToolsPage extends ConsumerWidget {
         dialogTitle: '选择备份保存位置',
         fileName: fileName,
         type: FileType.any,
-        bytes: Uint8List.fromList(tmpBytes),
+        // macOS 抩 UnsupportedError if bytes != null; Windows/Linux 也不支持; 只 Android/iOS 传
+        bytes: (Platform.isAndroid || Platform.isIOS) ? Uint8List.fromList(tmpBytes) : null,
       );
       if (result == null) {
         // 用户取消。清理临时文件。
         try { await tmpFile.delete(); } catch (_) {}
         return;
       }
-      // iOS 上 saveFile 直接把 bytes 写好了；其他平台 result 是路径，dataIO 再写一次保险。
-      if (!Platform.isIOS) {
+      // macOS / Windows / Linux: saveFile 返回路径, app 需自己写 bytes 进去
+      if (!Platform.isIOS && !Platform.isAndroid) {
         await ref.read(_dataIOProvider).backupDatabaseTo(result);
       }
       try { await tmpFile.delete(); } catch (_) {}
@@ -208,15 +213,16 @@ class ToolsPage extends ConsumerWidget {
         dialogTitle: '选择 Excel 保存位置',
         fileName: fileName,
         type: FileType.any,
-        bytes: Uint8List.fromList(tmpBytes),
+        // macOS 抩 UnsupportedError if bytes != null; Windows/Linux 也不支持; 只 Android/iOS 传
+        bytes: (Platform.isAndroid || Platform.isIOS) ? Uint8List.fromList(tmpBytes) : null,
       );
       if (result == null) {
         messenger.hideCurrentSnackBar();
         try { await tmpFile.delete(); } catch (_) {}
         return;
       }
-      // iOS 上 saveFile 已经把 bytes 写好；其他平台再写一次保险
-      if (!Platform.isIOS) {
+      // macOS / Windows / Linux: saveFile 返回路径, app 需自己写 bytes 进去
+      if (!Platform.isIOS && !Platform.isAndroid) {
         await ref.read(_dataIOProvider).exportAllToExcelAt(result);
       }
       try { await tmpFile.delete(); } catch (_) {}

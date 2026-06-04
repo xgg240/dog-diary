@@ -34,34 +34,44 @@ class HealthPage extends ConsumerWidget {
     final medsAsync = ref.watch(_medsProvider);
     return DefaultTabController(
       length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('❤️ 健康'),
-          bottom: const TabBar(tabs: [
-            Tab(icon: Icon(Icons.event_note), text: '事件'),
-            Tab(icon: Icon(Icons.medication), text: '用药'),
-            Tab(icon: Icon(Icons.alarm), text: '提醒'),
-          ]),
-        ),
-        floatingActionButton: Builder(builder: (ctx) {
-          final tab = DefaultTabController.of(ctx).index;
-          return FloatingActionButton.extended(
-            onPressed: () {
-              if (tab == 0) {
-                _openEventSheet(context, ref);
-              } else if (tab == 1) {
-                _openMedSheet(context, ref);
-              }
-            },
-            icon: const Icon(Icons.add),
-            label: Text(tab == 0 ? '事件' : tab == 1 ? '用药' : ''),
+      child: Builder(
+        builder: (ctx) {
+          // ctx 在 DefaultTabController 子树内, 可以正确拿到 controller
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('❤️ 健康'),
+              bottom: const TabBar(tabs: [
+                Tab(icon: Icon(Icons.event_note), text: '事件'),
+                Tab(icon: Icon(Icons.medication), text: '用药'),
+                Tab(icon: Icon(Icons.alarm), text: '提醒'),
+              ]),
+            ),
+            floatingActionButton: AnimatedBuilder(
+              animation: DefaultTabController.of(ctx),
+              builder: (innerCtx, _) {
+                final tab = DefaultTabController.of(innerCtx).index;
+                return FloatingActionButton.extended(
+                  onPressed: () {
+                    if (tab == 0) {
+                      _openEventSheet(innerCtx, ref);
+                    } else if (tab == 1) {
+                      _openMedSheet(innerCtx, ref);
+                    } else if (tab == 2) {
+                      _openAlertSheet(innerCtx, ref);
+                    }
+                  },
+                  icon: const Icon(Icons.add),
+                  label: Text(tab == 0 ? '事件' : tab == 1 ? '用药' : '提醒'),
+                );
+              },
+            ),
+            body: TabBarView(children: [
+              _EventsTab(eventsAsync: eventsAsync),
+              _MedsTab(medsAsync: medsAsync),
+              _AlertsTab(overdueAsync: overdueAsync, upcomingAsync: upcomingAsync),
+            ]),
           );
-        }),
-        body: TabBarView(children: [
-          _EventsTab(eventsAsync: eventsAsync),
-          _MedsTab(medsAsync: medsAsync),
-          _AlertsTab(overdueAsync: overdueAsync, upcomingAsync: upcomingAsync),
-        ]),
+        },
       ),
     );
   }
@@ -82,6 +92,16 @@ class HealthPage extends ConsumerWidget {
       useSafeArea: true,
       showDragHandle: true,
       builder: (_) => const _MedSheet(),
+    );
+  }
+  void _openAlertSheet(BuildContext context, WidgetRef ref) {
+    // 提醒专用的 sheet: 强制要求 nextDueDate
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      showDragHandle: true,
+      builder: (_) => const _ReminderSheet(),
     );
   }
 }
@@ -142,6 +162,7 @@ class _EventsTab extends ConsumerWidget {
       case 'flea': return Colors.purple;
       case 'surgery': return Colors.red;
       case 'medication': return Colors.teal;
+      case 'reminder': return const Color(0xFFE76F51);
       default: return Colors.grey;
     }
   }
@@ -153,6 +174,7 @@ class _EventsTab extends ConsumerWidget {
       case 'flea': return Icons.pest_control;
       case 'surgery': return Icons.local_hospital;
       case 'medication': return Icons.medication;
+      case 'reminder': return Icons.notifications_active;
       default: return Icons.event_note;
     }
   }
@@ -164,6 +186,7 @@ class _EventsTab extends ConsumerWidget {
       case 'flea': return '跳蚤';
       case 'surgery': return '手术';
       case 'medication': return '用药';
+      case 'reminder': return '提醒';
       default: return '其他';
     }
   }
@@ -511,6 +534,181 @@ class _MedS extends ConsumerState<_MedSheet> {
           ),
           const SizedBox(height: 16),
           FilledButton(onPressed: _saving ? null : _save, child: Text(_saving ? '保存中...' : '保存')),
+        ]),
+      ),
+    );
+  }
+}
+
+// ============================================================
+//  提醒专用 Sheet (区别于事件: 强制要求 nextDueDate)
+// ============================================================
+class _ReminderSheet extends ConsumerStatefulWidget {
+  const _ReminderSheet();
+  @override
+  ConsumerState<_ReminderSheet> createState() => _RS();
+}
+
+class _RS extends ConsumerState<_ReminderSheet> {
+  final _titleCtrl = TextEditingController();
+  final _descCtrl = TextEditingController();
+  int? _petId;
+  String _remindType = 'health_check'; // 提醒分类
+  DateTime _dueDate = DateTime.now().add(const Duration(days: 1));
+  TimeOfDay _dueTime = const TimeOfDay(hour: 9, minute: 0);
+  bool _saving = false;
+
+  static const Map<String, String> _typeLabel = {
+    'health_check': '体检',
+    'vaccine': '疫苗',
+    'deworm': '驱虫',
+    'flea': '体外驱虫',
+    'grooming': '美容',
+    'medication_refill': '补药',
+    'food_replenish': '补粮',
+    'other': '其他',
+  };
+
+  @override
+  void dispose() {
+    _titleCtrl.dispose();
+    _descCtrl.dispose();
+    super.dispose();
+  }
+
+  Future<void> _pickDate() async {
+    final d = await showDatePicker(
+      context: context,
+      initialDate: _dueDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 365 * 2)),
+    );
+    if (d != null) setState(() => _dueDate = d);
+  }
+
+  Future<void> _pickTime() async {
+    final t = await showTimePicker(context: context, initialTime: _dueTime);
+    if (t != null) setState(() => _dueTime = t);
+  }
+
+  Future<void> _save() async {
+    if (_petId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('请先创建宠物')));
+      return;
+    }
+    if (_titleCtrl.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('请输入提醒事项')));
+      return;
+    }
+    setState(() => _saving = true);
+    try {
+      // 提醒 = type='reminder' + eventDate=今天 + nextDueDate=所选日期
+      final remindAt = DateTime(_dueDate.year, _dueDate.month, _dueDate.day, _dueTime.hour, _dueTime.minute);
+      await ref.read(healthRepoProvider).addEvent(
+        petId: _petId!,
+        type: 'reminder',  // 明确标记为提醒
+        title: '[${_typeLabel[_remindType]}] ${_titleCtrl.text.trim()}',
+        description: _descCtrl.text.trim().isEmpty ? null : _descCtrl.text.trim(),
+        eventDate: DateTime.now(),
+        nextDueDate: remindAt,
+      );
+      if (mounted) Navigator.pop(context);
+    } catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('失败: $e')));
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final petsAsync = ref.watch(petsStreamProvider);
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          Row(children: [
+            const Icon(Icons.alarm, color: Color(0xFFE76F51)),
+            const SizedBox(width: 8),
+            Text('新建提醒', style: Theme.of(context).textTheme.titleLarge),
+          ]),
+          const SizedBox(height: 20),
+          petsAsync.maybeWhen(
+            data: (pets) {
+              if (pets.isEmpty) return const Text('请先创建宠物');
+              _petId ??= pets.first.id;
+              return DropdownButtonFormField<int>(
+                initialValue: _petId,
+                decoration: const InputDecoration(labelText: '宠物', prefixIcon: Icon(Icons.pets)),
+                items: [for (final p in pets) DropdownMenuItem(value: p.id, child: Text(p.name))],
+                onChanged: (v) => setState(() => _petId = v),
+              );
+            },
+            orElse: () => const SizedBox.shrink(),
+          ),
+          const SizedBox(height: 14),
+          Text('提醒分类', style: Theme.of(context).textTheme.labelLarge),
+          const SizedBox(height: 6),
+          Wrap(spacing: 8, runSpacing: 6, children: [
+            for (final e in _typeLabel.entries)
+              ChoiceChip(
+                label: Text(e.value),
+                selected: _remindType == e.key,
+                onSelected: (_) => setState(() => _remindType = e.key),
+              ),
+          ]),
+          const SizedBox(height: 14),
+          TextField(
+            controller: _titleCtrl,
+            decoration: const InputDecoration(
+              labelText: '提醒事项 *',
+              hintText: '如: 年度体检 / 第三针疫苗',
+              prefixIcon: Icon(Icons.edit_note),
+            ),
+          ),
+          const SizedBox(height: 14),
+          TextField(
+            controller: _descCtrl,
+            maxLines: 2,
+            decoration: const InputDecoration(
+              labelText: '备注',
+              prefixIcon: Icon(Icons.notes),
+            ),
+          ),
+          const SizedBox(height: 14),
+          Card(
+            margin: EdgeInsets.zero,
+            color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.4),
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(children: [
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: const Icon(Icons.calendar_today, color: Color(0xFFE76F51)),
+                  title: const Text('提醒日期'),
+                  subtitle: Text('${_dueDate.year}-${_dueDate.month.toString().padLeft(2, '0')}-${_dueDate.day.toString().padLeft(2, '0')}', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: _pickDate,
+                ),
+                const Divider(height: 1),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: const Icon(Icons.access_time, color: Color(0xFFE76F51)),
+                  title: const Text('提醒时间'),
+                  subtitle: Text('${_dueTime.hour.toString().padLeft(2, '0')}:${_dueTime.minute.toString().padLeft(2, '0')}', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: _pickTime,
+                ),
+              ]),
+            ),
+          ),
+          const SizedBox(height: 20),
+          FilledButton.icon(
+            onPressed: _saving ? null : _save,
+            icon: _saving ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white)) : const Icon(Icons.notifications_active),
+            label: Text(_saving ? '保存中...' : '设置提醒'),
+          ),
         ]),
       ),
     );

@@ -57,7 +57,7 @@ class BreedingPage extends StatelessWidget {
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(t, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
-            for (final w in (data['weeks'] as List<dynamic>)) ListTile(
+            for (final w in (data['weekly'] as List<dynamic>)) ListTile(
               dense: true,
               leading: CircleAvatar(backgroundColor: Colors.pinkAccent.shade100, child: Text('${w['week']}', style: const TextStyle(fontWeight: FontWeight.bold))),
               title: Text('第 ${w['week']} 周'),

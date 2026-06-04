@@ -35,18 +35,25 @@ class SpayNeuterPage extends StatelessWidget {
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(t, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
-            const Text('推荐绝育月龄:', style: TextStyle(fontWeight: FontWeight.w600)),
-            const SizedBox(height: 4),
-            Wrap(spacing: 6, children: [
-              for (final e in (data['recommended_age_months'] as Map).entries) Chip(label: Text('${e.key}: ${(e.value as List).join('-')}月')),
-            ]),
-            const SizedBox(height: 8),
-            const Text('✅ 好处:', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.green)),
-            for (final b in (data['benefits'] as List<dynamic>)) Padding(padding: const EdgeInsets.symmetric(vertical: 1), child: Text('• $b')),
-            const SizedBox(height: 6),
-            const Text('⚠️ 风险:', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.orange)),
-            for (final r in (data['risks'] as List<dynamic>)) Padding(padding: const EdgeInsets.symmetric(vertical: 1), child: Text('• $r')),
-            if (data['cost_estimate_cny'] != null) Padding(
+            if (data['recommended_age_months'] is Map) ...[
+              const Text('推荐绝育月龄:', style: TextStyle(fontWeight: FontWeight.w600)),
+              const SizedBox(height: 4),
+              Wrap(spacing: 6, children: [
+                for (final e in (data['recommended_age_months'] as Map).entries) Chip(label: Text('${e.key}: ${(e.value as List).join('-')}月')),
+              ]),
+              const SizedBox(height: 8),
+            ],
+            if (data['benefits'] is List) ...[
+              const Text('✅ 好处:', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.green)),
+              for (final b in (data['benefits'] as List<dynamic>)) Padding(padding: const EdgeInsets.symmetric(vertical: 1), child: Text('• $b')),
+              const SizedBox(height: 6),
+            ],
+            if (data['risks'] is List) ...[
+              const Text('⚠️ 风险:', style: TextStyle(fontWeight: FontWeight.w600, color: Colors.orange)),
+              for (final r in (data['risks'] as List<dynamic>)) Padding(padding: const EdgeInsets.symmetric(vertical: 1), child: Text('• $r')),
+              const SizedBox(height: 6),
+            ],
+            if (data['cost_estimate_cny'] is List) Padding(
               padding: const EdgeInsets.only(top: 6),
               child: Text('💰 参考费用: ¥${(data['cost_estimate_cny'] as List).join('-')}', style: const TextStyle(fontWeight: FontWeight.w600)),
             ),

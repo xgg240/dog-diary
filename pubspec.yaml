@@ -58,3 +58,9 @@ flutter:
     - assets/data/insurance_costs.json
     - assets/data/bcs.json
     - assets/data/breeding.json
+    - assets/data/emergency.json
+    - assets/data/senior_care.json
+    - assets/data/grooming.json
+    - assets/data/home_safety.json
+    - assets/data/toys_treats.json
+    - assets/data/travel.json

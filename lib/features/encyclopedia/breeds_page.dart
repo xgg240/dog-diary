@@ -6,6 +6,57 @@ class BreedsPage extends StatelessWidget {
   const BreedsPage({super.key});
   static Future<List<dynamic>> allBreeds() => DataLoader.breeds();
 
+  Color _sizeColor(String? s) {
+    switch (s) {
+      case 'toy':
+        return Colors.pink;
+      case 'small':
+        return Colors.orange;
+      case 'medium':
+        return Colors.green;
+      case 'large':
+        return Colors.blue;
+      case 'giant':
+        return Colors.deepPurple;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  String _sizeIcon(String? s) {
+    switch (s) {
+      case 'toy':
+        return '🧸';
+      case 'small':
+        return '🐕';
+      case 'medium':
+        return '🐶';
+      case 'large':
+        return '🦮';
+      case 'giant':
+        return '🐕‍🦺';
+      default:
+        return '🐾';
+    }
+  }
+
+  String _sizeLabel(String? s) {
+    switch (s) {
+      case 'toy':
+        return '玩赏犬';
+      case 'small':
+        return '小型';
+      case 'medium':
+        return '中型';
+      case 'large':
+        return '大型';
+      case 'giant':
+        return '巨型';
+      default:
+        return s ?? '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +74,7 @@ class BreedsPage extends StatelessWidget {
                 child: ListTile(
                   leading: CircleAvatar(backgroundColor: _sizeColor(b['size']).withValues(alpha: 0.2), child: Text(_sizeIcon(b['size']), style: const TextStyle(fontSize: 24))),
                   title: Text(b['name_zh'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text('${b['name_en']} · ${_sizeLabel(b['size'])} · 寿命 ${b['lifespan_years'][0]}-${b['lifespan_years'][1]}年'),
+                  subtitle: Text('${b['name_en']} · ${_sizeLabel(b['size'])} · 寿命 ${b['lifespan_years']}年'),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () => Navigator.push(ctx, MaterialPageRoute(builder: (_) => BreedDetailPage(breed: b))),
                 ),
