@@ -63,6 +63,38 @@
       "core": false,
       "repeat_annually": true,
       "notes": "国内不常见, 群居犬考虑"
+    },
+    {
+      "name_zh": "狂犬疫苗 (Rabies)",
+      "name_en": "Rabies",
+      "age_weeks": 12,
+      "frequency": "首次 12 周, 之后每年加强",
+      "core": true,
+      "note": "⚠️ 法律必打! 国内养犬法规规定必须接种. 致死率100%, 也保护人. 12周后首次, 之后每年或三年一次 (看疫苗品牌)."
+    },
+    {
+      "name_zh": "钩端螺旋体 (Leptospirosis)",
+      "name_en": "Lepto",
+      "age_weeks": 9,
+      "frequency": "首次 9 周 + 12 周加强, 之后每年",
+      "core": false,
+      "note": "⚠️ 接触水/野味/老鼠的高风险犬必打. 由老鼠尿液污染的水传播, 可人畜共患. 每年加强, 部分狗有过敏反应 (短头犬更甚)."
+    },
+    {
+      "name_zh": "犬流感 H3N8/H3N2 (CIV)",
+      "name_en": "Canine Influenza",
+      "age_weeks": 7,
+      "frequency": "首次 7 周 + 3-4 周后加强, 之后每年",
+      "core": false,
+      "note": "⚠️ 群居/常去狗公园/寄养的犬推荐. 类似人类流感, 咳嗽打喷嚏发热. 2价疫苗防 H3N8+H3N2."
+    },
+    {
+      "name_zh": "莱姆病 (Lyme)",
+      "name_en": "Lyme",
+      "age_weeks": 9,
+      "frequency": "首次 9 周 + 3-4 周后加强, 之后每年",
+      "core": false,
+      "note": "⚠️ 蜱虫高发地区 (南方/山区) 推荐. 蜱虫叮咬传播, 致关节炎/肾病. 配合体外驱虫和蜱虫检查."
     }
   ],
   "deworm_schedule": {
@@ -71,24 +103,40 @@
       "start_age_weeks": 2,
       "interval_weeks": 2,
       "until_age_weeks": 16,
-      "products": ["拜耳拜宠清", "犬心保"]
+      "products": [
+        "拜耳拜宠清",
+        "犬心保"
+      ]
     },
     "adult_internal_monthly": {
       "name_zh": "成犬体内驱虫",
       "interval": "monthly",
-      "products": ["犬心保", "超可信", "海乐旺"]
+      "products": [
+        "犬心保",
+        "超可信",
+        "海乐旺"
+      ]
     },
     "external_monthly": {
       "name_zh": "体外驱虫",
       "interval": "monthly",
       "year_round": "南方全年/北方 5-11 月",
-      "products": ["福来恩", "拜耳拜宠爽", "超可信(体内外一体)", "尼可信"]
+      "products": [
+        "福来恩",
+        "拜耳拜宠爽",
+        "超可信(体内外一体)",
+        "尼可信"
+      ]
     },
     "heartworm_monthly": {
       "name_zh": "心丝虫预防",
       "interval": "monthly",
       "year_round": "南方全年/北方 6-11 月",
-      "products": ["犬心保", "超可信", "海乐旺"]
+      "products": [
+        "犬心保",
+        "超可信",
+        "海乐旺"
+      ]
     }
   },
   "age_calculator": {

@@ -230,6 +230,392 @@
       "common_mistakes": [
         "心急直接压狗翻(破坏信任)"
       ]
+    },
+    {
+      "id": "leave_it",
+      "name_zh": "松开/不要碰 (Leave It)",
+      "name_en": "Leave It",
+      "difficulty": "intermediate",
+      "category": "安全",
+      "duration_min": 10,
+      "steps": [
+        "手中合拢放零食, 拳头靠近狗鼻子",
+        "狗嗅闻/舔/扒时你不动, 也不说话",
+        "狗放弃尝试退开时, 立刻标记'好'并另一只手给零食",
+        "反复, 逐渐延长等待时间",
+        "进阶: 地上放零食, 狗靠近时说'不要碰', 服从后给更好奖励"
+      ],
+      "common_mistakes": [
+        "零食给得不够好, 失去吸引力",
+        "没等狗放弃就喊口令",
+        "狗最终被你打开的手拿到食物 (反向强化)"
+      ],
+      "tips": "保命技能! 捡食/抢食/路边脏东西全靠这个. 优先级最高"
+    },
+    {
+      "id": "drop_it",
+      "name_zh": "放下/吐出 (Drop It)",
+      "name_en": "Drop It",
+      "difficulty": "intermediate",
+      "category": "安全",
+      "duration_min": 10,
+      "steps": [
+        "用低价值物品 (旧玩具) 玩拔河",
+        "狗咬住时说'吐', 同时手里有更好零食展示",
+        "狗松口的瞬间给零食+表扬",
+        "进阶: 用高价值物品 (骨头/袜子) 练习, 最终所有物品都能说吐就吐"
+      ],
+      "common_mistakes": [
+        "追逐抢走 (狗以为是游戏)",
+        "使用暴力开口",
+        "没有用更好交换, 狗凭什么给?"
+      ],
+      "tips": "防止吞异物. 终身训练, 长期练习"
+    },
+    {
+      "id": "recall",
+      "name_zh": "召回 (Come)",
+      "name_en": "Come",
+      "difficulty": "intermediate",
+      "category": "安全",
+      "duration_min": 15,
+      "steps": [
+        "家里安静环境, 短距离 (1-2米) 叫名字 + 拍手/说'来'",
+        "狗跑过来立刻给零食+大表扬+抚摸",
+        "逐步增加距离和干扰",
+        "进阶: 户外, 牵绳时练习, 出色后放长绳"
+      ],
+      "common_mistakes": [
+        "叫回来惩罚 (永远不要, 否则听到叫就逃)",
+        "叫名字频率太高, 狗麻木",
+        "没有奖励, 凭什么来?"
+      ],
+      "tips": "保命技能 #2, 散散步跑丢了喊不回来就完了. 终身练习"
+    },
+    {
+      "id": "stay",
+      "name_zh": "等待 (Stay)",
+      "name_en": "Stay",
+      "difficulty": "intermediate",
+      "category": "基础",
+      "duration_min": 10,
+      "steps": [
+        "狗坐下后, 手掌面对狗说'等'",
+        "退1步, 坚持3秒, 回来给奖励",
+        "逐渐延长距离和时间",
+        "加入干扰: 你走动/扔球/拍手",
+        "进阶: 20米+5分钟+多干扰"
+      ],
+      "common_mistakes": [
+        "距离/时间增加太快, 狗失败",
+        "没等够就回去, 狗觉得可以走",
+        "没在狗打破时重来"
+      ],
+      "tips": "出门前不冲出门, 客人来不扑人, 全靠这个"
+    },
+    {
+      "id": "down",
+      "name_zh": "趴下 (Down)",
+      "name_en": "Down",
+      "difficulty": "beginner",
+      "category": "基础",
+      "duration_min": 5,
+      "steps": [
+        "手里拿零食, 狗面前蹲下",
+        "零食从鼻尖往下移动到两前爪之间",
+        "狗自然趴下跟随零食",
+        "趴下瞬间说'趴'并给零食",
+        "重复 10-15 次"
+      ],
+      "common_mistakes": [
+        "零食太靠近狗, 它站起来抢",
+        "狗蹲着不上不下, 没耐心",
+        "在硬/冷地面狗不愿意趴"
+      ],
+      "tips": "比坐下更稳定, 出门/看兽医/客人来都用得上"
+    },
+    {
+      "id": "stand",
+      "name_zh": "站立 (Stand)",
+      "name_en": "Stand",
+      "difficulty": "beginner",
+      "category": "基础",
+      "duration_min": 5,
+      "steps": [
+        "手里拿零食, 面对坐着的狗",
+        "缓慢将零食从鼻尖往前推",
+        "狗自然站起来跟随零食",
+        "站立瞬间说'站'并给零食",
+        "进阶: 站立后保持不动延长"
+      ],
+      "common_mistakes": [
+        "推太急狗走动",
+        "没等站直就给零食",
+        "一开始就用长距离"
+      ],
+      "tips": "看兽医检查/美容台/比赛都要站"
+    },
+    {
+      "id": "heel",
+      "name_zh": "随行 (Heel)",
+      "name_en": "Heel",
+      "difficulty": "advanced",
+      "category": "基础",
+      "duration_min": 20,
+      "steps": [
+        "左腿带零食, 狗在左侧靠你腿",
+        "说名字/随行+ 慢慢走, 狗跟随给零食",
+        "随行不拉扯, 拉绳时停下不动",
+        "进阶: 改变方向/速度/加入干扰/最终脱绳"
+      ],
+      "common_mistakes": [
+        "每次遛狗都用胸背带纵容拉绳",
+        "狗注意力分散时强拽",
+        "训练时间太长, 狗无聊"
+      ],
+      "tips": "遛狗不拉锯, 看兽医不惊吓, 都靠随行"
+    },
+    {
+      "id": "wait_at_door",
+      "name_zh": "门口等待",
+      "name_en": "Wait at Door",
+      "difficulty": "intermediate",
+      "category": "安全",
+      "duration_min": 10,
+      "steps": [
+        "走向门口, 狗想跟着, 转身让狗坐下/等",
+        "手放门把手上, 狗一动就不开门",
+        "狗等5秒后再开门, 但不让冲",
+        "出门后让狗等, 你先出, 它跟上/你允许才走",
+        "进门同样, 狗等在门外你先进"
+      ],
+      "common_mistakes": [
+        "狗冲出去你追着喊 (强化逃跑)",
+        "没等够就开门, 狗不等",
+        "进出门急躁, 训练失败"
+      ],
+      "tips": "防止出门冲, 防止走失. 每天出门前都练"
+    },
+    {
+      "id": "place",
+      "name_zh": "回窝 (Place)",
+      "name_en": "Go to Place",
+      "difficulty": "intermediate",
+      "category": "生活",
+      "duration_min": 10,
+      "steps": [
+        "指定一个垫子/床, 放零食在垫子上",
+        "说'回窝'指向垫子",
+        "狗上去给零食+表扬",
+        "进阶: 狗在其他地方你说回窝, 它就回垫子",
+        "客人来/吃饭/工作都需要"
+      ],
+      "common_mistakes": [
+        "垫子位置老换",
+        "客人来没用, 狗学不会",
+        "垫子不舒服狗不愿上"
+      ],
+      "tips": "客人来, 做饭, 拆家, 看医生, 全靠这个转移注意力"
+    },
+    {
+      "id": "no_bark",
+      "name_zh": "安静 (Quiet)",
+      "name_en": "Quiet",
+      "difficulty": "advanced",
+      "category": "生活",
+      "duration_min": 15,
+      "steps": [
+        "狗叫时, 等它自然停歇瞬间说'安静' + 给零食",
+        "不要喊'别叫' (狗以为是加入)",
+        "建立'安静' = 零食的概念",
+        "进阶: 门外有声响狗不叫, 立刻给奖励"
+      ],
+      "common_mistakes": [
+        "狗叫时你也喊, 互相叫",
+        "打狗嘴 (无效+破坏信任)",
+        "训练时机不对, 狗已经叫累了"
+      ],
+      "tips": "邻居投诉/公寓生活必备. 别指望完全不叫, 控制即可"
+    },
+    {
+      "id": "shake_paw",
+      "name_zh": "握手 (Shake)",
+      "name_en": "Shake Paw",
+      "difficulty": "beginner",
+      "category": "技巧",
+      "duration_min": 5,
+      "steps": [
+        "狗坐下, 你轻拍它前爪",
+        "狗抬爪瞬间说'握手'+ 给零食",
+        "反复, 狗主动伸爪就给",
+        "进阶: 学会换手, 双手轮流"
+      ],
+      "common_mistakes": [
+        "抓狗爪 (它会躲)",
+        "没等主动抬爪就给零食",
+        "训练时间太长狗烦"
+      ],
+      "tips": "看兽医量体温/检查爪子更容易"
+    },
+    {
+      "id": "roll_over",
+      "name_zh": "打滚 (Roll Over)",
+      "name_en": "Roll Over",
+      "difficulty": "intermediate",
+      "category": "技巧",
+      "duration_min": 5,
+      "steps": [
+        "狗趴下, 手里拿零食",
+        "从鼻尖画弧到肩, 狗侧身跟随",
+        "继续画到背, 狗翻身",
+        "完成瞬间说'滚'+ 给零食"
+      ],
+      "common_mistakes": [
+        "狗躺着不翻, 强行翻 (伤腰)",
+        "零食举太高狗站起",
+        "老年犬/脊椎不好的别练"
+      ],
+      "tips": "椎间盘疾病 (IVDD) 高发犬 (腊肠/柯基) 慎练, 选更安全的游戏"
+    },
+    {
+      "id": "play_dead",
+      "name_zh": "装死 (Play Dead)",
+      "name_en": "Bang",
+      "difficulty": "advanced",
+      "category": "技巧",
+      "duration_min": 10,
+      "steps": [
+        "狗站立, 手指成枪说'砰'",
+        "狗侧躺 (用零食引导)",
+        "侧躺瞬间给零食, 同时说'死了'",
+        "进阶: 站着被'打'到侧躺保持不动",
+        "加入声音: 倒地后你不说话, 它保持"
+      ],
+      "common_mistakes": [
+        "动作太快狗吓到",
+        "训练时间太长, 狗学得慢",
+        "强制摆姿势 (伤关节)"
+      ],
+      "tips": "搞笑技能, 也练服从. 看表演必备"
+    },
+    {
+      "id": "spin",
+      "name_zh": "转圈 (Spin)",
+      "name_en": "Spin",
+      "difficulty": "beginner",
+      "category": "技巧",
+      "duration_min": 5,
+      "steps": [
+        "手里拿零食, 狗面前",
+        "画小圆移动, 狗跟着转",
+        "完成一圈说'转'+ 给零食",
+        "反向同理"
+      ],
+      "common_mistakes": [
+        "画太大, 狗原地不动",
+        "动作太快狗跟不上",
+        "没分清左右, 狗迷惑"
+      ],
+      "tips": "热身/兴奋度提升. 易学易表演"
+    },
+    {
+      "id": "take_a_bow",
+      "name_zh": "鞠躬 (Take a Bow)",
+      "name_en": "Take a Bow",
+      "difficulty": "intermediate",
+      "category": "技巧",
+      "duration_min": 5,
+      "steps": [
+        "狗站立, 手里拿零食在地面",
+        "狗头低下屁股翘起 (类似伸懒腰)",
+        "保持姿势瞬间说'鞠躬'+ 给零食",
+        "注意: 这个姿势不是趴下, 是屁股翘起头低"
+      ],
+      "common_mistakes": [
+        "狗直接趴下 (注意区分)",
+        "保持时间太短, 像打招呼不像鞠躬",
+        "老年犬难做, 关节不行"
+      ],
+      "tips": "打招呼, 表演. 配合'嗨'更好玩"
+    },
+    {
+      "id": "crawl",
+      "name_zh": "匍匐前进 (Crawl)",
+      "name_en": "Crawl",
+      "difficulty": "advanced",
+      "category": "技巧",
+      "duration_min": 10,
+      "steps": [
+        "狗趴下, 手里拿零食贴近地面",
+        "零食在地面缓慢移动, 狗匍匐跟随",
+        "匍匐1米后给零食+大表扬"
+      ],
+      "common_mistakes": [
+        "零食举太高狗站起",
+        "距离太长, 狗中途放弃",
+        "在太软的地面 (沙发布料) 狗不匍匐"
+      ],
+      "tips": "练核心, 也表演. 中级升高级标志"
+    },
+    {
+      "id": "find_it",
+      "name_zh": "找东西 (Find It)",
+      "name_en": "Find It",
+      "difficulty": "intermediate",
+      "category": "脑力",
+      "duration_min": 10,
+      "steps": [
+        "狗坐着看, 你藏零食在3个杯子之一",
+        "说'找', 让狗用鼻子/爪子推杯子",
+        "推对给零食, 推错重置",
+        "进阶: 你在另一房间, 狗必须找到你"
+      ],
+      "common_mistakes": [
+        "狗不是找, 是你提示",
+        "藏太深狗放弃",
+        "藏太多东西, 狗迷惑"
+      ],
+      "tips": "消耗脑力, 比散步更累狗. 嗅闻=狗最大需求"
+    },
+    {
+      "id": "name_recognition",
+      "name_zh": "认识名字 (Name)",
+      "name_en": "Name",
+      "difficulty": "beginner",
+      "category": "基础",
+      "duration_min": 5,
+      "steps": [
+        "手里拿零食, 面对狗",
+        "清晰说一次狗的名字 (不重复)",
+        "狗看你的瞬间给零食+表扬",
+        "反复直到狗听到名字就转头看你"
+      ],
+      "common_mistakes": [
+        "一次叫很多次狗麻木",
+        "叫名字+打/骂 (狗怕听到名字)",
+        "多个名字叫一只狗 (造成迷惑)"
+      ],
+      "tips": "所有训练基础. 名字+表扬+食物=积极联想"
+    },
+    {
+      "id": "go_potty",
+      "name_zh": "定点排便 (Potty Training)",
+      "name_en": "Potty on Command",
+      "difficulty": "intermediate",
+      "category": "生活",
+      "duration_min": 5,
+      "steps": [
+        "选一个固定口令 '便便/嘘嘘'",
+        "狗在正确地点排便的瞬间说口令 + 给零食 + 大量表扬",
+        "反复, 建立'正确地点 + 口令' = 奖励",
+        "进阶: 你说口令, 狗开始找位置排泄"
+      ],
+      "common_mistakes": [
+        "没看到就奖励, 狗学不会关联",
+        "在错误地点惩罚, 狗以为排泄本身错",
+        "口令不固定, 狗学不会"
+      ],
+      "tips": "幼犬定点排便关键技能. 定点训好后终身受益"
     }
   ]
 }
