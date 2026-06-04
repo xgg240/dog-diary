@@ -86,6 +86,7 @@ jobs:
         with:
           name: dog-diary-macos
           path: build/macos/Build/Products/Debug/dog_diary.app
+          if-no-files-found: error
 
   web:
     name: Web (UI only, drift not supported)
@@ -126,9 +127,9 @@ jobs:
       - name: Generate drift code
         run: dart run build_runner build --delete-conflicting-outputs
       - name: Build Windows
-        run: flutter build windows --debug
-      - name: Upload .exe
+        run: flutter build windows --release
+      - name: Upload Windows bundle (exe + all DLLs)
         uses: actions/upload-artifact@v4
         with:
           name: dog-diary-windows
-          path: build/windows/x64/runner/Debug/dog_diary.exe
+          path: build/windows/x64/runner/Release/
