@@ -46,5 +46,15 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  # assets:
-  #   - assets/fonts/
+  assets:
+    - assets/data/breeds.json
+    - assets/data/symptoms.json
+    - assets/data/diseases.json
+    - assets/data/training.json
+    - assets/data/human_foods.json
+    - assets/data/vaccine_deworm.json
+    - assets/data/spay_neuter.json
+    - assets/data/adoption_buying.json
+    - assets/data/insurance_costs.json
+    - assets/data/bcs.json
+    - assets/data/breeding.json

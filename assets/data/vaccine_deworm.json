@@ -1,0 +1,98 @@
+{
+  "version": "2026.1",
+  "vaccine_schedule": [
+    {
+      "id": "dhpp_1",
+      "name_zh": "五联疫苗 第1针",
+      "name_en": "DHPP (犬瘟/细小/传染性肝炎/副流感/钩端)",
+      "age_weeks": 8,
+      "core": true,
+      "repeat_annually": true,
+      "notes": "首次免疫, 幼犬 8 周龄"
+    },
+    {
+      "id": "dhpp_2",
+      "name_zh": "五联疫苗 第2针",
+      "name_en": "DHPP 第2针",
+      "age_weeks": 12,
+      "core": true,
+      "repeat_annually": true,
+      "notes": "加强免疫, 间隔 3-4 周"
+    },
+    {
+      "id": "dhpp_3",
+      "name_zh": "五联疫苗 第3针",
+      "name_en": "DHPP 第3针",
+      "age_weeks": 16,
+      "core": true,
+      "repeat_annually": true,
+      "notes": "最终免疫, 之后每年加强 1 针"
+    },
+    {
+      "id": "rabies_1",
+      "name_zh": "狂犬疫苗",
+      "name_en": "Rabies",
+      "age_weeks": 12,
+      "core": true,
+      "repeat_annually": true,
+      "notes": "国内法律必打. 部分城市要求 6 月龄后打"
+    },
+    {
+      "id": "lepto",
+      "name_zh": "钩端螺旋体",
+      "name_en": "Leptospirosis",
+      "age_weeks": 12,
+      "core": false,
+      "repeat_annually": true,
+      "notes": "可选, 玩水/接触野生动物多的犬建议"
+    },
+    {
+      "id": "kennel_cough",
+      "name_zh": "犬窝咳(Bordetella)",
+      "name_en": "Kennel Cough",
+      "age_weeks": 16,
+      "core": false,
+      "repeat_annually": true,
+      "notes": "寄养/犬舍/狗公园常去才需要"
+    },
+    {
+      "id": "canine_influenza",
+      "name_zh": "犬流感",
+      "name_en": "Canine Influenza",
+      "age_weeks": 16,
+      "core": false,
+      "repeat_annually": true,
+      "notes": "国内不常见, 群居犬考虑"
+    }
+  ],
+  "deworm_schedule": {
+    "puppy_internal": {
+      "name_zh": "幼犬体内驱虫",
+      "start_age_weeks": 2,
+      "interval_weeks": 2,
+      "until_age_weeks": 16,
+      "products": ["拜耳拜宠清", "犬心保"]
+    },
+    "adult_internal_monthly": {
+      "name_zh": "成犬体内驱虫",
+      "interval": "monthly",
+      "products": ["犬心保", "超可信", "海乐旺"]
+    },
+    "external_monthly": {
+      "name_zh": "体外驱虫",
+      "interval": "monthly",
+      "year_round": "南方全年/北方 5-11 月",
+      "products": ["福来恩", "拜耳拜宠爽", "超可信(体内外一体)", "尼可信"]
+    },
+    "heartworm_monthly": {
+      "name_zh": "心丝虫预防",
+      "interval": "monthly",
+      "year_round": "南方全年/北方 6-11 月",
+      "products": ["犬心保", "超可信", "海乐旺"]
+    }
+  },
+  "age_calculator": {
+    "method": "size_based",
+    "explanation": "犬类年龄换算不能简单 ×7. 按体型: 小型犬 1 岁≈人类 15 岁, 2 岁≈24, 之后每年 +4. 中型: 1 岁=15, 2 岁=24, 之后 +5. 大型: 1 岁=12, 2 岁=22, 之后 +7. 巨型: 1 岁=10, 2 岁=18, 之后 +9."
+  }
+}
