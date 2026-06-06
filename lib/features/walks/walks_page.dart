@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import '../../core/providers.dart';
 import '../../db/database.dart';
 
+import '../../core/ui/modern_widgets.dart';
 final _walksProvider = StreamProvider<List<WalkRecord>>((ref) {
   return (ref.watch(databaseProvider).select(ref.watch(databaseProvider).walkRecords)
         ..orderBy([(t) => drift.OrderingTerm.desc(t.walkedAt)]))
@@ -23,7 +24,7 @@ class WalksPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final walksAsync = ref.watch(_walksProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('🚶 遛狗打卡')),
+      appBar: ModernPageHeader(title: '遛狗打卡'),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           showModalBottomSheet(

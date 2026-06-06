@@ -5,7 +5,7 @@ import 'data_loader.dart';
 import '../../core/providers.dart';
 import '../../db/database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import '../../core/ui/design_tokens.dart';
 class AgeCalculatorPage extends ConsumerStatefulWidget {
   const AgeCalculatorPage({super.key});
   @override
@@ -42,6 +42,7 @@ class _S extends ConsumerState<AgeCalculatorPage> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     final human = _humanAge();
     return Scaffold(
       appBar: AppBar(title: const Text('🎂 狗狗年龄换算')),
@@ -49,7 +50,7 @@ class _S extends ConsumerState<AgeCalculatorPage> {
         padding: const EdgeInsets.all(12),
         children: [
           Card(
-            color: Colors.pink.shade50,
+            color: Theme.of(context).colorScheme.tertiaryContainer,
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -91,13 +92,13 @@ class _S extends ConsumerState<AgeCalculatorPage> {
           ),
           const SizedBox(height: 12),
           Card(
-            color: Colors.amber.shade50,
+            color: Theme.of(context).colorScheme.errorContainer,
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(children: [
                 Text('${DateTime.now().difference(_birthday).inDays ~/ 365} 岁', style: const TextStyle(fontSize: 20, color: Colors.grey)),
                 const SizedBox(height: 8),
-                Text('相当于人类 $human 岁', style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.deepOrange)),
+                Text('相当于人类 $human 岁', style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.error)),
                 const SizedBox(height: 4),
                 Text(_lifeStage(human), style: const TextStyle(fontSize: 16)),
               ]),

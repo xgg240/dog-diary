@@ -63,6 +63,31 @@ class HealthRepository {
   Future<int> deleteEvent(int id) =>
       (db.delete(db.healthEvents)..where((t) => t.id.equals(id))).go();
 
+  Future<int> updateEvent(
+    int id, {
+    int? petId,
+    String? type,
+    String? title,
+    String? description,
+    DateTime? eventDate,
+    DateTime? nextDueDate,
+    String? vetName,
+    String? vetContact,
+    double? cost,
+  }) async {
+    return (db.update(db.healthEvents)..where((t) => t.id.equals(id))).write(HealthEventsCompanion(
+      petId: petId != null ? drift.Value(petId) : const drift.Value.absent(),
+      type: type != null ? drift.Value(type) : const drift.Value.absent(),
+      title: title != null ? drift.Value(title) : const drift.Value.absent(),
+      description: description != null ? drift.Value(description) : const drift.Value.absent(),
+      eventDate: eventDate != null ? drift.Value(eventDate) : const drift.Value.absent(),
+      nextDueDate: nextDueDate != null ? drift.Value(nextDueDate) : const drift.Value.absent(),
+      vetName: vetName != null ? drift.Value(vetName) : const drift.Value.absent(),
+      vetContact: vetContact != null ? drift.Value(vetContact) : const drift.Value.absent(),
+      cost: cost != null ? drift.Value(cost) : const drift.Value.absent(),
+    ));
+  }
+
   // ---- 用药 ----
   Stream<List<Medication>> watchMedications({bool? activeOnly}) {
     final q = db.select(db.medications);
@@ -124,6 +149,27 @@ class HealthRepository {
 
   Future<int> deleteMedication(int id) =>
       (db.delete(db.medications)..where((t) => t.id.equals(id))).go();
+
+  Future<int> updateMedication(
+    int id, {
+    int? petId,
+    String? name,
+    String? dosage,
+    String? frequency,
+    DateTime? startDate,
+    DateTime? endDate,
+    String? notes,
+  }) async {
+    return (db.update(db.medications)..where((t) => t.id.equals(id))).write(MedicationsCompanion(
+      petId: petId != null ? drift.Value(petId) : const drift.Value.absent(),
+      name: name != null ? drift.Value(name) : const drift.Value.absent(),
+      dosage: dosage != null ? drift.Value(dosage) : const drift.Value.absent(),
+      frequency: frequency != null ? drift.Value(frequency) : const drift.Value.absent(),
+      startDate: startDate != null ? drift.Value(startDate) : const drift.Value.absent(),
+      endDate: endDate != null ? drift.Value(endDate) : const drift.Value.absent(),
+      notes: notes != null ? drift.Value(notes) : const drift.Value.absent(),
+    ));
+  }
 
   Future<bool> toggleMedication(Medication m) =>
       db.update(db.medications).replace(m.copyWith(active: !m.active));

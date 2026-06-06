@@ -1,5 +1,5 @@
 {
-  "version": "2026.1",
+  "version": "2026.2.0",
   "vaccine_schedule": [
     {
       "id": "dhpp_1",
@@ -8,7 +8,7 @@
       "age_weeks": 8,
       "core": true,
       "repeat_annually": true,
-      "notes": "首次免疫, 幼犬 8 周龄"
+      "notes": "首次免疫, 幼犬 8 周龄. 进口品牌: 英特威/辉瑞/默沙东"
     },
     {
       "id": "dhpp_2",
@@ -65,15 +65,7 @@
       "notes": "国内不常见, 群居犬考虑"
     },
     {
-      "name_zh": "狂犬疫苗 (Rabies)",
-      "name_en": "Rabies",
-      "age_weeks": 12,
-      "frequency": "首次 12 周, 之后每年加强",
-      "core": true,
-      "note": "⚠️ 法律必打! 国内养犬法规规定必须接种. 致死率100%, 也保护人. 12周后首次, 之后每年或三年一次 (看疫苗品牌)."
-    },
-    {
-      "name_zh": "钩端螺旋体 (Leptospirosis)",
+      "name_zh": "钩端螺旋体 (Lepto)",
       "name_en": "Lepto",
       "age_weeks": 9,
       "frequency": "首次 9 周 + 12 周加强, 之后每年",
@@ -97,6 +89,95 @@
       "note": "⚠️ 蜱虫高发地区 (南方/山区) 推荐. 蜱虫叮咬传播, 致关节炎/肾病. 配合体外驱虫和蜱虫检查."
     }
   ],
+  "vaccine_brands_comparison": {
+    "title": "💉 进口疫苗品牌对比 (2026)",
+    "brands": [
+      {
+        "name": "英特威 (Intervet/Nobivac)",
+        "country": "荷兰/默沙东",
+        "products": ["Nobivac DHPPi (四联)", "Nobivac DHPPi+L (五联)", "Nobivac Rabies (狂犬)"],
+        "pros": "经典品牌/全球使用/价格中等/副作用小",
+        "cons": "进口手续, 偶尔断货",
+        "price_cny": "60-120 元/针",
+        "best_for": "绝大多数犬只, 性价比高"
+      },
+      {
+        "name": "辉瑞 (Pfizer/Vanguard)",
+        "country": "美国",
+        "products": ["Vanguard Plus 5 (五联)", "Defensor 3 (狂犬)"],
+        "pros": "美国第一品牌/效果稳定/过敏率低",
+        "cons": "价格偏高",
+        "price_cny": "100-180 元/针",
+        "best_for": "追求稳定性/品种犬"
+      },
+      {
+        "name": "默沙东 (MSD)",
+        "country": "美国",
+        "products": ["Nobivac (同英特威品牌)"],
+        "pros": "全球大厂/质量稳定",
+        "cons": "价格中高",
+        "price_cny": "80-150 元/针",
+        "best_for": "高端犬舍/竞赛犬"
+      },
+      {
+        "name": "硕腾 (Zoetis)",
+        "country": "美国",
+        "products": ["Vanguard (同辉瑞)"],
+        "pros": "全球最大动物保健公司",
+        "cons": "价格高",
+        "price_cny": "100-180 元/针",
+        "best_for": "高净值用户"
+      }
+    ],
+    "chinese_brands_warning": "⚠️ 国产疫苗 (如 'XX 五联') 效果不稳定, 不推荐作为核心疫苗. 如果预算有限, 英特威基础款性价比最高."
+  },
+  "vaccine_reaction_handling": {
+    "title": "🚨 疫苗反应识别与处理",
+    "types": [
+      {
+        "type": "正常反应 (24-48h 自愈)",
+        "signs": "精神略差/食欲下降/轻微发烧 (<39.5°C)/注射部位轻微肿痛",
+        "action": "观察 24h, 多喝水休息, 不必特殊处理"
+      },
+      {
+        "type": "过敏反应 (1-2h 内)",
+        "signs": "面部肿胀 (眼周/嘴周)/荨麻疹/剧烈瘙痒/呕吐/腹泻",
+        "action": "立即送医! 注射抗组胺药+地塞米松, 大部分 30 分钟缓解"
+      },
+      {
+        "type": "过敏性休克 (数分钟内, 罕见但致命)",
+        "signs": "突然倒地/呼吸困难/牙龈苍白/心跳加速/昏迷",
+        "action": "🚨 急诊! 立即注射肾上腺素+心肺复苏, 这是急救, 立刻打 120/送最近医院"
+      },
+      {
+        "type": "注射部位肉瘤 (猫多, 犬罕见)",
+        "signs": "注射部位 3 月-3 年内出现硬块/持续长大",
+        "action": "活检, 可能需手术切除+放疗"
+      }
+    ],
+    "pre_vaccination_checklist": {
+      "title": "✅ 疫苗前必做",
+      "items": [
+        "□ 健康状态: 无感冒/拉稀/皮肤感染/发烧",
+        "□ 体重: 不能太瘦 (免疫系统弱, 接种效果差)",
+        "□ 14 天内未用过糖皮质激素 (影响免疫反应)",
+        "□ 未与其他疫苗/驱虫同时做 (分开 7 天)",
+        "□ 提前 30 分钟到医院, 让犬只情绪稳定再打",
+        "□ 注射后留院观察 30 分钟 (防过敏性休克)"
+      ]
+    },
+    "post_vaccination_care": {
+      "title": "🩹 疫苗后 7 天",
+      "items": [
+        "⏰ 注射后留院 30 分钟观察",
+        "🚫 7 天内不洗澡/不换粮/不出远门/不剧烈运动",
+        "🍖 正常饮食, 多喝水",
+        "🌡️ 测体温: 24h 后正常, 持续发烧立即送医",
+        "👀 观察注射部位: 1-2 天轻微肿正常, 持续肿大/疼痛立即送医",
+        "🚶 外出: 可正常遛, 避免接触病犬/不洁环境"
+      ]
+    }
+  },
   "deworm_schedule": {
     "puppy_internal": {
       "name_zh": "幼犬体内驱虫",
@@ -104,39 +185,46 @@
       "interval_weeks": 2,
       "until_age_weeks": 16,
       "products": [
-        "拜耳拜宠清",
-        "犬心保"
-      ]
+        "拜耳拜宠清 (Drontal)",
+        "犬心保 (Heartgard)",
+        "妙巴 (Milbemax)"
+      ],
+      "notes": "2 周龄起, 每 2 周一次, 直至 16 周龄. 之后每月 1 次至 6 月龄."
     },
     "adult_internal_monthly": {
       "name_zh": "成犬体内驱虫",
       "interval": "monthly",
       "products": [
-        "犬心保",
-        "超可信",
-        "海乐旺"
-      ]
+        "犬心保 (Heartgard)",
+        "超可信 (Credelio Plus)",
+        "海乐旺 (Milpro)",
+        "拜耳拜宠清 (Drontal Plus)"
+      ],
+      "notes": "成犬每月 1 次. 吃生肉/野味的犬建议每月, 家养犬可 3 月 1 次."
     },
     "external_monthly": {
       "name_zh": "体外驱虫",
       "interval": "monthly",
       "year_round": "南方全年/北方 5-11 月",
       "products": [
-        "福来恩",
-        "拜耳拜宠爽",
-        "超可信(体内外一体)",
-        "尼可信"
-      ]
+        "福来恩 (Frontline) 滴剂/喷剂",
+        "拜耳拜宠爽 (Advantix)",
+        "超可信 (体内外一体)",
+        "尼可信 (NexGard) 口服",
+        "大宠爱 (Revolution)"
+      ],
+      "notes": "跳蚤/蜱虫/螨虫. 滴剂每月肩胛骨处滴, 口服每月喂. 滴剂不洗澡前/后 3 天用."
     },
     "heartworm_monthly": {
       "name_zh": "心丝虫预防",
       "interval": "monthly",
       "year_round": "南方全年/北方 6-11 月",
       "products": [
-        "犬心保",
-        "超可信",
-        "海乐旺"
-      ]
+        "犬心保 (Heartgard Plus)",
+        "超可信 (Credelio Plus)",
+        "海乐旺 (Milpro)"
+      ],
+      "notes": "蚊子传播的心丝虫致命. 必须每月定时喂, 漏喂一次需兽医复查. 北方冬季可停 4-5 个月."
     }
   },
   "age_calculator": {

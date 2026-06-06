@@ -1,12 +1,13 @@
 // 出行/托运/检疫
 import 'package:flutter/material.dart';
 import 'data_loader.dart';
-
+import '../../core/ui/design_tokens.dart';
 class TravelPage extends StatelessWidget {
   const TravelPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(title: const Text('✈️ 出行/托运/检疫')),
       body: FutureBuilder(
@@ -17,19 +18,19 @@ class TravelPage extends StatelessWidget {
           return ListView(
             padding: const EdgeInsets.all(12),
             children: [
-              _domestic(d['domestic_travel']),
+              _domestic(context, d['domestic_travel']),
               const SizedBox(height: 12),
-              _international(d['international_travel']),
+              _international(context, d['international_travel']),
               const SizedBox(height: 12),
-              _docs(d['documents_checklist']),
+              _docs(context, d['documents_checklist']),
               const SizedBox(height: 12),
-              _cage(d['airline_cage']),
+              _cage(context, d['airline_cage']),
               const SizedBox(height: 12),
-              _cityWalk(d['city_walk']),
+              _cityWalk(context, d['city_walk']),
               const SizedBox(height: 12),
-              _boarding(d['boarding']),
+              _boarding(context, d['boarding']),
               const SizedBox(height: 12),
-              _weather(d['weather_quick']),
+              _weather(context, d['weather_quick']),
             ],
           );
         },
@@ -37,20 +38,20 @@ class TravelPage extends StatelessWidget {
     );
   }
 
-  Widget _domestic(d) {
+  Widget _domestic(BuildContext context, d) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(d['title'], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
-          for (final m in (d['methods'] as List).cast<Map>()) _travelMethod(m),
+          for (final m in (d['methods'] as List).cast<Map>()) _travelMethod(context, m),
         ]),
       ),
     );
   }
 
-  Widget _travelMethod(Map m) {
+  Widget _travelMethod(BuildContext context, Map m) {
     return ExpansionTile(
       title: Text(m['name_zh'], style: const TextStyle(fontWeight: FontWeight.bold)),
       children: [
@@ -68,7 +69,7 @@ class TravelPage extends StatelessWidget {
             ],
             if (m['car_sickness'] != null) ...[
               const SizedBox(height: 4),
-              const Text('🤢 晕车', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepOrange)),
+              Text('🤢 晕车', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.error)),
               for (final s in (m['car_sickness'] as List).cast<String>())
                 Text('• $s', style: const TextStyle(fontSize: 13)),
             ],
@@ -78,9 +79,9 @@ class TravelPage extends StatelessWidget {
     );
   }
 
-  Widget _international(d) {
+  Widget _international(BuildContext context, d) {
     return Card(
-      color: Colors.indigo.shade50,
+      color: Theme.of(context).colorScheme.primaryContainer,
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -101,21 +102,21 @@ class TravelPage extends StatelessWidget {
                     for (final r in (c['requirements'] as List).cast<String>())
                       Padding(padding: const EdgeInsets.symmetric(vertical: 1), child: Text('• $r', style: const TextStyle(fontSize: 13))),
                     if (c['warning'] != null)
-                      Padding(padding: const EdgeInsets.all(4), child: Text(c['warning'], style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold))),
+                      Padding(padding: const EdgeInsets.all(4), child: Text(c['warning'], style: TextStyle(color: Theme.of(context).colorScheme.error, fontWeight: FontWeight.bold))),
                   ]),
                 ),
               ],
             ),
           const SizedBox(height: 4),
-          for (final w in [d['warning']]) Text(w, style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+          for (final w in [d['warning']]) Text(w, style: TextStyle(color: Theme.of(context).colorScheme.error, fontWeight: FontWeight.bold)),
         ]),
       ),
     );
   }
 
-  Widget _docs(d) {
+  Widget _docs(BuildContext context, d) {
     return Card(
-      color: Colors.green.shade50,
+      color: Theme.of(context).colorScheme.tertiaryContainer,
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -128,7 +129,7 @@ class TravelPage extends StatelessWidget {
     );
   }
 
-  Widget _cage(d) {
+  Widget _cage(BuildContext context, d) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -152,7 +153,7 @@ class TravelPage extends StatelessWidget {
     );
   }
 
-  Widget _cityWalk(d) {
+  Widget _cityWalk(BuildContext context, d) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -166,7 +167,7 @@ class TravelPage extends StatelessWidget {
     );
   }
 
-  Widget _boarding(d) {
+  Widget _boarding(BuildContext context, d) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -180,11 +181,11 @@ class TravelPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    if (o['pros'] != null) const Text('✅ 优点', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green)),
+                    if (o['pros'] != null) Text('✅ 优点', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.tertiary)),
                     if (o['pros'] != null) for (final p in (o['pros'] as List).cast<String>()) Text('• $p', style: const TextStyle(fontSize: 13)),
                     if (o['cons'] != null) const SizedBox(height: 4),
-                    if (o['cons'] != null) const Text('❌ 缺点', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
-                    if (o['cons'] != null) for (final c in (o['cons'] as List).cast<String>()) Text('• $c', style: const TextStyle(color: Colors.red, fontSize: 13)),
+                    if (o['cons'] != null) Text('❌ 缺点', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.error)),
+                    if (o['cons'] != null) for (final c in (o['cons'] as List).cast<String>()) Text('• $c', style: TextStyle(color: Theme.of(context).colorScheme.error, fontSize: 13)),
                     if (o['tips'] != null) const SizedBox(height: 4),
                     if (o['tips'] != null) const Text('💡 提示', style: TextStyle(fontWeight: FontWeight.bold)),
                     if (o['tips'] != null) for (final t in (o['tips'] as List).cast<String>()) Text('• $t', style: const TextStyle(fontSize: 13)),
@@ -204,9 +205,9 @@ class TravelPage extends StatelessWidget {
     );
   }
 
-  Widget _weather(d) {
+  Widget _weather(BuildContext context, d) {
     return Card(
-      color: Colors.amber.shade50,
+      color: Theme.of(context).colorScheme.errorContainer,
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

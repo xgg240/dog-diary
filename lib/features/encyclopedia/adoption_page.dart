@@ -1,12 +1,13 @@
 // 领养/购买指南
 import 'package:flutter/material.dart';
 import 'data_loader.dart';
-
+import '../../core/ui/design_tokens.dart';
 class AdoptionPage extends StatelessWidget {
   const AdoptionPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(title: const Text('🏠 领养/购买指南')),
       body: FutureBuilder(
@@ -17,8 +18,8 @@ class AdoptionPage extends StatelessWidget {
           return ListView(
             padding: const EdgeInsets.all(12),
             children: [
-              _section('🐶 购买指南', data['buying_guide']),
-              _section('🤝 领养指南', data['adoption_guide']),
+              _section(ctx, '🐶 购买指南', data['buying_guide']),
+              _section(ctx, '🤝 领养指南', data['adoption_guide']),
             ],
           );
         },
@@ -26,19 +27,19 @@ class AdoptionPage extends StatelessWidget {
     );
   }
 
-  Widget _section(String t, Map<String, dynamic> data) => Card(
+  Widget _section(BuildContext context, String t, Map<String, dynamic> data) => Card(
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(t, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             if (data['red_flags'] != null) ...[
-              Text(data['red_flags']['title'], style: const TextStyle(fontWeight: FontWeight.w600, color: Colors.red)),
+              Text(data['red_flags']['title'], style: TextStyle(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.error)),
               for (final i in (data['red_flags']['items'] as List<dynamic>)) Padding(padding: const EdgeInsets.symmetric(vertical: 1), child: Text('⚠️ $i')),
               const SizedBox(height: 8),
             ],
             if (data['green_flags'] != null) ...[
-              Text(data['green_flags']['title'], style: const TextStyle(fontWeight: FontWeight.w600, color: Colors.green)),
+              Text(data['green_flags']['title'], style: TextStyle(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.tertiary)),
               for (final i in (data['green_flags']['items'] as List<dynamic>)) Padding(padding: const EdgeInsets.symmetric(vertical: 1), child: Text('✅ $i')),
               const SizedBox(height: 8),
             ],

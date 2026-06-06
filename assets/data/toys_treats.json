@@ -1,6 +1,6 @@
 {
   "version": "2026.1",
-  "last_updated": "2026-06-04",
+  "last_updated": "2026-06-05",
   "toys_by_category": {
     "title": "🧸 玩具分类与评分",
     "categories": [
@@ -9,12 +9,48 @@
         "name_zh": "啃咬类 (磨牙)",
         "best_for": "幼犬磨牙/中大型犬消耗精力",
         "top_picks": [
-          {"brand": "Kong Classic", "model": "经典红", "price_cny": "60-150", "rating": 5, "for": "全犬种, 塞零食冷冻变冰棒"},
-          {"brand": "Kong Extreme", "model": "黑色加硬", "price_cny": "100-200", "rating": 5, "for": "强咬合力 (大丹/比特/罗威纳)"},
-          {"brand": "Nylabone", "model": "Dura Chew", "price_cny": "30-100", "rating": 4, "for": "持久啃咬, 多种口味"},
-          {"brand": "Benebone", "model": "Maple/Wishbone", "price_cny": "60-150", "rating": 4, "for": "真味, 中型犬"},
-          {"brand": "Goughnuts", "model": "Maxx 50 50", "price_cny": "100-200", "rating": 5, "for": "世界最耐咬 (警犬级)"},
-          {"brand": "鹿角 (整根)", "model": "天然", "price_cny": "30-80", "rating": 4, "for": "天然, 持续 1-3 月, 注意: 不要煮过的 (碎裂)"}
+          {
+            "brand": "Kong Classic",
+            "model": "经典红",
+            "price_cny": "60-150",
+            "rating": 5,
+            "for": "全犬种, 塞零食冷冻变冰棒"
+          },
+          {
+            "brand": "Kong Extreme",
+            "model": "黑色加硬",
+            "price_cny": "100-200",
+            "rating": 5,
+            "for": "强咬合力 (大丹/比特/罗威纳)"
+          },
+          {
+            "brand": "Nylabone",
+            "model": "Dura Chew",
+            "price_cny": "30-100",
+            "rating": 4,
+            "for": "持久啃咬, 多种口味"
+          },
+          {
+            "brand": "Benebone",
+            "model": "Maple/Wishbone",
+            "price_cny": "60-150",
+            "rating": 4,
+            "for": "真味, 中型犬"
+          },
+          {
+            "brand": "Goughnuts",
+            "model": "Maxx 50 50",
+            "price_cny": "100-200",
+            "rating": 5,
+            "for": "世界最耐咬 (警犬级)"
+          },
+          {
+            "brand": "鹿角 (整根)",
+            "model": "天然",
+            "price_cny": "30-80",
+            "rating": 4,
+            "for": "天然, 持续 1-3 月, 注意: 不要煮过的 (碎裂)"
+          }
         ],
         "warning": "❌ 牛蹄骨/煮骨头 (碎裂刺穿)/网球 (磨碎吞下+含胶水有毒)"
       },
@@ -23,9 +59,27 @@
         "name_zh": "拔河类",
         "best_for": "建立信任+消耗体力",
         "top_picks": [
-          {"brand": "Mammoth", "model": "Tug-N-Chill", "price_cny": "80-200", "rating": 5, "for": "5 球绳结, 拔河+捡球二合一"},
-          {"brand": "HuggleHounds", "model": "Knottie", "price_cny": "40-100", "rating": 4, "for": "无填充物 (扯不出棉花)"},
-          {"brand": "EarthRang", "model": "麻绳玩具", "price_cny": "30-80", "rating": 4, "for": "天然麻绳, 啃+拔河+洁齿"}
+          {
+            "brand": "Mammoth",
+            "model": "Tug-N-Chill",
+            "price_cny": "80-200",
+            "rating": 5,
+            "for": "5 球绳结, 拔河+捡球二合一"
+          },
+          {
+            "brand": "HuggleHounds",
+            "model": "Knottie",
+            "price_cny": "40-100",
+            "rating": 4,
+            "for": "无填充物 (扯不出棉花)"
+          },
+          {
+            "brand": "EarthRang",
+            "model": "麻绳玩具",
+            "price_cny": "30-80",
+            "rating": 4,
+            "for": "天然麻绳, 啃+拔河+洁齿"
+          }
         ],
         "tip": "💡 拔河规矩: 主人主动松手=狗赢, 鼓励"
       },
@@ -34,10 +88,34 @@
         "name_zh": "互动类 (扔接)",
         "best_for": "金毛/边牧/拉布拉多等运动犬",
         "top_picks": [
-          {"brand": "Chuckit!", "model": "Ultra Ball", "price_cny": "30-80", "rating": 5, "for": "跳跳球, 弹力好, 配发射器"},
-          {"brand": "Jolly Ball", "model": "8寸球", "price_cny": "60-150", "rating": 5, "for": "大犬专属, 带柄 (独自玩也能推)"},
-          {"brand": "Hyper Pet", "model": "飞盘", "price_cny": "30-100", "rating": 4, "for": "软边飞盘 (不伤牙)"},
-          {"brand": "Frisbee Dog", "model": "Hero", "price_cny": "50-150", "rating": 4, "for": "中大型犬飞盘"}
+          {
+            "brand": "Chuckit!",
+            "model": "Ultra Ball",
+            "price_cny": "30-80",
+            "rating": 5,
+            "for": "跳跳球, 弹力好, 配发射器"
+          },
+          {
+            "brand": "Jolly Ball",
+            "model": "8寸球",
+            "price_cny": "60-150",
+            "rating": 5,
+            "for": "大犬专属, 带柄 (独自玩也能推)"
+          },
+          {
+            "brand": "Hyper Pet",
+            "model": "飞盘",
+            "price_cny": "30-100",
+            "rating": 4,
+            "for": "软边飞盘 (不伤牙)"
+          },
+          {
+            "brand": "Frisbee Dog",
+            "model": "Hero",
+            "price_cny": "50-150",
+            "rating": 4,
+            "for": "中大型犬飞盘"
+          }
         ],
         "warning": "❌ 硬塑料飞盘 (伤牙) / 网球 (磨碎+胶水毒)"
       },
@@ -46,10 +124,34 @@
         "name_zh": "益智类 (解谜)",
         "best_for": "边牧/贵宾/比熊等聪明犬, 防无聊+分离焦虑",
         "top_picks": [
-          {"brand": "Outward Hound", "model": "Nina Ottosson 益智玩具", "price_cny": "80-300", "rating": 5, "for": "1-4 级难度"},
-          {"brand": "Kong", "model": "Wobbler", "price_cny": "100-200", "rating": 5, "for": "不倒翁塞零食, 边推边出"},
-          {"brand": "星记 (Starmark)", "model": "Treat Dispensing Ball", "price_cny": "60-150", "rating": 4, "for": "滚动出零食, 入门级"},
-          {"brand": "Aikiou", "model": "互动慢食碗", "price_cny": "100-300", "rating": 5, "for": "模拟觅食, 慢食+益智"}
+          {
+            "brand": "Outward Hound",
+            "model": "Nina Ottosson 益智玩具",
+            "price_cny": "80-300",
+            "rating": 5,
+            "for": "1-4 级难度"
+          },
+          {
+            "brand": "Kong",
+            "model": "Wobbler",
+            "price_cny": "100-200",
+            "rating": 5,
+            "for": "不倒翁塞零食, 边推边出"
+          },
+          {
+            "brand": "星记 (Starmark)",
+            "model": "Treat Dispensing Ball",
+            "price_cny": "60-150",
+            "rating": 4,
+            "for": "滚动出零食, 入门级"
+          },
+          {
+            "brand": "Aikiou",
+            "model": "互动慢食碗",
+            "price_cny": "100-300",
+            "rating": 5,
+            "for": "模拟觅食, 慢食+益智"
+          }
         ],
         "tip": "💡 每天 15 分钟益智玩具 = 1 小时散步 (精神消耗)"
       },
@@ -58,9 +160,27 @@
         "name_zh": "毛绒类",
         "best_for": "陪伴 (分离焦虑/幼犬)",
         "top_picks": [
-          {"brand": "Kong", "model": "Cozie 系列", "price_cny": "30-80", "rating": 4, "for": "无哨子 + 内置发声器 (选可挤的)"},
-          {"brand": "Tuffy's", "model": "Ultimate 系列", "price_cny": "50-150", "rating": 5, "for": "世界最耐咬毛绒 (有'狗破坏测试'通过)"},
-          {"brand": "Squeak Pals", "model": "PeeWee", "price_cny": "30-80", "rating": 4, "for": "小毛绒, 撕咬能挤出声"}
+          {
+            "brand": "Kong",
+            "model": "Cozie 系列",
+            "price_cny": "30-80",
+            "rating": 4,
+            "for": "无哨子 + 内置发声器 (选可挤的)"
+          },
+          {
+            "brand": "Tuffy's",
+            "model": "Ultimate 系列",
+            "price_cny": "50-150",
+            "rating": 5,
+            "for": "世界最耐咬毛绒 (有'狗破坏测试'通过)"
+          },
+          {
+            "brand": "Squeak Pals",
+            "model": "PeeWee",
+            "price_cny": "30-80",
+            "rating": 4,
+            "for": "小毛绒, 撕咬能挤出声"
+          }
         ],
         "warning": "⚠️ 拆家狗: 选 Tuffy's (缝合强化), 避免普通毛绒 (吞棉花/眼睛)"
       },
@@ -69,8 +189,104 @@
         "name_zh": "水上类",
         "best_for": "夏天+水猎犬 (拉布拉多/纽芬兰/葡萄牙水犬)",
         "top_picks": [
-          {"brand": "Chuckit!", "model": "Floating Ball", "price_cny": "30-80", "rating": 5, "for": "漂浮, 鲜艳颜色"},
-          {"brand": "Jolly Ball", "model": "Splash", "price_cny": "60-150", "rating": 5, "for": "水上大犬玩具"}
+          {
+            "brand": "Chuckit!",
+            "model": "Floating Ball",
+            "price_cny": "30-80",
+            "rating": 5,
+            "for": "漂浮, 鲜艳颜色"
+          },
+          {
+            "brand": "Jolly Ball",
+            "model": "Splash",
+            "price_cny": "60-150",
+            "rating": 5,
+            "for": "水上大犬玩具"
+          }
+        ]
+      },
+      {
+        "id": "rope",
+        "name_zh": "拔河绳 (互动)",
+        "best_for": "中大型犬, 互动游戏",
+        "top_picks": [
+          {
+            "brand": "Mammoth",
+            "model": "3 股棉绳",
+            "price_cny": "30-80",
+            "rating": 5,
+            "for": "拔河/咬/拉, 互动游戏"
+          },
+          {
+            "brand": "EarthRover",
+            "model": "麻绳结",
+            "price_cny": "40-100",
+            "rating": 4,
+            "for": "天然麻绳, 清洁牙"
+          }
+        ]
+      },
+      {
+        "id": "squeak",
+        "name_zh": "发声玩具",
+        "best_for": "激发猎取本能, 短时玩",
+        "top_picks": [
+          {
+            "brand": "Kong",
+            "model": "Wubba 经典",
+            "price_cny": "40-80",
+            "rating": 5,
+            "for": "耐咬发声, 全犬"
+          },
+          {
+            "brand": "ZippyPaws",
+            "model": "发声玩偶",
+            "price_cny": "30-70",
+            "rating": 4,
+            "for": "趣味性, 易坏要监督"
+          }
+        ]
+      },
+      {
+        "id": "ball",
+        "name_zh": "球类",
+        "best_for": "巡回/扔接",
+        "top_picks": [
+          {
+            "brand": "Chuckit!",
+            "model": "Ultra Ball",
+            "price_cny": "30-80",
+            "rating": 5,
+            "for": "弹跳好, 巡回神器"
+          },
+          {
+            "brand": "Jolly Ball",
+            "model": "硬橡胶球",
+            "price_cny": "50-150",
+            "rating": 4,
+            "for": "大型犬硬玩"
+          }
+        ]
+      },
+      {
+        "id": "frisbee",
+        "name_zh": "飞盘",
+        "best_for": "户外巡回, 边牧类",
+        "top_picks": [
+          {
+            "brand": "Hyperflite",
+            "model": "软飞盘",
+            "price_cny": "80-200",
+            "rating": 5,
+            "for": "专业巡回, 软不伤牙"
+          },
+          {
+            "brand": "Chuckit!",
+            "model": "飞盘",
+            "price_cny": "40-100",
+            "rating": 4,
+            "for": "入门款, 性价比"
+          }
         ]
       }
     ]
@@ -78,11 +294,83 @@
   "interactive_toys": {
     "title": "📱 智能/陪伴玩具",
     "items": [
-      {"brand": "Petcube", "type": "摄像头+激光+双向语音", "price_cny": "500-1500", "rating": 4, "for": "远程陪玩+监控"},
-      {"brand": "Furbo", "type": "摄像+扔零食", "price_cny": "1500-2500", "rating": 4, "for": "远程扔零食, 上班族"},
-      {"brand": "小狗在家 (PetSafe)", "type": "智能喂食器", "price_cny": "500-2000", "rating": 4, "for": "定时定量+摄像头"},
-      {"brand": "GoBone", "type": "智能球 (自动滚动)", "price_cny": "300-600", "rating": 3, "for": "主人不在时自嗨, 电池续航短"},
-      {"brand": "CleverPet", "type": "智能益智台", "price_cny": "1500-3000", "rating": 4, "for": "边牧/贵宾专属, 高级益智"}
+      {
+        "brand": "Petcube",
+        "type": "摄像头+激光+双向语音",
+        "price_cny": "500-1500",
+        "rating": 4,
+        "for": "远程陪玩+监控"
+      },
+      {
+        "brand": "Furbo",
+        "type": "摄像+扔零食",
+        "price_cny": "1500-2500",
+        "rating": 4,
+        "for": "远程扔零食, 上班族"
+      },
+      {
+        "brand": "小狗在家 (PetSafe)",
+        "type": "智能喂食器",
+        "price_cny": "500-2000",
+        "rating": 4,
+        "for": "定时定量+摄像头"
+      },
+      {
+        "brand": "GoBone",
+        "type": "智能球 (自动滚动)",
+        "price_cny": "300-600",
+        "rating": 3,
+        "for": "主人不在时自嗨, 电池续航短"
+      },
+      {
+        "brand": "CleverPet",
+        "type": "智能益智台",
+        "price_cny": "1500-3000",
+        "rating": 4,
+        "for": "边牧/贵宾专属, 高级益智"
+      },
+      {
+        "brand": "iFetch",
+        "type": "自动发球机",
+        "price_cny": "800-2000",
+        "rating": 4,
+        "for": "室内小型犬, 自主玩"
+      },
+      {
+        "brand": "PetSafe Automatic Ball Launcher",
+        "type": "自动发球机",
+        "price_cny": "1500-3000",
+        "rating": 4,
+        "for": "中大型犬, 户外"
+      },
+      {
+        "brand": "Wickedbone",
+        "type": "智能互动骨头",
+        "price_cny": "800-1500",
+        "rating": 4,
+        "for": "App 控制, 智能陪玩"
+      },
+      {
+        "brand": "Furbo 狗狗摄像机",
+        "type": "摄像头+投零食",
+        "price_cny": "1000-2000",
+        "rating": 4,
+        "for": "分离焦虑缓解, 远程互动"
+      },
+      {
+        "brand": "Petcube Bites 2",
+        "type": "摄像头+激光+投零食",
+        "price_cny": "1500-2500",
+        "rating": 5,
+        "for": "功能最全, 投激光零食"
+      },
+      {
+        "brand": "Skymee Owl Robot",
+        "type": "移动摄像头+双向语音",
+        "price_cny": "800-1500",
+        "rating": 4,
+        "for": "远程监控互动"
+      }
     ]
   },
   "treats_rating": {
@@ -92,9 +380,27 @@
         "id": "dental",
         "name_zh": "洁齿零食",
         "top_picks": [
-          {"brand": "Greenies", "model": "原味", "price_cny": "30-80/包", "rating": 5, "note": "VOHC 认证, 每天 1 根, 按体重选大小"},
-          {"brand": "Virbac C.E.T.", "model": "酶牙膏", "price_cny": "50-100", "rating": 5, "note": "VOHC 认证, 咀嚼+酶双效"},
-          {"brand": "Oravet", "model": "洁齿胶", "price_cny": "100-200", "rating": 5, "note": "兽医推荐, 涂层防护"}
+          {
+            "brand": "Greenies",
+            "model": "原味",
+            "price_cny": "30-80/包",
+            "rating": 5,
+            "note": "VOHC 认证, 每天 1 根, 按体重选大小"
+          },
+          {
+            "brand": "Virbac C.E.T.",
+            "model": "酶牙膏",
+            "price_cny": "50-100",
+            "rating": 5,
+            "note": "VOHC 认证, 咀嚼+酶双效"
+          },
+          {
+            "brand": "Oravet",
+            "model": "洁齿胶",
+            "price_cny": "100-200",
+            "rating": 5,
+            "note": "兽医推荐, 涂层防护"
+          }
         ],
         "warning": "❌ 牛皮骨 (漂白剂) / 廉价洁齿棒 (无认证)"
       },
@@ -102,12 +408,48 @@
         "id": "jerky",
         "name_zh": "肉干类",
         "top_picks": [
-          {"brand": "ZIWI Peak", "model": "风干牛肉/鹿肉", "price_cny": "150-300", "rating": 5, "note": "新西兰, 96% 含肉量, 训练奖励首选"},
-          {"brand": "K9 Natural", "model": "冻干", "price_cny": "100-250", "rating": 5, "note": "生肉冻干, 高蛋白"},
-          {"brand": "Stella & Chewy's", "model": "冻干", "price_cny": "100-300", "rating": 5, "note": "美国, 生肉冻干, 适口性极高"},
-          {"brand": "Vital Essentials", "model": "冻干", "price_cny": "100-200", "rating": 5, "note": "整块冻干 (心脏/肝/肾), 高蛋白"},
-          {"brand": "Merrick", "model": "Power Bites", "price_cny": "60-150", "rating": 4, "note": "无谷, 多种口味"},
-          {"brand": "Blue Buffalo", "model": "Blue Bits", "price_cny": "50-120", "rating": 4, "note": "性价比, 含 DHA"}
+          {
+            "brand": "ZIWI Peak",
+            "model": "风干牛肉/鹿肉",
+            "price_cny": "150-300",
+            "rating": 5,
+            "note": "新西兰, 96% 含肉量, 训练奖励首选"
+          },
+          {
+            "brand": "K9 Natural",
+            "model": "冻干",
+            "price_cny": "100-250",
+            "rating": 5,
+            "note": "生肉冻干, 高蛋白"
+          },
+          {
+            "brand": "Stella & Chewy's",
+            "model": "冻干",
+            "price_cny": "100-300",
+            "rating": 5,
+            "note": "美国, 生肉冻干, 适口性极高"
+          },
+          {
+            "brand": "Vital Essentials",
+            "model": "冻干",
+            "price_cny": "100-200",
+            "rating": 5,
+            "note": "整块冻干 (心脏/肝/肾), 高蛋白"
+          },
+          {
+            "brand": "Merrick",
+            "model": "Power Bites",
+            "price_cny": "60-150",
+            "rating": 4,
+            "note": "无谷, 多种口味"
+          },
+          {
+            "brand": "Blue Buffalo",
+            "model": "Blue Bits",
+            "price_cny": "50-120",
+            "rating": 4,
+            "note": "性价比, 含 DHA"
+          }
         ],
         "warning": "⚠️ 国产 'X 宝 X 爷' 廉价肉干: 防腐剂/盐分高/微生物超标, 慎买"
       },
@@ -115,18 +457,54 @@
         "id": "freeze_dried",
         "name_zh": "冻干类",
         "top_picks": [
-          {"brand": "Vital Essentials", "model": "冻干鸡/牛肝", "price_cny": "80-200", "rating": 5, "note": "营养保留最好, 训练奖励"},
-          {"brand": "Stella & Chewy's", "model": "冻干鸡/鸭", "price_cny": "100-200", "rating": 5, "note": ""},
-          {"brand": "Primal", "model": "冻干", "price_cny": "100-250", "rating": 5, "note": "美国, 多种配方"}
+          {
+            "brand": "Vital Essentials",
+            "model": "冻干鸡/牛肝",
+            "price_cny": "80-200",
+            "rating": 5,
+            "note": "营养保留最好, 训练奖励"
+          },
+          {
+            "brand": "Stella & Chewy's",
+            "model": "冻干鸡/鸭",
+            "price_cny": "100-200",
+            "rating": 5,
+            "note": ""
+          },
+          {
+            "brand": "Primal",
+            "model": "冻干",
+            "price_cny": "100-250",
+            "rating": 5,
+            "note": "美国, 多种配方"
+          }
         ]
       },
       {
         "id": "training",
         "name_zh": "训练用小颗粒",
         "top_picks": [
-          {"brand": "Zuke's Mini Naturals", "model": "鸡肉/牛肉", "price_cny": "60-100", "rating": 5, "note": "1 颗 < 5 卡, 一包 200+ 颗"},
-          {"brand": "Pet Botanics", "model": "Mini Training Reward", "price_cny": "50-100", "rating": 5, "note": "低脂, 适合胖狗"},
-          {"brand": "Wellness", "model": "WellBites", "price_cny": "60-120", "rating": 4, "note": "无谷, 适口性好"}
+          {
+            "brand": "Zuke's Mini Naturals",
+            "model": "鸡肉/牛肉",
+            "price_cny": "60-100",
+            "rating": 5,
+            "note": "1 颗 < 5 卡, 一包 200+ 颗"
+          },
+          {
+            "brand": "Pet Botanics",
+            "model": "Mini Training Reward",
+            "price_cny": "50-100",
+            "rating": 5,
+            "note": "低脂, 适合胖狗"
+          },
+          {
+            "brand": "Wellness",
+            "model": "WellBites",
+            "price_cny": "60-120",
+            "rating": 4,
+            "note": "无谷, 适口性好"
+          }
         ],
         "tip": "💡 训练零食 < 1cm, 几秒吞完, 不耽误节奏"
       },
@@ -134,9 +512,27 @@
         "id": "long_chew",
         "name_zh": "长时啃咬 (磨牙棒)",
         "top_picks": [
-          {"brand": "Himalayan Pet Supply", "model": "奶酪棒", "price_cny": "30-80", "rating": 5, "note": "天然奶酪压制, 含钙, 啃 30-60min"},
-          {"brand": "Best Bully Sticks", "model": "牛鞭", "price_cny": "50-150", "rating": 4, "note": "天然, 适口性好, 注意: 监督, 别吞大块"},
-          {"brand": "Natural Farm", "model": "牛气管", "price_cny": "60-150", "rating": 4, "note": "软骨+关节友好"}
+          {
+            "brand": "Himalayan Pet Supply",
+            "model": "奶酪棒",
+            "price_cny": "30-80",
+            "rating": 5,
+            "note": "天然奶酪压制, 含钙, 啃 30-60min"
+          },
+          {
+            "brand": "Best Bully Sticks",
+            "model": "牛鞭",
+            "price_cny": "50-150",
+            "rating": 4,
+            "note": "天然, 适口性好, 注意: 监督, 别吞大块"
+          },
+          {
+            "brand": "Natural Farm",
+            "model": "牛气管",
+            "price_cny": "60-150",
+            "rating": 4,
+            "note": "软骨+关节友好"
+          }
         ],
         "warning": "⚠️ 监视: 大块吞下卡肠"
       },
@@ -145,9 +541,127 @@
         "name_zh": "低敏/特殊零食",
         "for": "过敏/敏感肠胃",
         "top_picks": [
-          {"brand": "Hill's Hypo", "model": "处方零食", "price_cny": "80-200", "rating": 5, "note": "水解蛋白"},
-          {"brand": "Royal Canin Hypo", "model": "低敏", "price_cny": "100-200", "rating": 5, "note": ""},
-          {"brand": "Stella & Chewy's", "model": "兔肉 (单源)", "price_cny": "100-200", "rating": 5, "note": "单一动物蛋白"}
+          {
+            "brand": "Hill's Hypo",
+            "model": "处方零食",
+            "price_cny": "80-200",
+            "rating": 5,
+            "note": "水解蛋白"
+          },
+          {
+            "brand": "Royal Canin Hypo",
+            "model": "低敏",
+            "price_cny": "100-200",
+            "rating": 5,
+            "note": ""
+          },
+          {
+            "brand": "Stella & Chewy's",
+            "model": "兔肉 (单源)",
+            "price_cny": "100-200",
+            "rating": 5,
+            "note": "单一动物蛋白"
+          }
+        ]
+      },
+      {
+        "id": "training_low_cal",
+        "name_zh": "训练低卡零食",
+        "top_picks": [
+          {
+            "brand": "Zuke's Mini Naturals",
+            "model": "鸡肉/羊肉",
+            "price_cny": "50-90/包",
+            "rating": 5,
+            "note": "1 颗 3 卡, 训练奖励神器"
+          },
+          {
+            "brand": "Blue Buffalo Bits",
+            "model": "软粒",
+            "price_cny": "60-100/包",
+            "rating": 4,
+            "note": "低脂软粒, 易消化"
+          },
+          {
+            "brand": "Wellness Pure Rewards",
+            "model": "鸡肉/三文鱼",
+            "price_cny": "70-110/包",
+            "rating": 5,
+            "note": "天然无谷, 单粒训练"
+          },
+          {
+            "brand": "Bil-Jac Little Jacs",
+            "model": "训练奖励",
+            "price_cny": "40-80/包",
+            "rating": 4,
+            "note": "鸡肝味, 犬极爱"
+          }
+        ]
+      },
+      {
+        "id": "dental_chew",
+        "name_zh": "洁齿咬胶 (重复已有)",
+        "top_picks": []
+      },
+      {
+        "id": "bully_stick",
+        "name_zh": "牛筋条/Bully Stick",
+        "top_picks": [
+          {
+            "brand": "Best Bully Sticks",
+            "model": "6/12/16 寸",
+            "price_cny": "30-80/根",
+            "rating": 4,
+            "note": "高度耐咬, 消耗精力. 监管防吞"
+          },
+          {
+            "brand": "Natural Farm",
+            "model": "牛筋条",
+            "price_cny": "40-100/根",
+            "rating": 5,
+            "note": "巴西进口, 无添加"
+          },
+          {
+            "brand": "Native Pet",
+            "model": "草饲牛筋",
+            "price_cny": "50-120/根",
+            "rating": 4,
+            "note": "草饲, 气味小"
+          }
+        ]
+      },
+      {
+        "id": "puzzle_treat",
+        "name_zh": "益智塞零食",
+        "top_picks": [
+          {
+            "brand": "Kong",
+            "model": "Easy/Medium/Hard",
+            "price_cny": "60-150",
+            "rating": 5,
+            "note": "塞花生酱/酸奶冷冻成冰棒, 抗暑消耗"
+          },
+          {
+            "brand": "Outward Hound",
+            "model": "Slow Feeder 慢食碗",
+            "price_cny": "60-120",
+            "rating": 4,
+            "note": "减慢进食, 适合急食犬"
+          },
+          {
+            "brand": "Nina Ottosson",
+            "model": "益智玩具",
+            "price_cny": "100-300",
+            "rating": 5,
+            "note": "设计级别, 需主人陪玩"
+          },
+          {
+            "brand": "星记 (国产)",
+            "model": "Kong 同款",
+            "price_cny": "30-60",
+            "rating": 3,
+            "note": "性价比, 持久性稍差"
+          }
         ]
       }
     ]
@@ -163,19 +677,96 @@
       "❌ 葡萄干零食 (Banana Treats/果干)",
       "❌ 大量肝脏 (维生素 A 中毒)",
       "❌ 大量洋葱/蒜制品 (溶血)",
-      "❌ 猫零食 (高蛋白高脂, 狗不需要)"
+      "❌ 猫零食 (高蛋白高脂, 狗不需要)",
+      "❌ 中国产廉价火腿肠 (高盐亚硝酸盐, 致肾负担)",
+      "❌ 鸡骨/鸭骨/鱼骨 (煮熟尖锐, 刺穿胃肠)",
+      "❌ 生/熟猪骨 (咬碎尖锐, 穿孔)",
+      "❌ 巧克力制品 (可可碱中毒, 致命)",
+      "❌ 木糖醇制品 (无糖口香糖/牙膏/低糖烘焙, 致低血糖+肝衰)",
+      "❌ 葡萄/葡萄干制品 (急性肾衰)",
+      "❌ 洋葱/大蒜/韭菜制品 (溶血性贫血)",
+      "❌ 澳洲坚果制品 (神经系统症状)",
+      "❌ 牛油果 (Persin 毒素)",
+      "❌ 咖啡因/酒精饮品 (中枢神经中毒)",
+      "❌ 烘焙酵母面团 (胃内发酵膨胀)",
+      "❌ 水果核 (桃/李/杏/樱桃, 含氰化物)",
+      "❌ 大麻/大麻油制品 (THC 中枢抑制)",
+      "❌ 漂白生牛皮骨 (化学残留, 部分犬肠梗阻)",
+      "❌ 廉价染料软糖零食 (人工色素, 致过敏/多动)",
+      "❌ 高糖人类零食 (蛋糕/甜甜圈/冰激凌, 致胰/糖尿病)",
+      "❌ 椰子油大剂量 (腹泻, 适量可)",
+      "❌ 过多动物肝脏 (维 A 中毒, 一周 1-2 次为宜)",
+      "❌ 过期/霉变零食 (黄曲霉素, 致癌肝毒)",
+      "❌ 玩具小零件 (眼/铃, 咬下吞, 选整件)",
+      "❌ 棉花/绳类玩具 (误食线性异物, 切肠)",
+      "❌ 廉价橡胶球 (咬碎吞, 致肠梗阻)",
+      "❌ 过小网球/高尔夫球 (塞嘴窒息, 选合适大小)"
     ]
   },
   "treat_calorie_guide": {
     "title": "🍪 零食热量控制 (防胖)",
     "rule": "零食 ≤ 日常热量 10% (10kg 狗日需 ~400 卡, 零食 ≤ 40 卡)",
     "calories_per_piece": [
-      {"item": "Zuke's 1 颗", "cal": "3 卡"},
-      {"item": "Greenies 中号 1 根", "cal": "30 卡"},
-      {"item": "冻干鸡肝 1 小块", "cal": "5 卡"},
-      {"item": "自制鸡胸肉干 1g", "cal": "1.5 卡"},
-      {"item": "蓝莓 1 颗", "cal": "0.8 卡"},
-      {"item": "苹果 1 块", "cal": "0.5 卡"}
+      {
+        "item": "Zuke's 1 颗",
+        "cal": "3 卡"
+      },
+      {
+        "item": "Greenies 中号 1 根",
+        "cal": "30 卡"
+      },
+      {
+        "item": "冻干鸡肝 1 小块",
+        "cal": "5 卡"
+      },
+      {
+        "item": "自制鸡胸肉干 1g",
+        "cal": "1.5 卡"
+      },
+      {
+        "item": "蓝莓 1 颗",
+        "cal": "0.8 卡"
+      },
+      {
+        "item": "苹果 1 块",
+        "cal": "0.5 卡"
+      },
+      {
+        "item": "狗饼干 (普通) 1 块",
+        "cal": "20-30 卡"
+      },
+      {
+        "item": "Greenies 洁齿 1 根",
+        "cal": "25-30 卡"
+      },
+      {
+        "item": "Kong 塞花生酱 1 勺",
+        "cal": "100 卡"
+      },
+      {
+        "item": "冻干鸡肝 1 块",
+        "cal": "5-8 卡"
+      },
+      {
+        "item": "小奶酪块 5g",
+        "cal": "18 卡"
+      },
+      {
+        "item": "胡萝卜 1 段",
+        "cal": "<1 卡"
+      },
+      {
+        "item": "苹果片 1 片",
+        "cal": "2-3 卡"
+      },
+      {
+        "item": "鸡肉丝 1 茶匙",
+        "cal": "30 卡"
+      },
+      {
+        "item": "普通狗粮 1 颗",
+        "cal": "3-5 卡"
+      }
     ],
     "tip": "💡 训练: 切超小颗粒, 一天总量 5-10g 不影响正餐"
   }

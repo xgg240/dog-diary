@@ -133,7 +133,31 @@ class FinancePage extends ConsumerWidget {
                           leading: CircleAvatar(backgroundColor: (_catColors[e.category] ?? Colors.grey).withValues(alpha: 0.2), child: Icon(Icons.payments, color: _catColors[e.category] ?? Colors.grey, size: 18)),
                           title: Text(e.description ?? _catLabels[e.category] ?? e.category),
                           subtitle: Text(DateFormat('MM-dd').format(e.spentAt)),
-                          trailing: Text('-¥ ${e.amount.toStringAsFixed(2)}', style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                          trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+                            Text('-¥ ${e.amount.toStringAsFixed(2)}', style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                            IconButton(
+                              icon: const Icon(Icons.edit, color: Colors.blue, size: 18),
+                              tooltip: '编辑',
+                              onPressed: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  useSafeArea: true,
+                                  showDragHandle: true,
+                                  builder: (_) => _ExpenseSheet(existing: e),
+                                );
+                              },
+                            ),
+                          ]),
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              useSafeArea: true,
+                              showDragHandle: true,
+                              builder: (_) => _ExpenseSheet(existing: e),
+                            );
+                          },
                         ),
                       ),
                   ]),
@@ -148,7 +172,8 @@ class FinancePage extends ConsumerWidget {
 }
 
 class _ExpenseSheet extends ConsumerStatefulWidget {
-  const _ExpenseSheet();
+  final dynamic existing;
+  const _ExpenseSheet({this.existing});
   @override
   ConsumerState<_ExpenseSheet> createState() => _S();
 }
@@ -159,6 +184,18 @@ class _S extends ConsumerState<_ExpenseSheet> {
   String _category = 'food';
   DateTime _spentAt = DateTime.now();
   bool _saving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final e = widget.existing;
+    if (e != null) {
+      _amountCtrl.text = e.amount.toString();
+      _descCtrl.text = e.description ?? '';
+      _category = e.category ?? 'food';
+      _spentAt = e.spentAt;
+    }
+  }
 
   @override
   void dispose() {
@@ -175,12 +212,12 @@ class _S extends ConsumerState<_ExpenseSheet> {
     }
     setState(() => _saving = true);
     try {
-      await ref.read(financeRepoProvider).add(
-        spentAt: _spentAt,
-        amount: amount,
-        category: _category,
-        description: _descCtrl.text.trim().isEmpty ? null : _descCtrl.text.trim(),
-      );
+      final repo = ref.read(financeRepoProvider);
+      if (widget.existing != null) {
+        await repo.updateExpense(widget.existing.id, spentAt: _spentAt, amount: amount, category: _category, description: _descCtrl.text.trim().isEmpty ? null : _descCtrl.text.trim());
+      } else {
+        await repo.add(spentAt: _spentAt, amount: amount, category: _category, description: _descCtrl.text.trim().isEmpty ? null : _descCtrl.text.trim());
+      }
       if (mounted) Navigator.pop(context);
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('失败: $e')));
@@ -196,7 +233,7 @@ class _S extends ConsumerState<_ExpenseSheet> {
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Text('记一笔', style: Theme.of(context).textTheme.titleLarge),
+          Text(widget.existing != null ? '编辑支出' : '记一笔', style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 16),
           const Text('类别'),
           const SizedBox(height: 4),

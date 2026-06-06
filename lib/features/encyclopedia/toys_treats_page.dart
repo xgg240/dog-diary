@@ -1,12 +1,13 @@
 // 玩具/零食评分
 import 'package:flutter/material.dart';
 import 'data_loader.dart';
-
+import '../../core/ui/design_tokens.dart';
 class ToysTreatsPage extends StatelessWidget {
   const ToysTreatsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(title: const Text('🧸 玩具/零食评分')),
       body: FutureBuilder(
@@ -17,15 +18,15 @@ class ToysTreatsPage extends StatelessWidget {
           return ListView(
             padding: const EdgeInsets.all(12),
             children: [
-              _toysByCategory(d['toys_by_category']),
+              _toysByCategory(context, d['toys_by_category']),
               const SizedBox(height: 12),
-              _smartToys(d['interactive_toys']),
+              _smartToys(context, d['interactive_toys']),
               const SizedBox(height: 12),
-              _treats(d['treats_rating']),
+              _treats(context, d['treats_rating']),
               const SizedBox(height: 12),
-              _dangerous(d['dangerous_treats']),
+              _dangerous(context, d['dangerous_treats']),
               const SizedBox(height: 12),
-              _calorie(d['treat_calorie_guide']),
+              _calorie(context, d['treat_calorie_guide']),
             ],
           );
         },
@@ -33,20 +34,20 @@ class ToysTreatsPage extends StatelessWidget {
     );
   }
 
-  Widget _toysByCategory(d) {
+  Widget _toysByCategory(BuildContext context, d) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(d['title'], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
-          for (final cat in (d['categories'] as List).cast<Map>()) _toyCategory(cat),
+          for (final cat in (d['categories'] as List).cast<Map>()) _toyCategory(context, cat),
         ]),
       ),
     );
   }
 
-  Widget _toyCategory(Map c) {
+  Widget _toyCategory(BuildContext context, Map c) {
     return ExpansionTile(
       title: Text(c['name_zh'], style: const TextStyle(fontWeight: FontWeight.bold)),
       subtitle: Text('适用: ${c['best_for']}'),
@@ -61,7 +62,7 @@ class ToysTreatsPage extends StatelessWidget {
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Row(children: [
                       Expanded(child: Text('⭐${p['rating']} ${p['brand']} - ${p['model']}', style: const TextStyle(fontWeight: FontWeight.bold))),
-                      Text('💰 ¥${p['price_cny']}', style: const TextStyle(color: Colors.indigo)),
+                      Text('💰 ¥${p['price_cny']}', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
                     ]),
                     if (p['for'] != null) Text('🎯 ${p['for']}', style: const TextStyle(fontSize: 13)),
                     if (p['note'] != null) Text('💡 ${p['note']}', style: const TextStyle(fontSize: 13)),
@@ -70,11 +71,11 @@ class ToysTreatsPage extends StatelessWidget {
               ),
             if (c['warning'] != null) Padding(
               padding: const EdgeInsets.all(4),
-              child: Text(c['warning'], style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+              child: Text(c['warning'], style: TextStyle(color: Theme.of(context).colorScheme.error, fontWeight: FontWeight.bold)),
             ),
             if (c['tip'] != null) Padding(
               padding: const EdgeInsets.all(4),
-              child: Text('💡 ${c['tip']}', style: const TextStyle(color: Colors.indigo, fontStyle: FontStyle.italic)),
+              child: Text('💡 ${c['tip']}', style: TextStyle(color: Theme.of(context).colorScheme.primary, fontStyle: FontStyle.italic)),
             ),
           ]),
         ),
@@ -82,9 +83,9 @@ class ToysTreatsPage extends StatelessWidget {
     );
   }
 
-  Widget _smartToys(d) {
+  Widget _smartToys(BuildContext context, d) {
     return Card(
-      color: Colors.indigo.shade50,
+      color: Theme.of(context).colorScheme.primaryContainer,
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -93,7 +94,7 @@ class ToysTreatsPage extends StatelessWidget {
           for (final t in (d['items'] as List).cast<Map>())
             Card(
               child: ListTile(
-                leading: const Icon(Icons.smart_toy, color: Colors.indigo),
+                leading: Icon(Icons.smart_toy, color: Theme.of(context).colorScheme.primary),
                 title: Text('⭐${t['rating']} ${t['brand']}', style: const TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text('${t['type']}  💰${t['price_cny']}'),
@@ -106,7 +107,7 @@ class ToysTreatsPage extends StatelessWidget {
     );
   }
 
-  Widget _treats(d) {
+  Widget _treats(BuildContext context, d) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -121,7 +122,7 @@ class ToysTreatsPage extends StatelessWidget {
                   Card(
                     child: ListTile(
                       dense: true,
-                      leading: const Icon(Icons.star, color: Colors.amber),
+                      leading: Icon(Icons.star, color: Theme.of(context).colorScheme.error),
                       title: Text('⭐${p['rating']} ${p['brand']} - ${p['model']}', style: const TextStyle(fontWeight: FontWeight.bold)),
                       subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                         Text('💰${p['price_cny']}'),
@@ -136,13 +137,13 @@ class ToysTreatsPage extends StatelessWidget {
     );
   }
 
-  Widget _dangerous(d) {
+  Widget _dangerous(BuildContext context, d) {
     return Card(
-      color: Colors.red.shade50,
+      color: Theme.of(context).colorScheme.errorContainer,
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(d['title'], style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.red)),
+          Text(d['title'], style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.error)),
           const SizedBox(height: 8),
           for (final s in (d['items'] as List).cast<String>())
             Padding(padding: const EdgeInsets.symmetric(vertical: 2), child: Text(s, style: const TextStyle(fontSize: 13))),
@@ -151,9 +152,9 @@ class ToysTreatsPage extends StatelessWidget {
     );
   }
 
-  Widget _calorie(d) {
+  Widget _calorie(BuildContext context, d) {
     return Card(
-      color: Colors.green.shade50,
+      color: Theme.of(context).colorScheme.tertiaryContainer,
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -165,7 +166,7 @@ class ToysTreatsPage extends StatelessWidget {
           for (final c in (d['calories_per_piece'] as List).cast<Map>())
             Padding(padding: const EdgeInsets.symmetric(vertical: 1), child: Text('• ${c['item']}: ${c['cal']}', style: const TextStyle(fontSize: 13))),
           const SizedBox(height: 4),
-          Text('💡 ${d['tip']}', style: const TextStyle(color: Colors.indigo, fontStyle: FontStyle.italic)),
+          Text('💡 ${d['tip']}', style: TextStyle(color: Theme.of(context).colorScheme.primary, fontStyle: FontStyle.italic)),
         ]),
       ),
     );

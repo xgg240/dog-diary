@@ -5,12 +5,13 @@ import '../../core/providers.dart';
 import '../../db/database.dart';
 import 'data_loader.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import '../../core/ui/design_tokens.dart';
 class VaccineCalendarPage extends ConsumerWidget {
   const VaccineCalendarPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final cs = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(title: const Text('💉 疫苗驱虫日历')),
       body: FutureBuilder(
@@ -63,11 +64,11 @@ class VaccineCalendarPage extends ConsumerWidget {
       items.add(ListTile(
         leading: Icon(
           isPast ? Icons.check_circle : (upcoming < 30 ? Icons.alarm : Icons.vaccines),
-          color: isPast ? Colors.green : (upcoming < 30 ? Colors.orange : Colors.blue),
+          color: isPast ? Theme.of(ctx).colorScheme.tertiary : (upcoming < 30 ? Theme.of(ctx).colorScheme.error : Theme.of(ctx).colorScheme.primary),
         ),
         title: Text(v['name_zh'], style: const TextStyle(fontWeight: FontWeight.bold)),
         subtitle: Text('${DateFormat('yyyy-MM-dd').format(date)} (${weeks}周龄) · ${isPast ? "✅ 已过期" : "$upcoming 天后"}'),
-        trailing: v['core'] == true ? Chip(label: const Text('必打', style: TextStyle(fontSize: 10)), backgroundColor: Colors.red.shade50) : null,
+        trailing: v['core'] == true ? Chip(label: const Text('必打', style: TextStyle(fontSize: 10)), backgroundColor: Theme.of(ctx).colorScheme.errorContainer) : null,
       ));
     }
 
@@ -75,9 +76,9 @@ class VaccineCalendarPage extends ConsumerWidget {
     final deworm = data['deworm_schedule'] as Map<String, dynamic>;
     final puppy = deworm['puppy_internal'] as Map<String, dynamic>;
     items.add(Card(
-      color: Colors.amber.shade50,
+      color: Theme.of(ctx).colorScheme.errorContainer,
       child: ListTile(
-        leading: const Icon(Icons.medication, color: Colors.orange),
+        leading: Icon(Icons.medication, color: Theme.of(ctx).colorScheme.error),
         title: const Text('🐛 幼犬体内驱虫', style: TextStyle(fontWeight: FontWeight.bold)),
         subtitle: Text('${puppy['start_age_weeks']} 周起, 每 ${puppy['interval_weeks']} 周一次, 到 ${puppy['until_age_weeks']} 周'),
         trailing: Text('当前: ${ageWeeks}周'),

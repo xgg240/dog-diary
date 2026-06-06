@@ -47,6 +47,14 @@
 			</array>
 		</dict>
 	</dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<!-- 允许 HTTP 明文访问养狗日记后端 (Day 2: 明文 IP 直连, 客户端不展示 URL) -->
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>需要访问相册以上传宠物照片</string>
 	<key>NSCameraUsageDescription</key>
@@ -77,6 +85,17 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>用于显示附近宠物医院/商店的距离</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>用于显示附近宠物医院/商店的距离</string>
+
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>iosamap</string>
+		<string>androidamap</string>
+		<string>com.autonavi.minimap</string>
 	</array>
 </dict>
 </plist>

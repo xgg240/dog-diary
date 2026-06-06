@@ -1,0 +1,405 @@
+// 狗玩的地方 - 离线 573 城市 + 在线 OSM Overpass + 实时定位
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'data_loader.dart';
+import 'dog_play_online.dart';
+import '../../core/location_service.dart';
+
+class DogPlaySpotsPage extends StatefulWidget {
+  const DogPlaySpotsPage({super.key});
+  @override
+  State<DogPlaySpotsPage> createState() => _DogPlaySpotsPageState();
+}
+
+class _DogPlaySpotsPageState extends State<DogPlaySpotsPage> with SingleTickerProviderStateMixin {
+  final _searchCtrl = TextEditingController();
+  late final TabController _tab = TabController(length: 3, vsync: this);
+  String _query = '';
+  String _cityFilter = '全部';
+  String _catFilter = '全部';
+
+  // 在线数据
+  List<OnlinePoi> _onlinePois = [];
+  bool _loadingOnline = false;
+  String _onlineErr = '';
+  MyLocation? _myLoc;
+
+  @override
+  void initState() {
+    super.initState();
+    // 自动触发实时定位 + 拉在线数据
+    WidgetsBinding.instance.addPostFrameCallback((_) => _refreshOnline());
+  }
+
+  @override
+  void dispose() { _searchCtrl.dispose(); _tab.dispose(); super.dispose(); }
+
+  Future<void> _refreshOnline() async {
+    setState(() { _loadingOnline = true; _onlineErr = ''; });
+    final loc = await LocationService.getMyLocation();
+    if (loc == null) {
+      setState(() { _loadingOnline = false; _onlineErr = '定位失败, 请到设置开启位置'; });
+      return;
+    }
+    setState(() { _myLoc = loc; });
+    // 并行: 在线 OSM + 离线 (按 lat/lng 算距离)
+    final onlinePois = DogPlayOnline.searchByLatLng(loc.lat, loc.lng, radiusKm: 5);
+    final offlinePois = _offlineNearby(loc.lat, loc.lng, radiusKm: 5);
+    final results = await Future.wait([onlinePois, offlinePois]);
+    final o = (results[0] as List<OnlinePoi>);
+    final off = (results[1] as List<OnlinePoi>);
+    final merged = [...o, ...off];
+    setState(() {
+      _loadingOnline = false;
+      _onlinePois = merged;
+      if (merged.isEmpty) _onlineErr = '附近 5km 未找到狗玩地点, 可切到离线查找 573 城市';
+    });
+  }
+
+  // 按 lat/lng 计算离线 POI 距离 + 过滤
+  Future<List<OnlinePoi>> _offlineNearby(double lat, double lng, {double radiusKm = 5}) async {
+    try {
+      final data = await DataLoader.dogPlay();
+      final spots = (data['spots'] as List?) ?? [];
+      final results = <OnlinePoi>[];
+      for (final s in spots) {
+        final sLat = (s['lat'] as num?)?.toDouble();
+        final sLng = (s['lng'] as num?)?.toDouble();
+        if (sLat == null || sLng == null) continue;
+        final d = haversineKm(lat, lng, sLat, sLng);
+        if (d > radiusKm) continue;
+        results.add(OnlinePoi(
+          name: s['name']?.toString() ?? '',
+          category: s['category']?.toString() ?? 'park',
+          address: '${s['city']?.toString() ?? ''} ${s['address']?.toString() ?? ''}'.trim(),
+          lat: sLat,
+          lng: sLng,
+          distance: d,
+          source: 'offline',
+        ));
+      }
+      results.sort((a, b) => (a.distance ?? 9999).compareTo(b.distance ?? 9999));
+      return results;
+    } catch (_) { return []; }
+  }
+
+  List<String> _allCities(List<dynamic> spots) {
+    final cities = {for (final s in spots) s['city']?.toString()}.whereType<String>().toList()..sort();
+    return cities;
+  }
+
+  void _openPickerSheet(BuildContext ctx, String title, List<String> options, String current, ValueChanged<String> onPick) {
+    showModalBottomSheet(
+      context: ctx,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheetCtx) => DraggableScrollableSheet(
+        initialChildSize: 0.75,
+        minChildSize: 0.4,
+        maxChildSize: 0.95,
+        expand: false,
+        builder: (sctx, scrollCtrl) => Container(
+          decoration: BoxDecoration(color: Theme.of(ctx).colorScheme.surface, borderRadius: const BorderRadius.vertical(top: Radius.circular(16))),
+          child: Column(children: [
+            Container(margin: const EdgeInsets.symmetric(vertical: 8), width: 40, height: 4, decoration: BoxDecoration(color: Theme.of(ctx).colorScheme.outlineVariant, borderRadius: BorderRadius.circular(2))),
+            Padding(padding: const EdgeInsets.fromLTRB(16, 4, 16, 8), child: Row(children: [
+              Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              const Spacer(),
+              Text('共 ${options.length} 项', style: TextStyle(color: Theme.of(ctx).colorScheme.onSurfaceVariant, fontSize: 12)),
+            ])),
+            const Divider(height: 1),
+            Expanded(
+              child: ListView.builder(
+                controller: scrollCtrl,
+                itemCount: options.length,
+                itemBuilder: (_, i) {
+                  final o = options[i];
+                  final selected = o == current;
+                  return ListTile(
+                    dense: true,
+                    leading: Icon(selected ? Icons.check_circle : Icons.circle_outlined, color: selected ? Theme.of(ctx).colorScheme.primary : Theme.of(ctx).colorScheme.onSurface.withValues(alpha: 0.3)),
+                    title: Text(o, style: TextStyle(fontWeight: selected ? FontWeight.w700 : FontWeight.w500, fontSize: 14)),
+                    onTap: () { onPick(o); Navigator.pop(sctx); },
+                  );
+                },
+              ),
+            ),
+          ]),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('🐾 狗玩的地方'),
+        bottom: TabBar(
+          controller: _tab,
+          tabs: const [
+            Tab(icon: Icon(Icons.cloud_off_rounded, size: 16), text: '离线'),
+            Tab(icon: Icon(Icons.cloud_outlined, size: 16), text: '在线'),
+            Tab(icon: Icon(Icons.my_location, size: 16), text: '附近'),
+          ],
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: _refreshOnline,
+            tooltip: '刷新在线',
+          ),
+        ],
+      ),
+      body: FutureBuilder<Map<String, dynamic>>(
+        future: DataLoader.dogPlay(),
+        builder: (ctx, snap) {
+          if (snap.hasError) {
+            return Center(child: Padding(padding: const EdgeInsets.all(20), child: Text('加载失败: ${snap.error}', style: TextStyle(color: Theme.of(ctx).colorScheme.error, fontSize: 11))));
+          }
+          if (!snap.hasData) return const Center(child: CircularProgressIndicator());
+          final data = snap.data!;
+          final intro = data['intro']?.toString() ?? '';
+          final categories = (data['categories'] as Map?)?.cast<String, dynamic>() ?? {};
+          final spots = (data['spots'] as List?) ?? [];
+          final cities = _allCities(spots);
+          // 离线筛选
+          final filtered = spots.where((s) {
+            if (_cityFilter != '全部' && s['city'] != _cityFilter) return false;
+            if (_catFilter != '全部' && s['category'] != _catFilter) return false;
+            if (_query.isEmpty) return true;
+            final q = _query.toLowerCase();
+            return (s['name']?.toString().toLowerCase().contains(q) ?? false) ||
+                (s['city']?.toString().toLowerCase().contains(q) ?? false) ||
+                (s['address']?.toString().toLowerCase().contains(q) ?? false) ||
+                (s['description']?.toString().toLowerCase().contains(q) ?? false);
+          }).toList();
+          filtered.sort((a, b) {
+            final cmp = (a['city']?.toString() ?? '').compareTo(b['city']?.toString() ?? '');
+            if (cmp != 0) return cmp;
+            return (b['rating'] as num? ?? 0).compareTo(a['rating'] as num? ?? 0);
+          });
+          return TabBarView(
+            controller: _tab,
+            children: [
+              // 1) 离线 - 573 城市
+              _offlineView(ctx, data, categories, filtered, cities, intro, spots.length),
+              // 2) 在线 - 按当前城市
+              _onlineCityView(ctx, data, categories, filtered, cities, intro),
+              // 3) 附近 - 实时定位 5km
+              _nearbyView(ctx, categories),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _offlineView(BuildContext ctx, Map<String, dynamic> data, Map<String, dynamic> categories, List<dynamic> filtered, List<String> cities, String intro, int totalSpots) {
+    return _commonSearchBar(ctx, cities, categories, totalSpots, onQuery: (q) => setState(() => _query = q)).let((sb) => Column(children: [
+      sb,
+      Padding(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2), child: Row(children: [
+        Text('${filtered.length} 个推荐', style: TextStyle(color: Theme.of(ctx).colorScheme.onSurfaceVariant, fontSize: 12)),
+        const Spacer(),
+        if (_cityFilter != '全部' || _catFilter != '全部' || _query.isNotEmpty)
+          TextButton.icon(
+            onPressed: () { _searchCtrl.clear(); setState(() { _query = ''; _cityFilter = '全部'; _catFilter = '全部'; }); },
+            icon: const Icon(Icons.refresh, size: 14),
+            label: const Text('重置', style: TextStyle(fontSize: 12)),
+          ),
+      ])),
+      Expanded(
+        child: filtered.isEmpty
+            ? const Center(child: Text('该地区暂无推荐, 可尝试其他城市或取消筛选'))
+            : ListView.builder(itemCount: filtered.length, itemBuilder: (_, i) => _offlineCard(ctx, filtered[i], categories)),
+      ),
+    ]));
+  }
+
+  Widget _commonSearchBar(BuildContext ctx, List<String> cities, Map<String, dynamic> categories, int totalSpots, {required ValueChanged<String> onQuery}) {
+    return Column(children: [
+      Padding(padding: const EdgeInsets.symmetric(horizontal: 8), child: TextField(
+        controller: _searchCtrl,
+        decoration: InputDecoration(
+          hintText: '输入城市/景点名/地址... 共 $totalSpots 个推荐',
+          prefixIcon: const Icon(Icons.search),
+          suffixIcon: _query.isEmpty ? null : IconButton(icon: const Icon(Icons.close), onPressed: () { _searchCtrl.clear(); onQuery(''); }),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+          isDense: true,
+          contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+        ),
+        onChanged: (v) { onQuery(v.trim()); },
+      )),
+      SizedBox(height: 38, child: ListView(scrollDirection: Axis.horizontal, padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4), children: [
+        for (final c in ['全部', ...cities])
+          Padding(padding: const EdgeInsets.only(right: 4), child: ChoiceChip(label: Text(c, style: const TextStyle(fontSize: 11)), selected: _cityFilter == c, onSelected: (_) => setState(() => _cityFilter = c))),
+      ])),
+    ]);
+  }
+
+  Widget _offlineCard(BuildContext ctx, dynamic s, Map<String, dynamic> categories) {
+    final cat = s['category']?.toString() ?? '';
+    final catInfo = categories[cat] as Map<String, dynamic>?;
+    return Card(margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 3), child: ExpansionTile(
+      leading: Container(width: 44, height: 44, decoration: BoxDecoration(color: Theme.of(ctx).colorScheme.surfaceContainerHigh, borderRadius: BorderRadius.circular(8)), child: Center(child: Text(catInfo?['emoji']?.toString() ?? '📍', style: const TextStyle(fontSize: 22)))),
+      title: Text('${s['name']}', style: const TextStyle(fontWeight: FontWeight.bold)),
+      subtitle: Text('${s['city']}  ·  ${catInfo?['name_zh'] ?? cat}  ·  ⭐${s['rating']}'),
+      trailing: IconButton(icon: const Icon(Icons.navigation, size: 18, color: Colors.green), onPressed: () => _naviTo(s['name']?.toString() ?? '', (s['lat'] as num?)?.toDouble() ?? 0, (s['lng'] as num?)?.toDouble() ?? 0)),
+      children: [Padding(padding: const EdgeInsets.fromLTRB(16, 0, 16, 12), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        _row('📍 地址', s['address']?.toString() ?? '无', Theme.of(ctx).colorScheme.primary),
+        _row('📝 介绍', s['description']?.toString() ?? '无', Theme.of(ctx).colorScheme.onSurface),
+        if (s['best_time'] != null) _row('⏰ 最佳时间', s['best_time']?.toString() ?? '', Colors.purple),
+        if (s['tag'] != null && (s['tag'] as List).isNotEmpty) Wrap(spacing: 6, runSpacing: 4, children: [for (final t in s['tag'] as List) Chip(label: Text(t.toString(), style: const TextStyle(fontSize: 10)), padding: EdgeInsets.zero, materialTapTargetSize: MaterialTapTargetSize.shrinkWrap)]),
+      ]))],
+    ));
+  }
+
+  // 全国 12 大热门城市 - 一进来就自动拉 OSM POI, 不要空的
+  static const _hotCities = ['北京', '上海', '广州', '深圳', '成都', '杭州', '南京', '武汉', '西安', '重庆', '苏州', '天津'];
+  List<OnlinePoi> _hotCityPois = [];
+  bool _loadingHot = false;
+  int _hotCityIdx = 0;
+
+  Future<void> _loadHotCities() async {
+    if (_loadingHot) return;
+    setState(() { _loadingHot = true; });
+    // 拉前 4 个城市
+    final cities = _hotCities.take(4).toList();
+    final all = <OnlinePoi>[];
+    for (var i = 0; i < cities.length; i++) {
+      _hotCityIdx = i;
+      final p = await DogPlayOnline.searchByCity(cities[i]);
+      all.addAll(p);
+      if (mounted) setState(() => _hotCityPois = all);
+    }
+    setState(() { _loadingHot = false; });
+  }
+
+  Widget _onlineCityView(BuildContext ctx, Map<String, dynamic> data, Map<String, dynamic> categories, List<dynamic> filtered, List<String> cities, String intro) {
+    if (_query.isEmpty) {
+      // 默认显示全国热门城市
+      if (_hotCityPois.isEmpty && !_loadingHot) _loadHotCities();
+      return ListView(padding: const EdgeInsets.fromLTRB(12, 8, 12, 12), children: [
+        Container(padding: const EdgeInsets.all(12), decoration: BoxDecoration(color: Colors.blue.shade50, borderRadius: BorderRadius.circular(10), border: Border.all(color: Colors.blue.shade200)), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: const [Icon(Icons.cloud_outlined, color: Colors.blue), SizedBox(width: 8), Text('全国热门狗玩地点', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.blue))]),
+          const SizedBox(height: 4),
+          const Text('OpenStreetMap 实时数据, 无 key 免费·可搜全国 573 城市 (含县城)·可搜北京/上海/广州/深圳/成都/杭州等 12 热门城市', style: TextStyle(fontSize: 11, color: Colors.black87, height: 1.5)),
+          if (_loadingHot) Padding(padding: const EdgeInsets.only(top: 6), child: Row(children: [const SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2)), const SizedBox(width: 8), Text('正在加载 ${_hotCities[_hotCityIdx.clamp(0, _hotCities.length-1)]} ...', style: const TextStyle(fontSize: 11, color: Colors.blue))])),
+          if (_hotCityPois.isNotEmpty) Padding(padding: const EdgeInsets.only(top: 4), child: Text('已加载 ${_hotCityPois.length} 个 POI', style: const TextStyle(fontSize: 11, color: Colors.green))),
+        ])),
+        const SizedBox(height: 12),
+        if (_hotCityPois.isEmpty && !_loadingHot) Center(child: Padding(padding: const EdgeInsets.all(20), child: Column(mainAxisSize: MainAxisSize.min, children: [
+          const Icon(Icons.search_off, size: 36, color: Colors.grey),
+          const SizedBox(height: 8),
+          const Text('无网络或 OSM 暂未返回数据', style: TextStyle(color: Colors.grey)),
+          const SizedBox(height: 12),
+          FilledButton.icon(onPressed: _loadHotCities, icon: const Icon(Icons.refresh, size: 16), label: const Text('重试')),
+        ]))),
+        ..._hotCityPois.map((p) => _onlineCard(ctx, p, 'OSM 实时')),
+      ]);
+    }
+    // 搜了关键字 - 搜 OSM
+    return FutureBuilder<List<OnlinePoi>>(
+      future: DogPlayOnline.searchByCity(_query),
+      builder: (ctx, snap) {
+        if (snap.connectionState == ConnectionState.waiting) {
+          return Center(child: Column(mainAxisSize: MainAxisSize.min, children: [const CircularProgressIndicator(), const SizedBox(height: 12), Text('正在调用 OpenStreetMap 搜 "$_query"...')]));
+        }
+        if (snap.hasError) {
+          return Center(child: Padding(padding: const EdgeInsets.all(20), child: Text('查询失败: ${snap.error}', style: TextStyle(color: Theme.of(ctx).colorScheme.error))));
+        }
+        final pois = snap.data ?? [];
+        if (pois.isEmpty) {
+          return Center(child: Padding(padding: const EdgeInsets.all(20), child: Column(mainAxisSize: MainAxisSize.min, children: [
+            const Icon(Icons.search_off, size: 48, color: Colors.grey),
+            const SizedBox(height: 8),
+            Text('OSM 暂未收录 "$_query" 的宠物友好 POI\n可切到离线 573 城市搜索', textAlign: TextAlign.center, style: const TextStyle(color: Colors.grey)),
+          ])));
+        }
+        return ListView.builder(
+          itemCount: pois.length,
+          itemBuilder: (_, i) => _onlineCard(ctx, pois[i], 'OSM 在线'),
+        );
+      },
+    );
+  }
+
+  Widget _nearbyView(BuildContext ctx, Map<String, dynamic> categories) {
+    if (_loadingOnline) {
+      return const Center(child: Column(mainAxisSize: MainAxisSize.min, children: [CircularProgressIndicator(), SizedBox(height: 12), Text('正在用您当前位置搜附近...')]));
+    }
+    if (_onlineErr.isNotEmpty && _onlinePois.isEmpty) {
+      return Center(child: Padding(padding: const EdgeInsets.all(20), child: Column(mainAxisSize: MainAxisSize.min, children: [
+        const Icon(Icons.location_off, size: 48, color: Colors.grey),
+        const SizedBox(height: 8),
+        Text(_onlineErr, textAlign: TextAlign.center, style: const TextStyle(color: Colors.grey)),
+        const SizedBox(height: 16),
+        FilledButton.icon(onPressed: _refreshOnline, icon: const Icon(Icons.refresh), label: const Text('重新定位搜附近')),
+      ])));
+    }
+    if (_onlinePois.isEmpty) {
+      return Center(child: Padding(padding: const EdgeInsets.all(20), child: Column(mainAxisSize: MainAxisSize.min, children: [
+        const Icon(Icons.pets, size: 48, color: Colors.grey),
+        const SizedBox(height: 8),
+        Text(_myLoc == null ? '先点重新定位' : '附近 5km 暂无 OSM 数据', style: const TextStyle(color: Colors.grey)),
+      ])));
+    }
+    return Column(children: [
+      Container(width: double.infinity, margin: const EdgeInsets.all(8), padding: const EdgeInsets.all(10), decoration: BoxDecoration(color: Colors.green.shade50, borderRadius: BorderRadius.circular(8)), child: Row(children: [
+        const Icon(Icons.my_location, color: Colors.green, size: 18),
+        const SizedBox(width: 6),
+        Expanded(child: Text('${_myLoc?.address ?? "GPS"} · 附近 5km 找到 ${_onlinePois.length} 个 OSM 数据', style: const TextStyle(fontSize: 12))),
+        IconButton(icon: const Icon(Icons.refresh, size: 16), onPressed: _refreshOnline, padding: EdgeInsets.zero, constraints: const BoxConstraints()),
+      ])),
+      Expanded(
+        child: ListView.builder(itemCount: _onlinePois.length, itemBuilder: (_, i) => _onlineCard(ctx, _onlinePois[i], 'OSM 实时')),
+      ),
+    ]);
+  }
+
+  Widget _onlineCard(BuildContext ctx, OnlinePoi p, String sourceLabel) {
+    final isOffline = p.source == 'offline';
+    final badgeColor = isOffline ? Colors.green : Colors.blue;
+    return Card(margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 3), child: ExpansionTile(
+      leading: Container(width: 40, height: 40, decoration: BoxDecoration(color: badgeColor.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)), child: Center(child: Text(catLabel(p.category), style: const TextStyle(fontSize: 14)))),
+      title: Text(p.name, style: const TextStyle(fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
+      subtitle: Text('${p.address}  ·  ${p.distance != null ? "${p.distance!.toStringAsFixed(1)}km" : ""}'),
+      trailing: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.end, children: [
+        Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: badgeColor.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(4)), child: Text(sourceLabel, style: TextStyle(color: badgeColor.shade700, fontSize: 9))),
+        const SizedBox(height: 2),
+        IconButton(icon: const Icon(Icons.navigation, size: 18, color: Colors.green), onPressed: () => _naviTo(p.name, p.lat, p.lng), padding: EdgeInsets.zero, constraints: const BoxConstraints()),
+      ]),
+      children: [Padding(padding: const EdgeInsets.fromLTRB(16, 0, 16, 12), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        _row('📍 地址', p.address, Colors.blue),
+        if (p.openingHours != null) _row('⏰ 营业', p.openingHours!, Colors.purple),
+        if (p.phone != null) _row('📞 电话', p.phone!, Colors.green),
+        _row('📂 类别', catLabel(p.category), Colors.orange),
+      ]))],
+    ));
+  }
+
+  Future<void> _naviTo(String name, double lat, double lng) async {
+    // iOS / Android / 网页 调起高德
+    final iosAmap = Uri.parse('iosamap://navi?sourceApplication=dog_diary&lat=$lat&lon=$lng&name=${Uri.encodeComponent(name)}&dev=0&style=2');
+    final androidAmap = Uri.parse('androidamap://navi?sourceApplication=dog_diary&lat=$lat&lon=$lng&name=${Uri.encodeComponent(name)}&dev=0&style=2');
+    final webAmap = Uri.parse('https://uri.amap.com/navigation?to=$lng,$lat,${Uri.encodeComponent(name)}&mode=car&policy=1&src=dog_diary');
+    final appleMaps = Uri.parse('https://maps.apple.com/?daddr=$lat,$lng&q=${Uri.encodeComponent(name)}');
+    for (final u in [iosAmap, androidAmap, webAmap, appleMaps]) {
+      try {
+        if (await canLaunchUrl(u)) {
+          await launchUrl(u, mode: LaunchMode.externalApplication);
+          return;
+        }
+      } catch (_) { continue; }
+    }
+  }
+
+  Widget _row(String label, String text, Color c) => Padding(padding: const EdgeInsets.symmetric(vertical: 3), child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    SizedBox(width: 76, child: Text(label, style: TextStyle(color: c, fontWeight: FontWeight.w600, fontSize: 12))),
+    Expanded(child: Text(text, style: const TextStyle(fontSize: 12, height: 1.5))),
+  ]));
+}
+
+extension on Widget {
+  Widget let(Function(Widget) fn) => fn(this);
+}

@@ -1,5 +1,5 @@
 // ============================================================
-//  训练日志
+//  训练日志 + 训练计划（v4 Stage 2）
 // ============================================================
 
 import 'package:drift/drift.dart' as drift;
@@ -9,10 +9,17 @@ import 'package:intl/intl.dart';
 
 import '../../core/providers.dart';
 import '../../db/database.dart';
+import 'training_plan_sheet.dart';
 
 final _trainingsProvider = StreamProvider<List<TrainingLog>>((ref) {
   return (ref.watch(databaseProvider).select(ref.watch(databaseProvider).trainingLogs)
         ..orderBy([(t) => drift.OrderingTerm.desc(t.trainedAt)]))
+      .watch();
+});
+
+final _trainingPlansProvider = StreamProvider<List<TrainingPlan>>((ref) {
+  return (ref.watch(databaseProvider).select(ref.watch(databaseProvider).trainingPlans)
+        ..orderBy([(t) => drift.OrderingTerm.asc(t.completed), (t) => drift.OrderingTerm.asc(t.startDate)]))
       .watch();
 });
 
@@ -21,66 +28,170 @@ class TrainingPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final trainingsAsync = ref.watch(_trainingsProvider);
-    return Scaffold(
-      appBar: AppBar(title: const Text('🎓 训练日志')),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            useSafeArea: true,
-            showDragHandle: true,
-            builder: (_) => const _TrainingSheet(),
-          );
-        },
-        icon: const Icon(Icons.add),
-        label: const Text('记录'),
-      ),
-      body: trainingsAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, st) => Center(child: Text('错误: $e')),
-        data: (list) {
-          if (list.isEmpty) return const Center(child: Text('暂无训练记录\n点击右下角添加'));
-          return ListView.builder(
-            itemCount: list.length,
-            itemBuilder: (_, i) {
-              final t = list[i];
-              return Dismissible(
-                key: ValueKey(t.id),
-                direction: DismissDirection.endToStart,
-                background: Container(
-                  alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.only(right: 16),
-                  color: Colors.red,
-                  child: const Icon(Icons.delete, color: Colors.white),
-                ),
-                onDismissed: (_) async {
-                  await (ref.read(databaseProvider).delete(ref.read(databaseProvider).trainingLogs)..where((tt) => tt.id.equals(t.id))).go();
-                },
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: _color(t.performance ?? '').withValues(alpha: 0.2),
-                    child: Icon(Icons.school, color: _color(t.performance ?? '')),
-                  ),
-                  title: Text(t.command),
-                  subtitle: Text('${t.durationMin ?? 0} 分钟 · ${t.performance ?? '-'} · ${DateFormat('MM-dd HH:mm').format(t.trainedAt)}'),
-                ),
-              );
-            },
-          );
-        },
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('🎓 训练'),
+          bottom: const TabBar(tabs: [
+            Tab(icon: Icon(Icons.list), text: '日志'),
+            Tab(icon: Icon(Icons.assignment), text: '计划'),
+          ]),
+        ),
+        floatingActionButton: Builder(
+          builder: (ctx) {
+            final tab = DefaultTabController.of(ctx).index;
+            return FloatingActionButton.extended(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  useSafeArea: true,
+                  showDragHandle: true,
+                  builder: (_) => tab == 0 ? const _TrainingSheet() : const TrainingPlanSheet(),
+                );
+              },
+              icon: const Icon(Icons.add),
+              label: Text(tab == 0 ? '记录' : '计划'),
+            );
+          },
+        ),
+        body: TabBarView(children: [
+          _LogsTab(trainingsAsync: ref.watch(_trainingsProvider)),
+          _PlansTab(plansAsync: ref.watch(_trainingPlansProvider)),
+        ]),
       ),
     );
   }
+}
 
-  Color _color(String p) {
-    switch (p) {
-      case 'good': return Colors.green;
-      case 'ok': return Colors.orange;
-      case 'bad': return Colors.red;
-      default: return Colors.grey;
-    }
+Color _color(String p) {
+  switch (p) {
+    case 'good': return Colors.green;
+    case 'ok': return Colors.orange;
+    case 'bad': return Colors.red;
+    default: return Colors.grey;
+  }
+}
+
+class _LogsTab extends ConsumerWidget {
+  final AsyncValue<List<TrainingLog>> trainingsAsync;
+  const _LogsTab({required this.trainingsAsync});
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return trainingsAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (e, st) => Center(child: Text('错误: $e')),
+      data: (list) {
+        if (list.isEmpty) return const Center(child: Text('暂无训练记录\n点击右下角添加'));
+        return ListView.builder(
+          itemCount: list.length,
+          itemBuilder: (_, i) {
+            final t = list[i];
+            return Dismissible(
+              key: ValueKey('log-${t.id}'),
+              direction: DismissDirection.endToStart,
+              background: Container(
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.only(right: 16),
+                color: Colors.red,
+                child: const Icon(Icons.delete, color: Colors.white),
+              ),
+              onDismissed: (_) async {
+                final db = ref.read(databaseProvider);
+                await (db.delete(db.trainingLogs)..where((tt) => tt.id.equals(t.id))).go();
+              },
+              child: ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: _color(t.performance ?? '').withValues(alpha: 0.2),
+                  child: Icon(Icons.school, color: _color(t.performance ?? '')),
+                ),
+                title: Text(t.command),
+                subtitle: Text('${t.durationMin ?? 0} 分钟 · ${t.performance ?? '-'} · ${DateFormat('MM-dd HH:mm').format(t.trainedAt)}'),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class _PlansTab extends ConsumerWidget {
+  final AsyncValue<List<TrainingPlan>> plansAsync;
+  const _PlansTab({required this.plansAsync});
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return plansAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (e, st) => Center(child: Text('错误: $e')),
+      data: (list) {
+        if (list.isEmpty) {
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.all(24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.assignment, size: 48, color: Colors.grey),
+                  SizedBox(height: 8),
+                  Text('暂无训练计划\n点击右下"计划"开始制定', textAlign: TextAlign.center),
+                ],
+              ),
+            ),
+          );
+        }
+        return ListView.separated(
+          itemCount: list.length,
+          separatorBuilder: (_, __) => const Divider(height: 1),
+          itemBuilder: (_, i) {
+            final p = list[i];
+            final progress = p.targetDays == 0 ? 0.0 : p.progress / p.targetDays;
+            return ListTile(
+              leading: CircleAvatar(
+                backgroundColor: p.completed ? Colors.green : Colors.indigo,
+                child: Icon(p.completed ? Icons.check : Icons.assignment, color: Colors.white),
+              ),
+              title: Text(p.title, style: const TextStyle(fontWeight: FontWeight.w500)),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('指令: ${p.command} · 每天 ${p.dailyMinutes} 分 · 计划 ${p.targetDays} 天'),
+                  const SizedBox(height: 4),
+                  LinearProgressIndicator(value: progress),
+                  const SizedBox(height: 2),
+                  Text('${p.progress}/${p.targetDays} 天 · ${DateFormat('MM-dd').format(p.startDate)} 开始',
+                      style: const TextStyle(fontSize: 11)),
+                ],
+              ),
+              trailing: IconButton(
+                icon: const Icon(Icons.add_circle_outline),
+                tooltip: '打卡 +1',
+                onPressed: p.completed ? null : () async {
+                  final db = ref.read(databaseProvider);
+                  final newProg = (p.progress + 1).clamp(0, p.targetDays);
+                  await (db.update(db.trainingPlans)..where((t) => t.id.equals(p.id))).write(
+                    TrainingPlansCompanion(
+                      progress: drift.Value(newProg),
+                      completed: drift.Value(newProg >= p.targetDays),
+                    ),
+                  );
+                },
+              ),
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  useSafeArea: true,
+                  showDragHandle: true,
+                  builder: (_) => TrainingPlanSheet(existing: p),
+                );
+              },
+            );
+          },
+        );
+      },
+    );
   }
 }
 
@@ -105,31 +216,25 @@ class _S extends ConsumerState<_TrainingSheet> {
   }
 
   Future<void> _save() async {
-    if (_petId == null) {
+    final pid = _petId;
+    if (pid == null) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('请先创建宠物')));
       return;
     }
     if (_commandCtrl.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('请输入指令')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('指令必填')));
       return;
     }
     setState(() => _saving = true);
-    try {
-      await ref.read(databaseProvider).into(ref.read(databaseProvider).trainingLogs).insert(
-        TrainingLogsCompanion(
-          petId: drift.Value(_petId!),
-          command: drift.Value(_commandCtrl.text.trim()),
-          durationMin: drift.Value(int.tryParse(_durationCtrl.text.trim())),
-          performance: drift.Value(_performance),
-          trainedAt: const drift.Value.absent(),
-        ),
-      );
-      if (mounted) Navigator.pop(context);
-    } catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('失败: $e')));
-    } finally {
-      if (mounted) setState(() => _saving = false);
-    }
+    final db = ref.read(databaseProvider);
+    await db.into(db.trainingLogs).insert(TrainingLogsCompanion.insert(
+      petId: pid,
+      command: _commandCtrl.text.trim(),
+      durationMin: drift.Value(int.tryParse(_durationCtrl.text)),
+      performance: drift.Value(_performance),
+      trainedAt: DateTime.now(),
+    ));
+    if (mounted) Navigator.pop(context);
   }
 
   @override

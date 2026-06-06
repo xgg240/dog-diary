@@ -2,11 +2,15 @@
 //  主壳 - 7 个底部 Tab (含养狗百科) + 红色 SOS 急症按钮
 // ============================================================
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../features/dashboard/dashboard_page.dart';
+import '../features/dashboard/due_modal.dart';
 import '../features/pets/pets_page.dart';
+import 'pet_switcher_provider.dart';
+import 'app_router.dart';
 import '../features/health/health_page.dart';
 import '../features/food/food_page.dart';
 import '../features/finance/finance_page.dart';
@@ -15,6 +19,13 @@ import '../features/encyclopedia/encyclopedia_page.dart';
 import '../features/encyclopedia/emergency_page.dart';
 import '../features/encyclopedia/data_loader.dart';
 import '../features/encyclopedia/adoption_page.dart';
+import '../features/encyclopedia/breeds_page.dart';
+import '../features/encyclopedia/diseases_page.dart';
+import '../features/encyclopedia/symptoms_page.dart';
+import '../features/encyclopedia/human_foods_page.dart';
+import '../features/encyclopedia/human_meds_page.dart';
+import '../features/encyclopedia/dog_play_spots_page.dart';
+import '../features/encyclopedia/training_library_page.dart';
 import '../features/encyclopedia/spay_neuter_page.dart';
 import '../features/encyclopedia/breeding_page.dart';
 import '../features/encyclopedia/senior_care_page.dart';
@@ -22,6 +33,7 @@ import '../features/encyclopedia/grooming_page.dart';
 import '../features/encyclopedia/home_safety_page.dart';
 import '../features/encyclopedia/toys_treats_page.dart';
 import '../features/encyclopedia/travel_page.dart';
+import '../features/nearby/nearby_page.dart';
 
 class AppShell extends ConsumerStatefulWidget {
   const AppShell({super.key});
@@ -48,11 +60,35 @@ class _AppShellState extends ConsumerState<AppShell> {
   @override
   void initState() {
     super.initState();
+    debugPrint('[app_shell] initState startPage=$_startPage');
     if (_startPage.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
+        if (!mounted) { debugPrint('[app_shell] unmounted skip'); return; }
+        debugPrint('[app_shell] pushing $_startPage');
         if (_startPage == 'encyclopedia') {
-          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const AdoptionPage()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const EncyclopediaPage()));
+        } else if (_startPage == 'nearby') {
+          debugPrint('[app_shell] push NearbyPage...');
+          // 不 push, 工具 tab 内自带"附近服务"入口, 切到工具 tab
+          setState(() => _idx = 5);
+        } else if (_startPage == 'diseases') {
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const DiseasesPage()));
+        } else if (_startPage == 'meds') {
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const HumanMedsPage()));
+        } else if (_startPage == 'play') {
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const DogPlaySpotsPage()));
+        } else if (_startPage == 'symptoms') {
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SymptomsPage()));
+        } else if (_startPage == 'breeds') {
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const BreedsPage()));
+        } else if (_startPage == 'foods') {
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const HumanFoodsPage()));
+        } else if (_startPage == 'training') {
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const TrainingLibraryPage()));
+        } else if (_startPage == 'home_safety') {
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const HomeSafetyPage()));
+        } else if (_startPage == 'toys_treats') {
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ToysTreatsPage()));
         } else if (_startPage == 'emergency') {
           Navigator.of(context).push(MaterialPageRoute(builder: (_) => const EmergencyListPage(), fullscreenDialog: true));
         } else if (_startPage.startsWith('emergency_')) {
@@ -89,17 +125,32 @@ class _AppShellState extends ConsumerState<AppShell> {
         }
       });
     }
+    // 启动时检查到期提醒
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) return;
+      final ctx = navigatorKey.currentContext;
+      if (ctx != null) {
+        await Future.delayed(const Duration(milliseconds: 800));
+        if (!mounted) return;
+        await DueReminderModal.checkAndShow(ctx, ref);
+      }
+    });
   }
+
+  final navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: null,  // 删 AppShell 顶层 AppBar (PetSwitcher + 定位图标), 改用各 page 自己的 AppBar
       body: SafeArea(child: _pages[_idx]),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _idx,
         onDestinationSelected: (i) => setState(() => _idx = i),
+        height: 64,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.dashboard_outlined), selectedIcon: Icon(Icons.dashboard), label: '仪表盘'),
+          NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home), label: '首页'),
           NavigationDestination(icon: Icon(Icons.pets_outlined), selectedIcon: Icon(Icons.pets), label: '宠物'),
           NavigationDestination(icon: Icon(Icons.health_and_safety_outlined), selectedIcon: Icon(Icons.health_and_safety), label: '健康'),
           NavigationDestination(icon: Icon(Icons.restaurant_outlined), selectedIcon: Icon(Icons.restaurant), label: '饮食'),
@@ -113,7 +164,7 @@ class _AppShellState extends ConsumerState<AppShell> {
           ? _SOSButton(onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const EmergencyListPage(), fullscreenDialog: true),
+                MaterialPageRoute(builder: (_) => const SymptomsPage(), fullscreenDialog: true),
               );
             })
           : null,

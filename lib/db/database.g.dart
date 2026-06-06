@@ -2149,6 +2149,22 @@ class $FoodItemsTable extends FoodItems
   late final GeneratedColumn<double> pricePerKg = GeneratedColumn<double>(
       'price_per_kg', aliasedName, true,
       type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _blacklistedMeta =
+      const VerificationMeta('blacklisted');
+  @override
+  late final GeneratedColumn<bool> blacklisted = GeneratedColumn<bool>(
+      'blacklisted', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("blacklisted" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  static const VerificationMeta _allergyReasonMeta =
+      const VerificationMeta('allergyReason');
+  @override
+  late final GeneratedColumn<String> allergyReason = GeneratedColumn<String>(
+      'allergy_reason', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _purchaseDateMeta =
       const VerificationMeta('purchaseDate');
   @override
@@ -2177,6 +2193,8 @@ class $FoodItemsTable extends FoodItems
         totalKg,
         remainingKg,
         pricePerKg,
+        blacklisted,
+        allergyReason,
         purchaseDate,
         expireDate,
         notes
@@ -2240,6 +2258,18 @@ class $FoodItemsTable extends FoodItems
           pricePerKg.isAcceptableOrUnknown(
               data['price_per_kg']!, _pricePerKgMeta));
     }
+    if (data.containsKey('blacklisted')) {
+      context.handle(
+          _blacklistedMeta,
+          blacklisted.isAcceptableOrUnknown(
+              data['blacklisted']!, _blacklistedMeta));
+    }
+    if (data.containsKey('allergy_reason')) {
+      context.handle(
+          _allergyReasonMeta,
+          allergyReason.isAcceptableOrUnknown(
+              data['allergy_reason']!, _allergyReasonMeta));
+    }
     if (data.containsKey('purchase_date')) {
       context.handle(
           _purchaseDateMeta,
@@ -2285,6 +2315,10 @@ class $FoodItemsTable extends FoodItems
           .read(DriftSqlType.double, data['${effectivePrefix}remaining_kg'])!,
       pricePerKg: attachedDatabase.typeMapping
           .read(DriftSqlType.double, data['${effectivePrefix}price_per_kg']),
+      blacklisted: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}blacklisted'])!,
+      allergyReason: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}allergy_reason']),
       purchaseDate: attachedDatabase.typeMapping.read(
           DriftSqlType.dateTime, data['${effectivePrefix}purchase_date'])!,
       expireDate: attachedDatabase.typeMapping
@@ -2310,6 +2344,8 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
   final double totalKg;
   final double remainingKg;
   final double? pricePerKg;
+  final bool blacklisted;
+  final String? allergyReason;
   final DateTime purchaseDate;
   final DateTime? expireDate;
   final String? notes;
@@ -2323,6 +2359,8 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
       required this.totalKg,
       required this.remainingKg,
       this.pricePerKg,
+      required this.blacklisted,
+      this.allergyReason,
       required this.purchaseDate,
       this.expireDate,
       this.notes});
@@ -2343,6 +2381,10 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
     map['remaining_kg'] = Variable<double>(remainingKg);
     if (!nullToAbsent || pricePerKg != null) {
       map['price_per_kg'] = Variable<double>(pricePerKg);
+    }
+    map['blacklisted'] = Variable<bool>(blacklisted);
+    if (!nullToAbsent || allergyReason != null) {
+      map['allergy_reason'] = Variable<String>(allergyReason);
     }
     map['purchase_date'] = Variable<DateTime>(purchaseDate);
     if (!nullToAbsent || expireDate != null) {
@@ -2369,6 +2411,10 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
       pricePerKg: pricePerKg == null && nullToAbsent
           ? const Value.absent()
           : Value(pricePerKg),
+      blacklisted: Value(blacklisted),
+      allergyReason: allergyReason == null && nullToAbsent
+          ? const Value.absent()
+          : Value(allergyReason),
       purchaseDate: Value(purchaseDate),
       expireDate: expireDate == null && nullToAbsent
           ? const Value.absent()
@@ -2391,6 +2437,8 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
       totalKg: serializer.fromJson<double>(json['totalKg']),
       remainingKg: serializer.fromJson<double>(json['remainingKg']),
       pricePerKg: serializer.fromJson<double?>(json['pricePerKg']),
+      blacklisted: serializer.fromJson<bool>(json['blacklisted']),
+      allergyReason: serializer.fromJson<String?>(json['allergyReason']),
       purchaseDate: serializer.fromJson<DateTime>(json['purchaseDate']),
       expireDate: serializer.fromJson<DateTime?>(json['expireDate']),
       notes: serializer.fromJson<String?>(json['notes']),
@@ -2409,6 +2457,8 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
       'totalKg': serializer.toJson<double>(totalKg),
       'remainingKg': serializer.toJson<double>(remainingKg),
       'pricePerKg': serializer.toJson<double?>(pricePerKg),
+      'blacklisted': serializer.toJson<bool>(blacklisted),
+      'allergyReason': serializer.toJson<String?>(allergyReason),
       'purchaseDate': serializer.toJson<DateTime>(purchaseDate),
       'expireDate': serializer.toJson<DateTime?>(expireDate),
       'notes': serializer.toJson<String?>(notes),
@@ -2425,6 +2475,8 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
           double? totalKg,
           double? remainingKg,
           Value<double?> pricePerKg = const Value.absent(),
+          bool? blacklisted,
+          Value<String?> allergyReason = const Value.absent(),
           DateTime? purchaseDate,
           Value<DateTime?> expireDate = const Value.absent(),
           Value<String?> notes = const Value.absent()}) =>
@@ -2438,6 +2490,9 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
         totalKg: totalKg ?? this.totalKg,
         remainingKg: remainingKg ?? this.remainingKg,
         pricePerKg: pricePerKg.present ? pricePerKg.value : this.pricePerKg,
+        blacklisted: blacklisted ?? this.blacklisted,
+        allergyReason:
+            allergyReason.present ? allergyReason.value : this.allergyReason,
         purchaseDate: purchaseDate ?? this.purchaseDate,
         expireDate: expireDate.present ? expireDate.value : this.expireDate,
         notes: notes.present ? notes.value : this.notes,
@@ -2456,6 +2511,11 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
           data.remainingKg.present ? data.remainingKg.value : this.remainingKg,
       pricePerKg:
           data.pricePerKg.present ? data.pricePerKg.value : this.pricePerKg,
+      blacklisted:
+          data.blacklisted.present ? data.blacklisted.value : this.blacklisted,
+      allergyReason: data.allergyReason.present
+          ? data.allergyReason.value
+          : this.allergyReason,
       purchaseDate: data.purchaseDate.present
           ? data.purchaseDate.value
           : this.purchaseDate,
@@ -2477,6 +2537,8 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
           ..write('totalKg: $totalKg, ')
           ..write('remainingKg: $remainingKg, ')
           ..write('pricePerKg: $pricePerKg, ')
+          ..write('blacklisted: $blacklisted, ')
+          ..write('allergyReason: $allergyReason, ')
           ..write('purchaseDate: $purchaseDate, ')
           ..write('expireDate: $expireDate, ')
           ..write('notes: $notes')
@@ -2495,6 +2557,8 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
       totalKg,
       remainingKg,
       pricePerKg,
+      blacklisted,
+      allergyReason,
       purchaseDate,
       expireDate,
       notes);
@@ -2511,6 +2575,8 @@ class FoodInventory extends DataClass implements Insertable<FoodInventory> {
           other.totalKg == this.totalKg &&
           other.remainingKg == this.remainingKg &&
           other.pricePerKg == this.pricePerKg &&
+          other.blacklisted == this.blacklisted &&
+          other.allergyReason == this.allergyReason &&
           other.purchaseDate == this.purchaseDate &&
           other.expireDate == this.expireDate &&
           other.notes == this.notes);
@@ -2526,6 +2592,8 @@ class FoodItemsCompanion extends UpdateCompanion<FoodInventory> {
   final Value<double> totalKg;
   final Value<double> remainingKg;
   final Value<double?> pricePerKg;
+  final Value<bool> blacklisted;
+  final Value<String?> allergyReason;
   final Value<DateTime> purchaseDate;
   final Value<DateTime?> expireDate;
   final Value<String?> notes;
@@ -2539,6 +2607,8 @@ class FoodItemsCompanion extends UpdateCompanion<FoodInventory> {
     this.totalKg = const Value.absent(),
     this.remainingKg = const Value.absent(),
     this.pricePerKg = const Value.absent(),
+    this.blacklisted = const Value.absent(),
+    this.allergyReason = const Value.absent(),
     this.purchaseDate = const Value.absent(),
     this.expireDate = const Value.absent(),
     this.notes = const Value.absent(),
@@ -2553,6 +2623,8 @@ class FoodItemsCompanion extends UpdateCompanion<FoodInventory> {
     required double totalKg,
     required double remainingKg,
     this.pricePerKg = const Value.absent(),
+    this.blacklisted = const Value.absent(),
+    this.allergyReason = const Value.absent(),
     required DateTime purchaseDate,
     this.expireDate = const Value.absent(),
     this.notes = const Value.absent(),
@@ -2571,6 +2643,8 @@ class FoodItemsCompanion extends UpdateCompanion<FoodInventory> {
     Expression<double>? totalKg,
     Expression<double>? remainingKg,
     Expression<double>? pricePerKg,
+    Expression<bool>? blacklisted,
+    Expression<String>? allergyReason,
     Expression<DateTime>? purchaseDate,
     Expression<DateTime>? expireDate,
     Expression<String>? notes,
@@ -2585,6 +2659,8 @@ class FoodItemsCompanion extends UpdateCompanion<FoodInventory> {
       if (totalKg != null) 'total_kg': totalKg,
       if (remainingKg != null) 'remaining_kg': remainingKg,
       if (pricePerKg != null) 'price_per_kg': pricePerKg,
+      if (blacklisted != null) 'blacklisted': blacklisted,
+      if (allergyReason != null) 'allergy_reason': allergyReason,
       if (purchaseDate != null) 'purchase_date': purchaseDate,
       if (expireDate != null) 'expire_date': expireDate,
       if (notes != null) 'notes': notes,
@@ -2601,6 +2677,8 @@ class FoodItemsCompanion extends UpdateCompanion<FoodInventory> {
       Value<double>? totalKg,
       Value<double>? remainingKg,
       Value<double?>? pricePerKg,
+      Value<bool>? blacklisted,
+      Value<String?>? allergyReason,
       Value<DateTime>? purchaseDate,
       Value<DateTime?>? expireDate,
       Value<String?>? notes}) {
@@ -2614,6 +2692,8 @@ class FoodItemsCompanion extends UpdateCompanion<FoodInventory> {
       totalKg: totalKg ?? this.totalKg,
       remainingKg: remainingKg ?? this.remainingKg,
       pricePerKg: pricePerKg ?? this.pricePerKg,
+      blacklisted: blacklisted ?? this.blacklisted,
+      allergyReason: allergyReason ?? this.allergyReason,
       purchaseDate: purchaseDate ?? this.purchaseDate,
       expireDate: expireDate ?? this.expireDate,
       notes: notes ?? this.notes,
@@ -2650,6 +2730,12 @@ class FoodItemsCompanion extends UpdateCompanion<FoodInventory> {
     if (pricePerKg.present) {
       map['price_per_kg'] = Variable<double>(pricePerKg.value);
     }
+    if (blacklisted.present) {
+      map['blacklisted'] = Variable<bool>(blacklisted.value);
+    }
+    if (allergyReason.present) {
+      map['allergy_reason'] = Variable<String>(allergyReason.value);
+    }
     if (purchaseDate.present) {
       map['purchase_date'] = Variable<DateTime>(purchaseDate.value);
     }
@@ -2674,6 +2760,8 @@ class FoodItemsCompanion extends UpdateCompanion<FoodInventory> {
           ..write('totalKg: $totalKg, ')
           ..write('remainingKg: $remainingKg, ')
           ..write('pricePerKg: $pricePerKg, ')
+          ..write('blacklisted: $blacklisted, ')
+          ..write('allergyReason: $allergyReason, ')
           ..write('purchaseDate: $purchaseDate, ')
           ..write('expireDate: $expireDate, ')
           ..write('notes: $notes')
@@ -4190,6 +4278,543 @@ class TrainingLogsCompanion extends UpdateCompanion<TrainingLog> {
   }
 }
 
+class $TrainingPlansTable extends TrainingPlans
+    with TableInfo<$TrainingPlansTable, TrainingPlan> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TrainingPlansTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _petIdMeta = const VerificationMeta('petId');
+  @override
+  late final GeneratedColumn<int> petId = GeneratedColumn<int>(
+      'pet_id', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+      'title', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _commandMeta =
+      const VerificationMeta('command');
+  @override
+  late final GeneratedColumn<String> command = GeneratedColumn<String>(
+      'command', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _targetDaysMeta =
+      const VerificationMeta('targetDays');
+  @override
+  late final GeneratedColumn<int> targetDays = GeneratedColumn<int>(
+      'target_days', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _dailyMinutesMeta =
+      const VerificationMeta('dailyMinutes');
+  @override
+  late final GeneratedColumn<int> dailyMinutes = GeneratedColumn<int>(
+      'daily_minutes', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(10));
+  static const VerificationMeta _progressMeta =
+      const VerificationMeta('progress');
+  @override
+  late final GeneratedColumn<int> progress = GeneratedColumn<int>(
+      'progress', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  static const VerificationMeta _startDateMeta =
+      const VerificationMeta('startDate');
+  @override
+  late final GeneratedColumn<DateTime> startDate = GeneratedColumn<DateTime>(
+      'start_date', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _endDateMeta =
+      const VerificationMeta('endDate');
+  @override
+  late final GeneratedColumn<DateTime> endDate = GeneratedColumn<DateTime>(
+      'end_date', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _completedMeta =
+      const VerificationMeta('completed');
+  @override
+  late final GeneratedColumn<bool> completed = GeneratedColumn<bool>(
+      'completed', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("completed" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+      'notes', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        petId,
+        title,
+        command,
+        targetDays,
+        dailyMinutes,
+        progress,
+        startDate,
+        endDate,
+        completed,
+        notes
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'training_plans';
+  @override
+  VerificationContext validateIntegrity(Insertable<TrainingPlan> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('pet_id')) {
+      context.handle(
+          _petIdMeta, petId.isAcceptableOrUnknown(data['pet_id']!, _petIdMeta));
+    } else if (isInserting) {
+      context.missing(_petIdMeta);
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('command')) {
+      context.handle(_commandMeta,
+          command.isAcceptableOrUnknown(data['command']!, _commandMeta));
+    } else if (isInserting) {
+      context.missing(_commandMeta);
+    }
+    if (data.containsKey('target_days')) {
+      context.handle(
+          _targetDaysMeta,
+          targetDays.isAcceptableOrUnknown(
+              data['target_days']!, _targetDaysMeta));
+    } else if (isInserting) {
+      context.missing(_targetDaysMeta);
+    }
+    if (data.containsKey('daily_minutes')) {
+      context.handle(
+          _dailyMinutesMeta,
+          dailyMinutes.isAcceptableOrUnknown(
+              data['daily_minutes']!, _dailyMinutesMeta));
+    }
+    if (data.containsKey('progress')) {
+      context.handle(_progressMeta,
+          progress.isAcceptableOrUnknown(data['progress']!, _progressMeta));
+    }
+    if (data.containsKey('start_date')) {
+      context.handle(_startDateMeta,
+          startDate.isAcceptableOrUnknown(data['start_date']!, _startDateMeta));
+    } else if (isInserting) {
+      context.missing(_startDateMeta);
+    }
+    if (data.containsKey('end_date')) {
+      context.handle(_endDateMeta,
+          endDate.isAcceptableOrUnknown(data['end_date']!, _endDateMeta));
+    }
+    if (data.containsKey('completed')) {
+      context.handle(_completedMeta,
+          completed.isAcceptableOrUnknown(data['completed']!, _completedMeta));
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+          _notesMeta, notes.isAcceptableOrUnknown(data['notes']!, _notesMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TrainingPlan map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TrainingPlan(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      petId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}pet_id'])!,
+      title: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
+      command: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}command'])!,
+      targetDays: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}target_days'])!,
+      dailyMinutes: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}daily_minutes'])!,
+      progress: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}progress'])!,
+      startDate: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}start_date'])!,
+      endDate: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}end_date']),
+      completed: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}completed'])!,
+      notes: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}notes']),
+    );
+  }
+
+  @override
+  $TrainingPlansTable createAlias(String alias) {
+    return $TrainingPlansTable(attachedDatabase, alias);
+  }
+}
+
+class TrainingPlan extends DataClass implements Insertable<TrainingPlan> {
+  final int id;
+  final int petId;
+  final String title;
+  final String command;
+  final int targetDays;
+  final int dailyMinutes;
+  final int progress;
+  final DateTime startDate;
+  final DateTime? endDate;
+  final bool completed;
+  final String? notes;
+  const TrainingPlan(
+      {required this.id,
+      required this.petId,
+      required this.title,
+      required this.command,
+      required this.targetDays,
+      required this.dailyMinutes,
+      required this.progress,
+      required this.startDate,
+      this.endDate,
+      required this.completed,
+      this.notes});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['pet_id'] = Variable<int>(petId);
+    map['title'] = Variable<String>(title);
+    map['command'] = Variable<String>(command);
+    map['target_days'] = Variable<int>(targetDays);
+    map['daily_minutes'] = Variable<int>(dailyMinutes);
+    map['progress'] = Variable<int>(progress);
+    map['start_date'] = Variable<DateTime>(startDate);
+    if (!nullToAbsent || endDate != null) {
+      map['end_date'] = Variable<DateTime>(endDate);
+    }
+    map['completed'] = Variable<bool>(completed);
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    return map;
+  }
+
+  TrainingPlansCompanion toCompanion(bool nullToAbsent) {
+    return TrainingPlansCompanion(
+      id: Value(id),
+      petId: Value(petId),
+      title: Value(title),
+      command: Value(command),
+      targetDays: Value(targetDays),
+      dailyMinutes: Value(dailyMinutes),
+      progress: Value(progress),
+      startDate: Value(startDate),
+      endDate: endDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(endDate),
+      completed: Value(completed),
+      notes:
+          notes == null && nullToAbsent ? const Value.absent() : Value(notes),
+    );
+  }
+
+  factory TrainingPlan.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TrainingPlan(
+      id: serializer.fromJson<int>(json['id']),
+      petId: serializer.fromJson<int>(json['petId']),
+      title: serializer.fromJson<String>(json['title']),
+      command: serializer.fromJson<String>(json['command']),
+      targetDays: serializer.fromJson<int>(json['targetDays']),
+      dailyMinutes: serializer.fromJson<int>(json['dailyMinutes']),
+      progress: serializer.fromJson<int>(json['progress']),
+      startDate: serializer.fromJson<DateTime>(json['startDate']),
+      endDate: serializer.fromJson<DateTime?>(json['endDate']),
+      completed: serializer.fromJson<bool>(json['completed']),
+      notes: serializer.fromJson<String?>(json['notes']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'petId': serializer.toJson<int>(petId),
+      'title': serializer.toJson<String>(title),
+      'command': serializer.toJson<String>(command),
+      'targetDays': serializer.toJson<int>(targetDays),
+      'dailyMinutes': serializer.toJson<int>(dailyMinutes),
+      'progress': serializer.toJson<int>(progress),
+      'startDate': serializer.toJson<DateTime>(startDate),
+      'endDate': serializer.toJson<DateTime?>(endDate),
+      'completed': serializer.toJson<bool>(completed),
+      'notes': serializer.toJson<String?>(notes),
+    };
+  }
+
+  TrainingPlan copyWith(
+          {int? id,
+          int? petId,
+          String? title,
+          String? command,
+          int? targetDays,
+          int? dailyMinutes,
+          int? progress,
+          DateTime? startDate,
+          Value<DateTime?> endDate = const Value.absent(),
+          bool? completed,
+          Value<String?> notes = const Value.absent()}) =>
+      TrainingPlan(
+        id: id ?? this.id,
+        petId: petId ?? this.petId,
+        title: title ?? this.title,
+        command: command ?? this.command,
+        targetDays: targetDays ?? this.targetDays,
+        dailyMinutes: dailyMinutes ?? this.dailyMinutes,
+        progress: progress ?? this.progress,
+        startDate: startDate ?? this.startDate,
+        endDate: endDate.present ? endDate.value : this.endDate,
+        completed: completed ?? this.completed,
+        notes: notes.present ? notes.value : this.notes,
+      );
+  TrainingPlan copyWithCompanion(TrainingPlansCompanion data) {
+    return TrainingPlan(
+      id: data.id.present ? data.id.value : this.id,
+      petId: data.petId.present ? data.petId.value : this.petId,
+      title: data.title.present ? data.title.value : this.title,
+      command: data.command.present ? data.command.value : this.command,
+      targetDays:
+          data.targetDays.present ? data.targetDays.value : this.targetDays,
+      dailyMinutes: data.dailyMinutes.present
+          ? data.dailyMinutes.value
+          : this.dailyMinutes,
+      progress: data.progress.present ? data.progress.value : this.progress,
+      startDate: data.startDate.present ? data.startDate.value : this.startDate,
+      endDate: data.endDate.present ? data.endDate.value : this.endDate,
+      completed: data.completed.present ? data.completed.value : this.completed,
+      notes: data.notes.present ? data.notes.value : this.notes,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TrainingPlan(')
+          ..write('id: $id, ')
+          ..write('petId: $petId, ')
+          ..write('title: $title, ')
+          ..write('command: $command, ')
+          ..write('targetDays: $targetDays, ')
+          ..write('dailyMinutes: $dailyMinutes, ')
+          ..write('progress: $progress, ')
+          ..write('startDate: $startDate, ')
+          ..write('endDate: $endDate, ')
+          ..write('completed: $completed, ')
+          ..write('notes: $notes')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, petId, title, command, targetDays,
+      dailyMinutes, progress, startDate, endDate, completed, notes);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TrainingPlan &&
+          other.id == this.id &&
+          other.petId == this.petId &&
+          other.title == this.title &&
+          other.command == this.command &&
+          other.targetDays == this.targetDays &&
+          other.dailyMinutes == this.dailyMinutes &&
+          other.progress == this.progress &&
+          other.startDate == this.startDate &&
+          other.endDate == this.endDate &&
+          other.completed == this.completed &&
+          other.notes == this.notes);
+}
+
+class TrainingPlansCompanion extends UpdateCompanion<TrainingPlan> {
+  final Value<int> id;
+  final Value<int> petId;
+  final Value<String> title;
+  final Value<String> command;
+  final Value<int> targetDays;
+  final Value<int> dailyMinutes;
+  final Value<int> progress;
+  final Value<DateTime> startDate;
+  final Value<DateTime?> endDate;
+  final Value<bool> completed;
+  final Value<String?> notes;
+  const TrainingPlansCompanion({
+    this.id = const Value.absent(),
+    this.petId = const Value.absent(),
+    this.title = const Value.absent(),
+    this.command = const Value.absent(),
+    this.targetDays = const Value.absent(),
+    this.dailyMinutes = const Value.absent(),
+    this.progress = const Value.absent(),
+    this.startDate = const Value.absent(),
+    this.endDate = const Value.absent(),
+    this.completed = const Value.absent(),
+    this.notes = const Value.absent(),
+  });
+  TrainingPlansCompanion.insert({
+    this.id = const Value.absent(),
+    required int petId,
+    required String title,
+    required String command,
+    required int targetDays,
+    this.dailyMinutes = const Value.absent(),
+    this.progress = const Value.absent(),
+    required DateTime startDate,
+    this.endDate = const Value.absent(),
+    this.completed = const Value.absent(),
+    this.notes = const Value.absent(),
+  })  : petId = Value(petId),
+        title = Value(title),
+        command = Value(command),
+        targetDays = Value(targetDays),
+        startDate = Value(startDate);
+  static Insertable<TrainingPlan> custom({
+    Expression<int>? id,
+    Expression<int>? petId,
+    Expression<String>? title,
+    Expression<String>? command,
+    Expression<int>? targetDays,
+    Expression<int>? dailyMinutes,
+    Expression<int>? progress,
+    Expression<DateTime>? startDate,
+    Expression<DateTime>? endDate,
+    Expression<bool>? completed,
+    Expression<String>? notes,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (petId != null) 'pet_id': petId,
+      if (title != null) 'title': title,
+      if (command != null) 'command': command,
+      if (targetDays != null) 'target_days': targetDays,
+      if (dailyMinutes != null) 'daily_minutes': dailyMinutes,
+      if (progress != null) 'progress': progress,
+      if (startDate != null) 'start_date': startDate,
+      if (endDate != null) 'end_date': endDate,
+      if (completed != null) 'completed': completed,
+      if (notes != null) 'notes': notes,
+    });
+  }
+
+  TrainingPlansCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? petId,
+      Value<String>? title,
+      Value<String>? command,
+      Value<int>? targetDays,
+      Value<int>? dailyMinutes,
+      Value<int>? progress,
+      Value<DateTime>? startDate,
+      Value<DateTime?>? endDate,
+      Value<bool>? completed,
+      Value<String?>? notes}) {
+    return TrainingPlansCompanion(
+      id: id ?? this.id,
+      petId: petId ?? this.petId,
+      title: title ?? this.title,
+      command: command ?? this.command,
+      targetDays: targetDays ?? this.targetDays,
+      dailyMinutes: dailyMinutes ?? this.dailyMinutes,
+      progress: progress ?? this.progress,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      completed: completed ?? this.completed,
+      notes: notes ?? this.notes,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (petId.present) {
+      map['pet_id'] = Variable<int>(petId.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (command.present) {
+      map['command'] = Variable<String>(command.value);
+    }
+    if (targetDays.present) {
+      map['target_days'] = Variable<int>(targetDays.value);
+    }
+    if (dailyMinutes.present) {
+      map['daily_minutes'] = Variable<int>(dailyMinutes.value);
+    }
+    if (progress.present) {
+      map['progress'] = Variable<int>(progress.value);
+    }
+    if (startDate.present) {
+      map['start_date'] = Variable<DateTime>(startDate.value);
+    }
+    if (endDate.present) {
+      map['end_date'] = Variable<DateTime>(endDate.value);
+    }
+    if (completed.present) {
+      map['completed'] = Variable<bool>(completed.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TrainingPlansCompanion(')
+          ..write('id: $id, ')
+          ..write('petId: $petId, ')
+          ..write('title: $title, ')
+          ..write('command: $command, ')
+          ..write('targetDays: $targetDays, ')
+          ..write('dailyMinutes: $dailyMinutes, ')
+          ..write('progress: $progress, ')
+          ..write('startDate: $startDate, ')
+          ..write('endDate: $endDate, ')
+          ..write('completed: $completed, ')
+          ..write('notes: $notes')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $SettingsTable extends Settings with TableInfo<$SettingsTable, Setting> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -5002,6 +5627,1824 @@ class ContactsCompanion extends UpdateCompanion<Contact> {
   }
 }
 
+class $FavoritePlacesTable extends FavoritePlaces
+    with TableInfo<$FavoritePlacesTable, FavoritePlace> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $FavoritePlacesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _categoryMeta =
+      const VerificationMeta('category');
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+      'category', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _addressMeta =
+      const VerificationMeta('address');
+  @override
+  late final GeneratedColumn<String> address = GeneratedColumn<String>(
+      'address', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _phoneMeta = const VerificationMeta('phone');
+  @override
+  late final GeneratedColumn<String> phone = GeneratedColumn<String>(
+      'phone', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _latitudeMeta =
+      const VerificationMeta('latitude');
+  @override
+  late final GeneratedColumn<double> latitude = GeneratedColumn<double>(
+      'latitude', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _longitudeMeta =
+      const VerificationMeta('longitude');
+  @override
+  late final GeneratedColumn<double> longitude = GeneratedColumn<double>(
+      'longitude', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _amapIdMeta = const VerificationMeta('amapId');
+  @override
+  late final GeneratedColumn<String> amapId = GeneratedColumn<String>(
+      'amap_id', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _visitCountMeta =
+      const VerificationMeta('visitCount');
+  @override
+  late final GeneratedColumn<int> visitCount = GeneratedColumn<int>(
+      'visit_count', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  static const VerificationMeta _lastVisitedAtMeta =
+      const VerificationMeta('lastVisitedAt');
+  @override
+  late final GeneratedColumn<DateTime> lastVisitedAt =
+      GeneratedColumn<DateTime>('last_visited_at', aliasedName, true,
+          type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: currentDateAndTime);
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+      'notes', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        name,
+        category,
+        address,
+        phone,
+        latitude,
+        longitude,
+        amapId,
+        visitCount,
+        lastVisitedAt,
+        createdAt,
+        notes
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'favorite_places';
+  @override
+  VerificationContext validateIntegrity(Insertable<FavoritePlace> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('category')) {
+      context.handle(_categoryMeta,
+          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
+    } else if (isInserting) {
+      context.missing(_categoryMeta);
+    }
+    if (data.containsKey('address')) {
+      context.handle(_addressMeta,
+          address.isAcceptableOrUnknown(data['address']!, _addressMeta));
+    }
+    if (data.containsKey('phone')) {
+      context.handle(
+          _phoneMeta, phone.isAcceptableOrUnknown(data['phone']!, _phoneMeta));
+    }
+    if (data.containsKey('latitude')) {
+      context.handle(_latitudeMeta,
+          latitude.isAcceptableOrUnknown(data['latitude']!, _latitudeMeta));
+    }
+    if (data.containsKey('longitude')) {
+      context.handle(_longitudeMeta,
+          longitude.isAcceptableOrUnknown(data['longitude']!, _longitudeMeta));
+    }
+    if (data.containsKey('amap_id')) {
+      context.handle(_amapIdMeta,
+          amapId.isAcceptableOrUnknown(data['amap_id']!, _amapIdMeta));
+    }
+    if (data.containsKey('visit_count')) {
+      context.handle(
+          _visitCountMeta,
+          visitCount.isAcceptableOrUnknown(
+              data['visit_count']!, _visitCountMeta));
+    }
+    if (data.containsKey('last_visited_at')) {
+      context.handle(
+          _lastVisitedAtMeta,
+          lastVisitedAt.isAcceptableOrUnknown(
+              data['last_visited_at']!, _lastVisitedAtMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+          _notesMeta, notes.isAcceptableOrUnknown(data['notes']!, _notesMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  FavoritePlace map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return FavoritePlace(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      category: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}category'])!,
+      address: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}address']),
+      phone: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}phone']),
+      latitude: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}latitude']),
+      longitude: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}longitude']),
+      amapId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}amap_id']),
+      visitCount: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}visit_count'])!,
+      lastVisitedAt: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}last_visited_at']),
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      notes: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}notes']),
+    );
+  }
+
+  @override
+  $FavoritePlacesTable createAlias(String alias) {
+    return $FavoritePlacesTable(attachedDatabase, alias);
+  }
+}
+
+class FavoritePlace extends DataClass implements Insertable<FavoritePlace> {
+  final int id;
+  final String name;
+  final String category;
+  final String? address;
+  final String? phone;
+  final double? latitude;
+  final double? longitude;
+  final String? amapId;
+  final int visitCount;
+  final DateTime? lastVisitedAt;
+  final DateTime createdAt;
+  final String? notes;
+  const FavoritePlace(
+      {required this.id,
+      required this.name,
+      required this.category,
+      this.address,
+      this.phone,
+      this.latitude,
+      this.longitude,
+      this.amapId,
+      required this.visitCount,
+      this.lastVisitedAt,
+      required this.createdAt,
+      this.notes});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    map['category'] = Variable<String>(category);
+    if (!nullToAbsent || address != null) {
+      map['address'] = Variable<String>(address);
+    }
+    if (!nullToAbsent || phone != null) {
+      map['phone'] = Variable<String>(phone);
+    }
+    if (!nullToAbsent || latitude != null) {
+      map['latitude'] = Variable<double>(latitude);
+    }
+    if (!nullToAbsent || longitude != null) {
+      map['longitude'] = Variable<double>(longitude);
+    }
+    if (!nullToAbsent || amapId != null) {
+      map['amap_id'] = Variable<String>(amapId);
+    }
+    map['visit_count'] = Variable<int>(visitCount);
+    if (!nullToAbsent || lastVisitedAt != null) {
+      map['last_visited_at'] = Variable<DateTime>(lastVisitedAt);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    return map;
+  }
+
+  FavoritePlacesCompanion toCompanion(bool nullToAbsent) {
+    return FavoritePlacesCompanion(
+      id: Value(id),
+      name: Value(name),
+      category: Value(category),
+      address: address == null && nullToAbsent
+          ? const Value.absent()
+          : Value(address),
+      phone:
+          phone == null && nullToAbsent ? const Value.absent() : Value(phone),
+      latitude: latitude == null && nullToAbsent
+          ? const Value.absent()
+          : Value(latitude),
+      longitude: longitude == null && nullToAbsent
+          ? const Value.absent()
+          : Value(longitude),
+      amapId:
+          amapId == null && nullToAbsent ? const Value.absent() : Value(amapId),
+      visitCount: Value(visitCount),
+      lastVisitedAt: lastVisitedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastVisitedAt),
+      createdAt: Value(createdAt),
+      notes:
+          notes == null && nullToAbsent ? const Value.absent() : Value(notes),
+    );
+  }
+
+  factory FavoritePlace.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return FavoritePlace(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      category: serializer.fromJson<String>(json['category']),
+      address: serializer.fromJson<String?>(json['address']),
+      phone: serializer.fromJson<String?>(json['phone']),
+      latitude: serializer.fromJson<double?>(json['latitude']),
+      longitude: serializer.fromJson<double?>(json['longitude']),
+      amapId: serializer.fromJson<String?>(json['amapId']),
+      visitCount: serializer.fromJson<int>(json['visitCount']),
+      lastVisitedAt: serializer.fromJson<DateTime?>(json['lastVisitedAt']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      notes: serializer.fromJson<String?>(json['notes']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'category': serializer.toJson<String>(category),
+      'address': serializer.toJson<String?>(address),
+      'phone': serializer.toJson<String?>(phone),
+      'latitude': serializer.toJson<double?>(latitude),
+      'longitude': serializer.toJson<double?>(longitude),
+      'amapId': serializer.toJson<String?>(amapId),
+      'visitCount': serializer.toJson<int>(visitCount),
+      'lastVisitedAt': serializer.toJson<DateTime?>(lastVisitedAt),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'notes': serializer.toJson<String?>(notes),
+    };
+  }
+
+  FavoritePlace copyWith(
+          {int? id,
+          String? name,
+          String? category,
+          Value<String?> address = const Value.absent(),
+          Value<String?> phone = const Value.absent(),
+          Value<double?> latitude = const Value.absent(),
+          Value<double?> longitude = const Value.absent(),
+          Value<String?> amapId = const Value.absent(),
+          int? visitCount,
+          Value<DateTime?> lastVisitedAt = const Value.absent(),
+          DateTime? createdAt,
+          Value<String?> notes = const Value.absent()}) =>
+      FavoritePlace(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        category: category ?? this.category,
+        address: address.present ? address.value : this.address,
+        phone: phone.present ? phone.value : this.phone,
+        latitude: latitude.present ? latitude.value : this.latitude,
+        longitude: longitude.present ? longitude.value : this.longitude,
+        amapId: amapId.present ? amapId.value : this.amapId,
+        visitCount: visitCount ?? this.visitCount,
+        lastVisitedAt:
+            lastVisitedAt.present ? lastVisitedAt.value : this.lastVisitedAt,
+        createdAt: createdAt ?? this.createdAt,
+        notes: notes.present ? notes.value : this.notes,
+      );
+  FavoritePlace copyWithCompanion(FavoritePlacesCompanion data) {
+    return FavoritePlace(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      category: data.category.present ? data.category.value : this.category,
+      address: data.address.present ? data.address.value : this.address,
+      phone: data.phone.present ? data.phone.value : this.phone,
+      latitude: data.latitude.present ? data.latitude.value : this.latitude,
+      longitude: data.longitude.present ? data.longitude.value : this.longitude,
+      amapId: data.amapId.present ? data.amapId.value : this.amapId,
+      visitCount:
+          data.visitCount.present ? data.visitCount.value : this.visitCount,
+      lastVisitedAt: data.lastVisitedAt.present
+          ? data.lastVisitedAt.value
+          : this.lastVisitedAt,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      notes: data.notes.present ? data.notes.value : this.notes,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FavoritePlace(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('category: $category, ')
+          ..write('address: $address, ')
+          ..write('phone: $phone, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude, ')
+          ..write('amapId: $amapId, ')
+          ..write('visitCount: $visitCount, ')
+          ..write('lastVisitedAt: $lastVisitedAt, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('notes: $notes')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, category, address, phone, latitude,
+      longitude, amapId, visitCount, lastVisitedAt, createdAt, notes);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is FavoritePlace &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.category == this.category &&
+          other.address == this.address &&
+          other.phone == this.phone &&
+          other.latitude == this.latitude &&
+          other.longitude == this.longitude &&
+          other.amapId == this.amapId &&
+          other.visitCount == this.visitCount &&
+          other.lastVisitedAt == this.lastVisitedAt &&
+          other.createdAt == this.createdAt &&
+          other.notes == this.notes);
+}
+
+class FavoritePlacesCompanion extends UpdateCompanion<FavoritePlace> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<String> category;
+  final Value<String?> address;
+  final Value<String?> phone;
+  final Value<double?> latitude;
+  final Value<double?> longitude;
+  final Value<String?> amapId;
+  final Value<int> visitCount;
+  final Value<DateTime?> lastVisitedAt;
+  final Value<DateTime> createdAt;
+  final Value<String?> notes;
+  const FavoritePlacesCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.category = const Value.absent(),
+    this.address = const Value.absent(),
+    this.phone = const Value.absent(),
+    this.latitude = const Value.absent(),
+    this.longitude = const Value.absent(),
+    this.amapId = const Value.absent(),
+    this.visitCount = const Value.absent(),
+    this.lastVisitedAt = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.notes = const Value.absent(),
+  });
+  FavoritePlacesCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    required String category,
+    this.address = const Value.absent(),
+    this.phone = const Value.absent(),
+    this.latitude = const Value.absent(),
+    this.longitude = const Value.absent(),
+    this.amapId = const Value.absent(),
+    this.visitCount = const Value.absent(),
+    this.lastVisitedAt = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.notes = const Value.absent(),
+  })  : name = Value(name),
+        category = Value(category);
+  static Insertable<FavoritePlace> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<String>? category,
+    Expression<String>? address,
+    Expression<String>? phone,
+    Expression<double>? latitude,
+    Expression<double>? longitude,
+    Expression<String>? amapId,
+    Expression<int>? visitCount,
+    Expression<DateTime>? lastVisitedAt,
+    Expression<DateTime>? createdAt,
+    Expression<String>? notes,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (category != null) 'category': category,
+      if (address != null) 'address': address,
+      if (phone != null) 'phone': phone,
+      if (latitude != null) 'latitude': latitude,
+      if (longitude != null) 'longitude': longitude,
+      if (amapId != null) 'amap_id': amapId,
+      if (visitCount != null) 'visit_count': visitCount,
+      if (lastVisitedAt != null) 'last_visited_at': lastVisitedAt,
+      if (createdAt != null) 'created_at': createdAt,
+      if (notes != null) 'notes': notes,
+    });
+  }
+
+  FavoritePlacesCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? name,
+      Value<String>? category,
+      Value<String?>? address,
+      Value<String?>? phone,
+      Value<double?>? latitude,
+      Value<double?>? longitude,
+      Value<String?>? amapId,
+      Value<int>? visitCount,
+      Value<DateTime?>? lastVisitedAt,
+      Value<DateTime>? createdAt,
+      Value<String?>? notes}) {
+    return FavoritePlacesCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      category: category ?? this.category,
+      address: address ?? this.address,
+      phone: phone ?? this.phone,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      amapId: amapId ?? this.amapId,
+      visitCount: visitCount ?? this.visitCount,
+      lastVisitedAt: lastVisitedAt ?? this.lastVisitedAt,
+      createdAt: createdAt ?? this.createdAt,
+      notes: notes ?? this.notes,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (address.present) {
+      map['address'] = Variable<String>(address.value);
+    }
+    if (phone.present) {
+      map['phone'] = Variable<String>(phone.value);
+    }
+    if (latitude.present) {
+      map['latitude'] = Variable<double>(latitude.value);
+    }
+    if (longitude.present) {
+      map['longitude'] = Variable<double>(longitude.value);
+    }
+    if (amapId.present) {
+      map['amap_id'] = Variable<String>(amapId.value);
+    }
+    if (visitCount.present) {
+      map['visit_count'] = Variable<int>(visitCount.value);
+    }
+    if (lastVisitedAt.present) {
+      map['last_visited_at'] = Variable<DateTime>(lastVisitedAt.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FavoritePlacesCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('category: $category, ')
+          ..write('address: $address, ')
+          ..write('phone: $phone, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude, ')
+          ..write('amapId: $amapId, ')
+          ..write('visitCount: $visitCount, ')
+          ..write('lastVisitedAt: $lastVisitedAt, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('notes: $notes')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $UserPreferencesTable extends UserPreferences
+    with TableInfo<$UserPreferencesTable, UserPreference> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UserPreferencesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _keyMeta = const VerificationMeta('key');
+  @override
+  late final GeneratedColumn<String> key = GeneratedColumn<String>(
+      'key', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _valueMeta = const VerificationMeta('value');
+  @override
+  late final GeneratedColumn<String> value = GeneratedColumn<String>(
+      'value', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [key, value];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'user_preferences';
+  @override
+  VerificationContext validateIntegrity(Insertable<UserPreference> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('key')) {
+      context.handle(
+          _keyMeta, key.isAcceptableOrUnknown(data['key']!, _keyMeta));
+    } else if (isInserting) {
+      context.missing(_keyMeta);
+    }
+    if (data.containsKey('value')) {
+      context.handle(
+          _valueMeta, value.isAcceptableOrUnknown(data['value']!, _valueMeta));
+    } else if (isInserting) {
+      context.missing(_valueMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {key};
+  @override
+  UserPreference map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return UserPreference(
+      key: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}key'])!,
+      value: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}value'])!,
+    );
+  }
+
+  @override
+  $UserPreferencesTable createAlias(String alias) {
+    return $UserPreferencesTable(attachedDatabase, alias);
+  }
+}
+
+class UserPreference extends DataClass implements Insertable<UserPreference> {
+  final String key;
+  final String value;
+  const UserPreference({required this.key, required this.value});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['key'] = Variable<String>(key);
+    map['value'] = Variable<String>(value);
+    return map;
+  }
+
+  UserPreferencesCompanion toCompanion(bool nullToAbsent) {
+    return UserPreferencesCompanion(
+      key: Value(key),
+      value: Value(value),
+    );
+  }
+
+  factory UserPreference.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UserPreference(
+      key: serializer.fromJson<String>(json['key']),
+      value: serializer.fromJson<String>(json['value']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'key': serializer.toJson<String>(key),
+      'value': serializer.toJson<String>(value),
+    };
+  }
+
+  UserPreference copyWith({String? key, String? value}) => UserPreference(
+        key: key ?? this.key,
+        value: value ?? this.value,
+      );
+  UserPreference copyWithCompanion(UserPreferencesCompanion data) {
+    return UserPreference(
+      key: data.key.present ? data.key.value : this.key,
+      value: data.value.present ? data.value.value : this.value,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserPreference(')
+          ..write('key: $key, ')
+          ..write('value: $value')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(key, value);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UserPreference &&
+          other.key == this.key &&
+          other.value == this.value);
+}
+
+class UserPreferencesCompanion extends UpdateCompanion<UserPreference> {
+  final Value<String> key;
+  final Value<String> value;
+  final Value<int> rowid;
+  const UserPreferencesCompanion({
+    this.key = const Value.absent(),
+    this.value = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  UserPreferencesCompanion.insert({
+    required String key,
+    required String value,
+    this.rowid = const Value.absent(),
+  })  : key = Value(key),
+        value = Value(value);
+  static Insertable<UserPreference> custom({
+    Expression<String>? key,
+    Expression<String>? value,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (key != null) 'key': key,
+      if (value != null) 'value': value,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  UserPreferencesCompanion copyWith(
+      {Value<String>? key, Value<String>? value, Value<int>? rowid}) {
+    return UserPreferencesCompanion(
+      key: key ?? this.key,
+      value: value ?? this.value,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (key.present) {
+      map['key'] = Variable<String>(key.value);
+    }
+    if (value.present) {
+      map['value'] = Variable<String>(value.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserPreferencesCompanion(')
+          ..write('key: $key, ')
+          ..write('value: $value, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ExportSettingsTable extends ExportSettings
+    with TableInfo<$ExportSettingsTable, ExportSetting> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ExportSettingsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _pinHashMeta =
+      const VerificationMeta('pinHash');
+  @override
+  late final GeneratedColumn<String> pinHash = GeneratedColumn<String>(
+      'pin_hash', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _saltMeta = const VerificationMeta('salt');
+  @override
+  late final GeneratedColumn<String> salt = GeneratedColumn<String>(
+      'salt', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _enabledMeta =
+      const VerificationMeta('enabled');
+  @override
+  late final GeneratedColumn<bool> enabled = GeneratedColumn<bool>(
+      'enabled', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("enabled" IN (0, 1))'),
+      defaultValue: const Constant(true));
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: currentDateAndTime);
+  @override
+  List<GeneratedColumn> get $columns => [id, pinHash, salt, enabled, createdAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'export_settings';
+  @override
+  VerificationContext validateIntegrity(Insertable<ExportSetting> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('pin_hash')) {
+      context.handle(_pinHashMeta,
+          pinHash.isAcceptableOrUnknown(data['pin_hash']!, _pinHashMeta));
+    } else if (isInserting) {
+      context.missing(_pinHashMeta);
+    }
+    if (data.containsKey('salt')) {
+      context.handle(
+          _saltMeta, salt.isAcceptableOrUnknown(data['salt']!, _saltMeta));
+    } else if (isInserting) {
+      context.missing(_saltMeta);
+    }
+    if (data.containsKey('enabled')) {
+      context.handle(_enabledMeta,
+          enabled.isAcceptableOrUnknown(data['enabled']!, _enabledMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ExportSetting map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ExportSetting(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      pinHash: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}pin_hash'])!,
+      salt: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}salt'])!,
+      enabled: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}enabled'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+    );
+  }
+
+  @override
+  $ExportSettingsTable createAlias(String alias) {
+    return $ExportSettingsTable(attachedDatabase, alias);
+  }
+}
+
+class ExportSetting extends DataClass implements Insertable<ExportSetting> {
+  final int id;
+  final String pinHash;
+  final String salt;
+  final bool enabled;
+  final DateTime createdAt;
+  const ExportSetting(
+      {required this.id,
+      required this.pinHash,
+      required this.salt,
+      required this.enabled,
+      required this.createdAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['pin_hash'] = Variable<String>(pinHash);
+    map['salt'] = Variable<String>(salt);
+    map['enabled'] = Variable<bool>(enabled);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  ExportSettingsCompanion toCompanion(bool nullToAbsent) {
+    return ExportSettingsCompanion(
+      id: Value(id),
+      pinHash: Value(pinHash),
+      salt: Value(salt),
+      enabled: Value(enabled),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory ExportSetting.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ExportSetting(
+      id: serializer.fromJson<int>(json['id']),
+      pinHash: serializer.fromJson<String>(json['pinHash']),
+      salt: serializer.fromJson<String>(json['salt']),
+      enabled: serializer.fromJson<bool>(json['enabled']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'pinHash': serializer.toJson<String>(pinHash),
+      'salt': serializer.toJson<String>(salt),
+      'enabled': serializer.toJson<bool>(enabled),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  ExportSetting copyWith(
+          {int? id,
+          String? pinHash,
+          String? salt,
+          bool? enabled,
+          DateTime? createdAt}) =>
+      ExportSetting(
+        id: id ?? this.id,
+        pinHash: pinHash ?? this.pinHash,
+        salt: salt ?? this.salt,
+        enabled: enabled ?? this.enabled,
+        createdAt: createdAt ?? this.createdAt,
+      );
+  ExportSetting copyWithCompanion(ExportSettingsCompanion data) {
+    return ExportSetting(
+      id: data.id.present ? data.id.value : this.id,
+      pinHash: data.pinHash.present ? data.pinHash.value : this.pinHash,
+      salt: data.salt.present ? data.salt.value : this.salt,
+      enabled: data.enabled.present ? data.enabled.value : this.enabled,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ExportSetting(')
+          ..write('id: $id, ')
+          ..write('pinHash: $pinHash, ')
+          ..write('salt: $salt, ')
+          ..write('enabled: $enabled, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, pinHash, salt, enabled, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ExportSetting &&
+          other.id == this.id &&
+          other.pinHash == this.pinHash &&
+          other.salt == this.salt &&
+          other.enabled == this.enabled &&
+          other.createdAt == this.createdAt);
+}
+
+class ExportSettingsCompanion extends UpdateCompanion<ExportSetting> {
+  final Value<int> id;
+  final Value<String> pinHash;
+  final Value<String> salt;
+  final Value<bool> enabled;
+  final Value<DateTime> createdAt;
+  const ExportSettingsCompanion({
+    this.id = const Value.absent(),
+    this.pinHash = const Value.absent(),
+    this.salt = const Value.absent(),
+    this.enabled = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  ExportSettingsCompanion.insert({
+    this.id = const Value.absent(),
+    required String pinHash,
+    required String salt,
+    this.enabled = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  })  : pinHash = Value(pinHash),
+        salt = Value(salt);
+  static Insertable<ExportSetting> custom({
+    Expression<int>? id,
+    Expression<String>? pinHash,
+    Expression<String>? salt,
+    Expression<bool>? enabled,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (pinHash != null) 'pin_hash': pinHash,
+      if (salt != null) 'salt': salt,
+      if (enabled != null) 'enabled': enabled,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  ExportSettingsCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? pinHash,
+      Value<String>? salt,
+      Value<bool>? enabled,
+      Value<DateTime>? createdAt}) {
+    return ExportSettingsCompanion(
+      id: id ?? this.id,
+      pinHash: pinHash ?? this.pinHash,
+      salt: salt ?? this.salt,
+      enabled: enabled ?? this.enabled,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (pinHash.present) {
+      map['pin_hash'] = Variable<String>(pinHash.value);
+    }
+    if (salt.present) {
+      map['salt'] = Variable<String>(salt.value);
+    }
+    if (enabled.present) {
+      map['enabled'] = Variable<bool>(enabled.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ExportSettingsCompanion(')
+          ..write('id: $id, ')
+          ..write('pinHash: $pinHash, ')
+          ..write('salt: $salt, ')
+          ..write('enabled: $enabled, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $PoiCacheTable extends PoiCache
+    with TableInfo<$PoiCacheTable, PoiCacheEntry> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PoiCacheTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _amapIdMeta = const VerificationMeta('amapId');
+  @override
+  late final GeneratedColumn<String> amapId = GeneratedColumn<String>(
+      'amap_id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _categoryMeta =
+      const VerificationMeta('category');
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+      'category', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _addressMeta =
+      const VerificationMeta('address');
+  @override
+  late final GeneratedColumn<String> address = GeneratedColumn<String>(
+      'address', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _phoneMeta = const VerificationMeta('phone');
+  @override
+  late final GeneratedColumn<String> phone = GeneratedColumn<String>(
+      'phone', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _latitudeMeta =
+      const VerificationMeta('latitude');
+  @override
+  late final GeneratedColumn<double> latitude = GeneratedColumn<double>(
+      'latitude', aliasedName, false,
+      type: DriftSqlType.double, requiredDuringInsert: true);
+  static const VerificationMeta _longitudeMeta =
+      const VerificationMeta('longitude');
+  @override
+  late final GeneratedColumn<double> longitude = GeneratedColumn<double>(
+      'longitude', aliasedName, false,
+      type: DriftSqlType.double, requiredDuringInsert: true);
+  static const VerificationMeta _cityMeta = const VerificationMeta('city');
+  @override
+  late final GeneratedColumn<String> city = GeneratedColumn<String>(
+      'city', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _sourceMeta = const VerificationMeta('source');
+  @override
+  late final GeneratedColumn<String> source = GeneratedColumn<String>(
+      'source', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: const Constant('cloud'));
+  static const VerificationMeta _cloudVersionMeta =
+      const VerificationMeta('cloudVersion');
+  @override
+  late final GeneratedColumn<int> cloudVersion = GeneratedColumn<int>(
+      'cloud_version', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  static const VerificationMeta _cloudSyncedAtMeta =
+      const VerificationMeta('cloudSyncedAt');
+  @override
+  late final GeneratedColumn<DateTime> cloudSyncedAt =
+      GeneratedColumn<DateTime>('cloud_synced_at', aliasedName, true,
+          type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _localUpdatedAtMeta =
+      const VerificationMeta('localUpdatedAt');
+  @override
+  late final GeneratedColumn<DateTime> localUpdatedAt =
+      GeneratedColumn<DateTime>('local_updated_at', aliasedName, false,
+          type: DriftSqlType.dateTime,
+          requiredDuringInsert: false,
+          defaultValue: currentDateAndTime);
+  static const VerificationMeta _submittedByMeta =
+      const VerificationMeta('submittedBy');
+  @override
+  late final GeneratedColumn<String> submittedBy = GeneratedColumn<String>(
+      'submitted_by', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _activeMeta = const VerificationMeta('active');
+  @override
+  late final GeneratedColumn<bool> active = GeneratedColumn<bool>(
+      'active', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("active" IN (0, 1))'),
+      defaultValue: const Constant(true));
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        amapId,
+        name,
+        category,
+        address,
+        phone,
+        description,
+        latitude,
+        longitude,
+        city,
+        source,
+        cloudVersion,
+        cloudSyncedAt,
+        localUpdatedAt,
+        submittedBy,
+        active
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'poi_cache';
+  @override
+  VerificationContext validateIntegrity(Insertable<PoiCacheEntry> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('amap_id')) {
+      context.handle(_amapIdMeta,
+          amapId.isAcceptableOrUnknown(data['amap_id']!, _amapIdMeta));
+    } else if (isInserting) {
+      context.missing(_amapIdMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('category')) {
+      context.handle(_categoryMeta,
+          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
+    } else if (isInserting) {
+      context.missing(_categoryMeta);
+    }
+    if (data.containsKey('address')) {
+      context.handle(_addressMeta,
+          address.isAcceptableOrUnknown(data['address']!, _addressMeta));
+    }
+    if (data.containsKey('phone')) {
+      context.handle(
+          _phoneMeta, phone.isAcceptableOrUnknown(data['phone']!, _phoneMeta));
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
+    if (data.containsKey('latitude')) {
+      context.handle(_latitudeMeta,
+          latitude.isAcceptableOrUnknown(data['latitude']!, _latitudeMeta));
+    } else if (isInserting) {
+      context.missing(_latitudeMeta);
+    }
+    if (data.containsKey('longitude')) {
+      context.handle(_longitudeMeta,
+          longitude.isAcceptableOrUnknown(data['longitude']!, _longitudeMeta));
+    } else if (isInserting) {
+      context.missing(_longitudeMeta);
+    }
+    if (data.containsKey('city')) {
+      context.handle(
+          _cityMeta, city.isAcceptableOrUnknown(data['city']!, _cityMeta));
+    }
+    if (data.containsKey('source')) {
+      context.handle(_sourceMeta,
+          source.isAcceptableOrUnknown(data['source']!, _sourceMeta));
+    }
+    if (data.containsKey('cloud_version')) {
+      context.handle(
+          _cloudVersionMeta,
+          cloudVersion.isAcceptableOrUnknown(
+              data['cloud_version']!, _cloudVersionMeta));
+    }
+    if (data.containsKey('cloud_synced_at')) {
+      context.handle(
+          _cloudSyncedAtMeta,
+          cloudSyncedAt.isAcceptableOrUnknown(
+              data['cloud_synced_at']!, _cloudSyncedAtMeta));
+    }
+    if (data.containsKey('local_updated_at')) {
+      context.handle(
+          _localUpdatedAtMeta,
+          localUpdatedAt.isAcceptableOrUnknown(
+              data['local_updated_at']!, _localUpdatedAtMeta));
+    }
+    if (data.containsKey('submitted_by')) {
+      context.handle(
+          _submittedByMeta,
+          submittedBy.isAcceptableOrUnknown(
+              data['submitted_by']!, _submittedByMeta));
+    }
+    if (data.containsKey('active')) {
+      context.handle(_activeMeta,
+          active.isAcceptableOrUnknown(data['active']!, _activeMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  PoiCacheEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PoiCacheEntry(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      amapId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}amap_id'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      category: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}category'])!,
+      address: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}address']),
+      phone: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}phone']),
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description']),
+      latitude: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}latitude'])!,
+      longitude: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}longitude'])!,
+      city: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}city']),
+      source: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}source'])!,
+      cloudVersion: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}cloud_version'])!,
+      cloudSyncedAt: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}cloud_synced_at']),
+      localUpdatedAt: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}local_updated_at'])!,
+      submittedBy: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}submitted_by']),
+      active: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}active'])!,
+    );
+  }
+
+  @override
+  $PoiCacheTable createAlias(String alias) {
+    return $PoiCacheTable(attachedDatabase, alias);
+  }
+}
+
+class PoiCacheEntry extends DataClass implements Insertable<PoiCacheEntry> {
+  final int id;
+  final String amapId;
+  final String name;
+  final String category;
+  final String? address;
+  final String? phone;
+  final String? description;
+  final double latitude;
+  final double longitude;
+  final String? city;
+  final String source;
+  final int cloudVersion;
+  final DateTime? cloudSyncedAt;
+  final DateTime localUpdatedAt;
+  final String? submittedBy;
+  final bool active;
+  const PoiCacheEntry(
+      {required this.id,
+      required this.amapId,
+      required this.name,
+      required this.category,
+      this.address,
+      this.phone,
+      this.description,
+      required this.latitude,
+      required this.longitude,
+      this.city,
+      required this.source,
+      required this.cloudVersion,
+      this.cloudSyncedAt,
+      required this.localUpdatedAt,
+      this.submittedBy,
+      required this.active});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['amap_id'] = Variable<String>(amapId);
+    map['name'] = Variable<String>(name);
+    map['category'] = Variable<String>(category);
+    if (!nullToAbsent || address != null) {
+      map['address'] = Variable<String>(address);
+    }
+    if (!nullToAbsent || phone != null) {
+      map['phone'] = Variable<String>(phone);
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    map['latitude'] = Variable<double>(latitude);
+    map['longitude'] = Variable<double>(longitude);
+    if (!nullToAbsent || city != null) {
+      map['city'] = Variable<String>(city);
+    }
+    map['source'] = Variable<String>(source);
+    map['cloud_version'] = Variable<int>(cloudVersion);
+    if (!nullToAbsent || cloudSyncedAt != null) {
+      map['cloud_synced_at'] = Variable<DateTime>(cloudSyncedAt);
+    }
+    map['local_updated_at'] = Variable<DateTime>(localUpdatedAt);
+    if (!nullToAbsent || submittedBy != null) {
+      map['submitted_by'] = Variable<String>(submittedBy);
+    }
+    map['active'] = Variable<bool>(active);
+    return map;
+  }
+
+  PoiCacheCompanion toCompanion(bool nullToAbsent) {
+    return PoiCacheCompanion(
+      id: Value(id),
+      amapId: Value(amapId),
+      name: Value(name),
+      category: Value(category),
+      address: address == null && nullToAbsent
+          ? const Value.absent()
+          : Value(address),
+      phone:
+          phone == null && nullToAbsent ? const Value.absent() : Value(phone),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      latitude: Value(latitude),
+      longitude: Value(longitude),
+      city: city == null && nullToAbsent ? const Value.absent() : Value(city),
+      source: Value(source),
+      cloudVersion: Value(cloudVersion),
+      cloudSyncedAt: cloudSyncedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(cloudSyncedAt),
+      localUpdatedAt: Value(localUpdatedAt),
+      submittedBy: submittedBy == null && nullToAbsent
+          ? const Value.absent()
+          : Value(submittedBy),
+      active: Value(active),
+    );
+  }
+
+  factory PoiCacheEntry.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PoiCacheEntry(
+      id: serializer.fromJson<int>(json['id']),
+      amapId: serializer.fromJson<String>(json['amapId']),
+      name: serializer.fromJson<String>(json['name']),
+      category: serializer.fromJson<String>(json['category']),
+      address: serializer.fromJson<String?>(json['address']),
+      phone: serializer.fromJson<String?>(json['phone']),
+      description: serializer.fromJson<String?>(json['description']),
+      latitude: serializer.fromJson<double>(json['latitude']),
+      longitude: serializer.fromJson<double>(json['longitude']),
+      city: serializer.fromJson<String?>(json['city']),
+      source: serializer.fromJson<String>(json['source']),
+      cloudVersion: serializer.fromJson<int>(json['cloudVersion']),
+      cloudSyncedAt: serializer.fromJson<DateTime?>(json['cloudSyncedAt']),
+      localUpdatedAt: serializer.fromJson<DateTime>(json['localUpdatedAt']),
+      submittedBy: serializer.fromJson<String?>(json['submittedBy']),
+      active: serializer.fromJson<bool>(json['active']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'amapId': serializer.toJson<String>(amapId),
+      'name': serializer.toJson<String>(name),
+      'category': serializer.toJson<String>(category),
+      'address': serializer.toJson<String?>(address),
+      'phone': serializer.toJson<String?>(phone),
+      'description': serializer.toJson<String?>(description),
+      'latitude': serializer.toJson<double>(latitude),
+      'longitude': serializer.toJson<double>(longitude),
+      'city': serializer.toJson<String?>(city),
+      'source': serializer.toJson<String>(source),
+      'cloudVersion': serializer.toJson<int>(cloudVersion),
+      'cloudSyncedAt': serializer.toJson<DateTime?>(cloudSyncedAt),
+      'localUpdatedAt': serializer.toJson<DateTime>(localUpdatedAt),
+      'submittedBy': serializer.toJson<String?>(submittedBy),
+      'active': serializer.toJson<bool>(active),
+    };
+  }
+
+  PoiCacheEntry copyWith(
+          {int? id,
+          String? amapId,
+          String? name,
+          String? category,
+          Value<String?> address = const Value.absent(),
+          Value<String?> phone = const Value.absent(),
+          Value<String?> description = const Value.absent(),
+          double? latitude,
+          double? longitude,
+          Value<String?> city = const Value.absent(),
+          String? source,
+          int? cloudVersion,
+          Value<DateTime?> cloudSyncedAt = const Value.absent(),
+          DateTime? localUpdatedAt,
+          Value<String?> submittedBy = const Value.absent(),
+          bool? active}) =>
+      PoiCacheEntry(
+        id: id ?? this.id,
+        amapId: amapId ?? this.amapId,
+        name: name ?? this.name,
+        category: category ?? this.category,
+        address: address.present ? address.value : this.address,
+        phone: phone.present ? phone.value : this.phone,
+        description: description.present ? description.value : this.description,
+        latitude: latitude ?? this.latitude,
+        longitude: longitude ?? this.longitude,
+        city: city.present ? city.value : this.city,
+        source: source ?? this.source,
+        cloudVersion: cloudVersion ?? this.cloudVersion,
+        cloudSyncedAt:
+            cloudSyncedAt.present ? cloudSyncedAt.value : this.cloudSyncedAt,
+        localUpdatedAt: localUpdatedAt ?? this.localUpdatedAt,
+        submittedBy: submittedBy.present ? submittedBy.value : this.submittedBy,
+        active: active ?? this.active,
+      );
+  PoiCacheEntry copyWithCompanion(PoiCacheCompanion data) {
+    return PoiCacheEntry(
+      id: data.id.present ? data.id.value : this.id,
+      amapId: data.amapId.present ? data.amapId.value : this.amapId,
+      name: data.name.present ? data.name.value : this.name,
+      category: data.category.present ? data.category.value : this.category,
+      address: data.address.present ? data.address.value : this.address,
+      phone: data.phone.present ? data.phone.value : this.phone,
+      description:
+          data.description.present ? data.description.value : this.description,
+      latitude: data.latitude.present ? data.latitude.value : this.latitude,
+      longitude: data.longitude.present ? data.longitude.value : this.longitude,
+      city: data.city.present ? data.city.value : this.city,
+      source: data.source.present ? data.source.value : this.source,
+      cloudVersion: data.cloudVersion.present
+          ? data.cloudVersion.value
+          : this.cloudVersion,
+      cloudSyncedAt: data.cloudSyncedAt.present
+          ? data.cloudSyncedAt.value
+          : this.cloudSyncedAt,
+      localUpdatedAt: data.localUpdatedAt.present
+          ? data.localUpdatedAt.value
+          : this.localUpdatedAt,
+      submittedBy:
+          data.submittedBy.present ? data.submittedBy.value : this.submittedBy,
+      active: data.active.present ? data.active.value : this.active,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PoiCacheEntry(')
+          ..write('id: $id, ')
+          ..write('amapId: $amapId, ')
+          ..write('name: $name, ')
+          ..write('category: $category, ')
+          ..write('address: $address, ')
+          ..write('phone: $phone, ')
+          ..write('description: $description, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude, ')
+          ..write('city: $city, ')
+          ..write('source: $source, ')
+          ..write('cloudVersion: $cloudVersion, ')
+          ..write('cloudSyncedAt: $cloudSyncedAt, ')
+          ..write('localUpdatedAt: $localUpdatedAt, ')
+          ..write('submittedBy: $submittedBy, ')
+          ..write('active: $active')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id,
+      amapId,
+      name,
+      category,
+      address,
+      phone,
+      description,
+      latitude,
+      longitude,
+      city,
+      source,
+      cloudVersion,
+      cloudSyncedAt,
+      localUpdatedAt,
+      submittedBy,
+      active);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PoiCacheEntry &&
+          other.id == this.id &&
+          other.amapId == this.amapId &&
+          other.name == this.name &&
+          other.category == this.category &&
+          other.address == this.address &&
+          other.phone == this.phone &&
+          other.description == this.description &&
+          other.latitude == this.latitude &&
+          other.longitude == this.longitude &&
+          other.city == this.city &&
+          other.source == this.source &&
+          other.cloudVersion == this.cloudVersion &&
+          other.cloudSyncedAt == this.cloudSyncedAt &&
+          other.localUpdatedAt == this.localUpdatedAt &&
+          other.submittedBy == this.submittedBy &&
+          other.active == this.active);
+}
+
+class PoiCacheCompanion extends UpdateCompanion<PoiCacheEntry> {
+  final Value<int> id;
+  final Value<String> amapId;
+  final Value<String> name;
+  final Value<String> category;
+  final Value<String?> address;
+  final Value<String?> phone;
+  final Value<String?> description;
+  final Value<double> latitude;
+  final Value<double> longitude;
+  final Value<String?> city;
+  final Value<String> source;
+  final Value<int> cloudVersion;
+  final Value<DateTime?> cloudSyncedAt;
+  final Value<DateTime> localUpdatedAt;
+  final Value<String?> submittedBy;
+  final Value<bool> active;
+  const PoiCacheCompanion({
+    this.id = const Value.absent(),
+    this.amapId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.category = const Value.absent(),
+    this.address = const Value.absent(),
+    this.phone = const Value.absent(),
+    this.description = const Value.absent(),
+    this.latitude = const Value.absent(),
+    this.longitude = const Value.absent(),
+    this.city = const Value.absent(),
+    this.source = const Value.absent(),
+    this.cloudVersion = const Value.absent(),
+    this.cloudSyncedAt = const Value.absent(),
+    this.localUpdatedAt = const Value.absent(),
+    this.submittedBy = const Value.absent(),
+    this.active = const Value.absent(),
+  });
+  PoiCacheCompanion.insert({
+    this.id = const Value.absent(),
+    required String amapId,
+    required String name,
+    required String category,
+    this.address = const Value.absent(),
+    this.phone = const Value.absent(),
+    this.description = const Value.absent(),
+    required double latitude,
+    required double longitude,
+    this.city = const Value.absent(),
+    this.source = const Value.absent(),
+    this.cloudVersion = const Value.absent(),
+    this.cloudSyncedAt = const Value.absent(),
+    this.localUpdatedAt = const Value.absent(),
+    this.submittedBy = const Value.absent(),
+    this.active = const Value.absent(),
+  })  : amapId = Value(amapId),
+        name = Value(name),
+        category = Value(category),
+        latitude = Value(latitude),
+        longitude = Value(longitude);
+  static Insertable<PoiCacheEntry> custom({
+    Expression<int>? id,
+    Expression<String>? amapId,
+    Expression<String>? name,
+    Expression<String>? category,
+    Expression<String>? address,
+    Expression<String>? phone,
+    Expression<String>? description,
+    Expression<double>? latitude,
+    Expression<double>? longitude,
+    Expression<String>? city,
+    Expression<String>? source,
+    Expression<int>? cloudVersion,
+    Expression<DateTime>? cloudSyncedAt,
+    Expression<DateTime>? localUpdatedAt,
+    Expression<String>? submittedBy,
+    Expression<bool>? active,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (amapId != null) 'amap_id': amapId,
+      if (name != null) 'name': name,
+      if (category != null) 'category': category,
+      if (address != null) 'address': address,
+      if (phone != null) 'phone': phone,
+      if (description != null) 'description': description,
+      if (latitude != null) 'latitude': latitude,
+      if (longitude != null) 'longitude': longitude,
+      if (city != null) 'city': city,
+      if (source != null) 'source': source,
+      if (cloudVersion != null) 'cloud_version': cloudVersion,
+      if (cloudSyncedAt != null) 'cloud_synced_at': cloudSyncedAt,
+      if (localUpdatedAt != null) 'local_updated_at': localUpdatedAt,
+      if (submittedBy != null) 'submitted_by': submittedBy,
+      if (active != null) 'active': active,
+    });
+  }
+
+  PoiCacheCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? amapId,
+      Value<String>? name,
+      Value<String>? category,
+      Value<String?>? address,
+      Value<String?>? phone,
+      Value<String?>? description,
+      Value<double>? latitude,
+      Value<double>? longitude,
+      Value<String?>? city,
+      Value<String>? source,
+      Value<int>? cloudVersion,
+      Value<DateTime?>? cloudSyncedAt,
+      Value<DateTime>? localUpdatedAt,
+      Value<String?>? submittedBy,
+      Value<bool>? active}) {
+    return PoiCacheCompanion(
+      id: id ?? this.id,
+      amapId: amapId ?? this.amapId,
+      name: name ?? this.name,
+      category: category ?? this.category,
+      address: address ?? this.address,
+      phone: phone ?? this.phone,
+      description: description ?? this.description,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      city: city ?? this.city,
+      source: source ?? this.source,
+      cloudVersion: cloudVersion ?? this.cloudVersion,
+      cloudSyncedAt: cloudSyncedAt ?? this.cloudSyncedAt,
+      localUpdatedAt: localUpdatedAt ?? this.localUpdatedAt,
+      submittedBy: submittedBy ?? this.submittedBy,
+      active: active ?? this.active,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (amapId.present) {
+      map['amap_id'] = Variable<String>(amapId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (address.present) {
+      map['address'] = Variable<String>(address.value);
+    }
+    if (phone.present) {
+      map['phone'] = Variable<String>(phone.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (latitude.present) {
+      map['latitude'] = Variable<double>(latitude.value);
+    }
+    if (longitude.present) {
+      map['longitude'] = Variable<double>(longitude.value);
+    }
+    if (city.present) {
+      map['city'] = Variable<String>(city.value);
+    }
+    if (source.present) {
+      map['source'] = Variable<String>(source.value);
+    }
+    if (cloudVersion.present) {
+      map['cloud_version'] = Variable<int>(cloudVersion.value);
+    }
+    if (cloudSyncedAt.present) {
+      map['cloud_synced_at'] = Variable<DateTime>(cloudSyncedAt.value);
+    }
+    if (localUpdatedAt.present) {
+      map['local_updated_at'] = Variable<DateTime>(localUpdatedAt.value);
+    }
+    if (submittedBy.present) {
+      map['submitted_by'] = Variable<String>(submittedBy.value);
+    }
+    if (active.present) {
+      map['active'] = Variable<bool>(active.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PoiCacheCompanion(')
+          ..write('id: $id, ')
+          ..write('amapId: $amapId, ')
+          ..write('name: $name, ')
+          ..write('category: $category, ')
+          ..write('address: $address, ')
+          ..write('phone: $phone, ')
+          ..write('description: $description, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude, ')
+          ..write('city: $city, ')
+          ..write('source: $source, ')
+          ..write('cloudVersion: $cloudVersion, ')
+          ..write('cloudSyncedAt: $cloudSyncedAt, ')
+          ..write('localUpdatedAt: $localUpdatedAt, ')
+          ..write('submittedBy: $submittedBy, ')
+          ..write('active: $active')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -5015,9 +7458,15 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $ExpensesTable expenses = $ExpensesTable(this);
   late final $WalkRecordsTable walkRecords = $WalkRecordsTable(this);
   late final $TrainingLogsTable trainingLogs = $TrainingLogsTable(this);
+  late final $TrainingPlansTable trainingPlans = $TrainingPlansTable(this);
   late final $SettingsTable settings = $SettingsTable(this);
   late final $ForbiddenFoodsTable forbiddenFoods = $ForbiddenFoodsTable(this);
   late final $ContactsTable contacts = $ContactsTable(this);
+  late final $FavoritePlacesTable favoritePlaces = $FavoritePlacesTable(this);
+  late final $UserPreferencesTable userPreferences =
+      $UserPreferencesTable(this);
+  late final $ExportSettingsTable exportSettings = $ExportSettingsTable(this);
+  late final $PoiCacheTable poiCache = $PoiCacheTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -5033,9 +7482,14 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         expenses,
         walkRecords,
         trainingLogs,
+        trainingPlans,
         settings,
         forbiddenFoods,
-        contacts
+        contacts,
+        favoritePlaces,
+        userPreferences,
+        exportSettings,
+        poiCache
       ];
 }
 
@@ -6085,6 +8539,8 @@ typedef $$FoodItemsTableCreateCompanionBuilder = FoodItemsCompanion Function({
   required double totalKg,
   required double remainingKg,
   Value<double?> pricePerKg,
+  Value<bool> blacklisted,
+  Value<String?> allergyReason,
   required DateTime purchaseDate,
   Value<DateTime?> expireDate,
   Value<String?> notes,
@@ -6099,6 +8555,8 @@ typedef $$FoodItemsTableUpdateCompanionBuilder = FoodItemsCompanion Function({
   Value<double> totalKg,
   Value<double> remainingKg,
   Value<double?> pricePerKg,
+  Value<bool> blacklisted,
+  Value<String?> allergyReason,
   Value<DateTime> purchaseDate,
   Value<DateTime?> expireDate,
   Value<String?> notes,
@@ -6139,6 +8597,12 @@ class $$FoodItemsTableFilterComposer
 
   ColumnFilters<double> get pricePerKg => $composableBuilder(
       column: $table.pricePerKg, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get blacklisted => $composableBuilder(
+      column: $table.blacklisted, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get allergyReason => $composableBuilder(
+      column: $table.allergyReason, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<DateTime> get purchaseDate => $composableBuilder(
       column: $table.purchaseDate, builder: (column) => ColumnFilters(column));
@@ -6185,6 +8649,13 @@ class $$FoodItemsTableOrderingComposer
 
   ColumnOrderings<double> get pricePerKg => $composableBuilder(
       column: $table.pricePerKg, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get blacklisted => $composableBuilder(
+      column: $table.blacklisted, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get allergyReason => $composableBuilder(
+      column: $table.allergyReason,
+      builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<DateTime> get purchaseDate => $composableBuilder(
       column: $table.purchaseDate,
@@ -6233,6 +8704,12 @@ class $$FoodItemsTableAnnotationComposer
   GeneratedColumn<double> get pricePerKg => $composableBuilder(
       column: $table.pricePerKg, builder: (column) => column);
 
+  GeneratedColumn<bool> get blacklisted => $composableBuilder(
+      column: $table.blacklisted, builder: (column) => column);
+
+  GeneratedColumn<String> get allergyReason => $composableBuilder(
+      column: $table.allergyReason, builder: (column) => column);
+
   GeneratedColumn<DateTime> get purchaseDate => $composableBuilder(
       column: $table.purchaseDate, builder: (column) => column);
 
@@ -6278,6 +8755,8 @@ class $$FoodItemsTableTableManager extends RootTableManager<
             Value<double> totalKg = const Value.absent(),
             Value<double> remainingKg = const Value.absent(),
             Value<double?> pricePerKg = const Value.absent(),
+            Value<bool> blacklisted = const Value.absent(),
+            Value<String?> allergyReason = const Value.absent(),
             Value<DateTime> purchaseDate = const Value.absent(),
             Value<DateTime?> expireDate = const Value.absent(),
             Value<String?> notes = const Value.absent(),
@@ -6292,6 +8771,8 @@ class $$FoodItemsTableTableManager extends RootTableManager<
             totalKg: totalKg,
             remainingKg: remainingKg,
             pricePerKg: pricePerKg,
+            blacklisted: blacklisted,
+            allergyReason: allergyReason,
             purchaseDate: purchaseDate,
             expireDate: expireDate,
             notes: notes,
@@ -6306,6 +8787,8 @@ class $$FoodItemsTableTableManager extends RootTableManager<
             required double totalKg,
             required double remainingKg,
             Value<double?> pricePerKg = const Value.absent(),
+            Value<bool> blacklisted = const Value.absent(),
+            Value<String?> allergyReason = const Value.absent(),
             required DateTime purchaseDate,
             Value<DateTime?> expireDate = const Value.absent(),
             Value<String?> notes = const Value.absent(),
@@ -6320,6 +8803,8 @@ class $$FoodItemsTableTableManager extends RootTableManager<
             totalKg: totalKg,
             remainingKg: remainingKg,
             pricePerKg: pricePerKg,
+            blacklisted: blacklisted,
+            allergyReason: allergyReason,
             purchaseDate: purchaseDate,
             expireDate: expireDate,
             notes: notes,
@@ -7122,6 +9607,264 @@ typedef $$TrainingLogsTableProcessedTableManager = ProcessedTableManager<
     ),
     TrainingLog,
     PrefetchHooks Function()>;
+typedef $$TrainingPlansTableCreateCompanionBuilder = TrainingPlansCompanion
+    Function({
+  Value<int> id,
+  required int petId,
+  required String title,
+  required String command,
+  required int targetDays,
+  Value<int> dailyMinutes,
+  Value<int> progress,
+  required DateTime startDate,
+  Value<DateTime?> endDate,
+  Value<bool> completed,
+  Value<String?> notes,
+});
+typedef $$TrainingPlansTableUpdateCompanionBuilder = TrainingPlansCompanion
+    Function({
+  Value<int> id,
+  Value<int> petId,
+  Value<String> title,
+  Value<String> command,
+  Value<int> targetDays,
+  Value<int> dailyMinutes,
+  Value<int> progress,
+  Value<DateTime> startDate,
+  Value<DateTime?> endDate,
+  Value<bool> completed,
+  Value<String?> notes,
+});
+
+class $$TrainingPlansTableFilterComposer
+    extends Composer<_$AppDatabase, $TrainingPlansTable> {
+  $$TrainingPlansTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get petId => $composableBuilder(
+      column: $table.petId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get command => $composableBuilder(
+      column: $table.command, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get targetDays => $composableBuilder(
+      column: $table.targetDays, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get dailyMinutes => $composableBuilder(
+      column: $table.dailyMinutes, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get progress => $composableBuilder(
+      column: $table.progress, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get startDate => $composableBuilder(
+      column: $table.startDate, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get endDate => $composableBuilder(
+      column: $table.endDate, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get completed => $composableBuilder(
+      column: $table.completed, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get notes => $composableBuilder(
+      column: $table.notes, builder: (column) => ColumnFilters(column));
+}
+
+class $$TrainingPlansTableOrderingComposer
+    extends Composer<_$AppDatabase, $TrainingPlansTable> {
+  $$TrainingPlansTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get petId => $composableBuilder(
+      column: $table.petId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get command => $composableBuilder(
+      column: $table.command, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get targetDays => $composableBuilder(
+      column: $table.targetDays, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get dailyMinutes => $composableBuilder(
+      column: $table.dailyMinutes,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get progress => $composableBuilder(
+      column: $table.progress, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get startDate => $composableBuilder(
+      column: $table.startDate, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get endDate => $composableBuilder(
+      column: $table.endDate, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get completed => $composableBuilder(
+      column: $table.completed, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+      column: $table.notes, builder: (column) => ColumnOrderings(column));
+}
+
+class $$TrainingPlansTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TrainingPlansTable> {
+  $$TrainingPlansTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get petId =>
+      $composableBuilder(column: $table.petId, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get command =>
+      $composableBuilder(column: $table.command, builder: (column) => column);
+
+  GeneratedColumn<int> get targetDays => $composableBuilder(
+      column: $table.targetDays, builder: (column) => column);
+
+  GeneratedColumn<int> get dailyMinutes => $composableBuilder(
+      column: $table.dailyMinutes, builder: (column) => column);
+
+  GeneratedColumn<int> get progress =>
+      $composableBuilder(column: $table.progress, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get startDate =>
+      $composableBuilder(column: $table.startDate, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get endDate =>
+      $composableBuilder(column: $table.endDate, builder: (column) => column);
+
+  GeneratedColumn<bool> get completed =>
+      $composableBuilder(column: $table.completed, builder: (column) => column);
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+}
+
+class $$TrainingPlansTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $TrainingPlansTable,
+    TrainingPlan,
+    $$TrainingPlansTableFilterComposer,
+    $$TrainingPlansTableOrderingComposer,
+    $$TrainingPlansTableAnnotationComposer,
+    $$TrainingPlansTableCreateCompanionBuilder,
+    $$TrainingPlansTableUpdateCompanionBuilder,
+    (
+      TrainingPlan,
+      BaseReferences<_$AppDatabase, $TrainingPlansTable, TrainingPlan>
+    ),
+    TrainingPlan,
+    PrefetchHooks Function()> {
+  $$TrainingPlansTableTableManager(_$AppDatabase db, $TrainingPlansTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TrainingPlansTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TrainingPlansTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TrainingPlansTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> petId = const Value.absent(),
+            Value<String> title = const Value.absent(),
+            Value<String> command = const Value.absent(),
+            Value<int> targetDays = const Value.absent(),
+            Value<int> dailyMinutes = const Value.absent(),
+            Value<int> progress = const Value.absent(),
+            Value<DateTime> startDate = const Value.absent(),
+            Value<DateTime?> endDate = const Value.absent(),
+            Value<bool> completed = const Value.absent(),
+            Value<String?> notes = const Value.absent(),
+          }) =>
+              TrainingPlansCompanion(
+            id: id,
+            petId: petId,
+            title: title,
+            command: command,
+            targetDays: targetDays,
+            dailyMinutes: dailyMinutes,
+            progress: progress,
+            startDate: startDate,
+            endDate: endDate,
+            completed: completed,
+            notes: notes,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int petId,
+            required String title,
+            required String command,
+            required int targetDays,
+            Value<int> dailyMinutes = const Value.absent(),
+            Value<int> progress = const Value.absent(),
+            required DateTime startDate,
+            Value<DateTime?> endDate = const Value.absent(),
+            Value<bool> completed = const Value.absent(),
+            Value<String?> notes = const Value.absent(),
+          }) =>
+              TrainingPlansCompanion.insert(
+            id: id,
+            petId: petId,
+            title: title,
+            command: command,
+            targetDays: targetDays,
+            dailyMinutes: dailyMinutes,
+            progress: progress,
+            startDate: startDate,
+            endDate: endDate,
+            completed: completed,
+            notes: notes,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$TrainingPlansTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $TrainingPlansTable,
+    TrainingPlan,
+    $$TrainingPlansTableFilterComposer,
+    $$TrainingPlansTableOrderingComposer,
+    $$TrainingPlansTableAnnotationComposer,
+    $$TrainingPlansTableCreateCompanionBuilder,
+    $$TrainingPlansTableUpdateCompanionBuilder,
+    (
+      TrainingPlan,
+      BaseReferences<_$AppDatabase, $TrainingPlansTable, TrainingPlan>
+    ),
+    TrainingPlan,
+    PrefetchHooks Function()>;
 typedef $$SettingsTableCreateCompanionBuilder = SettingsCompanion Function({
   required String key,
   required String value,
@@ -7584,6 +10327,911 @@ typedef $$ContactsTableProcessedTableManager = ProcessedTableManager<
     (Contact, BaseReferences<_$AppDatabase, $ContactsTable, Contact>),
     Contact,
     PrefetchHooks Function()>;
+typedef $$FavoritePlacesTableCreateCompanionBuilder = FavoritePlacesCompanion
+    Function({
+  Value<int> id,
+  required String name,
+  required String category,
+  Value<String?> address,
+  Value<String?> phone,
+  Value<double?> latitude,
+  Value<double?> longitude,
+  Value<String?> amapId,
+  Value<int> visitCount,
+  Value<DateTime?> lastVisitedAt,
+  Value<DateTime> createdAt,
+  Value<String?> notes,
+});
+typedef $$FavoritePlacesTableUpdateCompanionBuilder = FavoritePlacesCompanion
+    Function({
+  Value<int> id,
+  Value<String> name,
+  Value<String> category,
+  Value<String?> address,
+  Value<String?> phone,
+  Value<double?> latitude,
+  Value<double?> longitude,
+  Value<String?> amapId,
+  Value<int> visitCount,
+  Value<DateTime?> lastVisitedAt,
+  Value<DateTime> createdAt,
+  Value<String?> notes,
+});
+
+class $$FavoritePlacesTableFilterComposer
+    extends Composer<_$AppDatabase, $FavoritePlacesTable> {
+  $$FavoritePlacesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get address => $composableBuilder(
+      column: $table.address, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get phone => $composableBuilder(
+      column: $table.phone, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get latitude => $composableBuilder(
+      column: $table.latitude, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get longitude => $composableBuilder(
+      column: $table.longitude, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get amapId => $composableBuilder(
+      column: $table.amapId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get visitCount => $composableBuilder(
+      column: $table.visitCount, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get lastVisitedAt => $composableBuilder(
+      column: $table.lastVisitedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get notes => $composableBuilder(
+      column: $table.notes, builder: (column) => ColumnFilters(column));
+}
+
+class $$FavoritePlacesTableOrderingComposer
+    extends Composer<_$AppDatabase, $FavoritePlacesTable> {
+  $$FavoritePlacesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get address => $composableBuilder(
+      column: $table.address, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get phone => $composableBuilder(
+      column: $table.phone, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get latitude => $composableBuilder(
+      column: $table.latitude, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get longitude => $composableBuilder(
+      column: $table.longitude, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get amapId => $composableBuilder(
+      column: $table.amapId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get visitCount => $composableBuilder(
+      column: $table.visitCount, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get lastVisitedAt => $composableBuilder(
+      column: $table.lastVisitedAt,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+      column: $table.notes, builder: (column) => ColumnOrderings(column));
+}
+
+class $$FavoritePlacesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $FavoritePlacesTable> {
+  $$FavoritePlacesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<String> get address =>
+      $composableBuilder(column: $table.address, builder: (column) => column);
+
+  GeneratedColumn<String> get phone =>
+      $composableBuilder(column: $table.phone, builder: (column) => column);
+
+  GeneratedColumn<double> get latitude =>
+      $composableBuilder(column: $table.latitude, builder: (column) => column);
+
+  GeneratedColumn<double> get longitude =>
+      $composableBuilder(column: $table.longitude, builder: (column) => column);
+
+  GeneratedColumn<String> get amapId =>
+      $composableBuilder(column: $table.amapId, builder: (column) => column);
+
+  GeneratedColumn<int> get visitCount => $composableBuilder(
+      column: $table.visitCount, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get lastVisitedAt => $composableBuilder(
+      column: $table.lastVisitedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+}
+
+class $$FavoritePlacesTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $FavoritePlacesTable,
+    FavoritePlace,
+    $$FavoritePlacesTableFilterComposer,
+    $$FavoritePlacesTableOrderingComposer,
+    $$FavoritePlacesTableAnnotationComposer,
+    $$FavoritePlacesTableCreateCompanionBuilder,
+    $$FavoritePlacesTableUpdateCompanionBuilder,
+    (
+      FavoritePlace,
+      BaseReferences<_$AppDatabase, $FavoritePlacesTable, FavoritePlace>
+    ),
+    FavoritePlace,
+    PrefetchHooks Function()> {
+  $$FavoritePlacesTableTableManager(
+      _$AppDatabase db, $FavoritePlacesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$FavoritePlacesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$FavoritePlacesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$FavoritePlacesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<String> category = const Value.absent(),
+            Value<String?> address = const Value.absent(),
+            Value<String?> phone = const Value.absent(),
+            Value<double?> latitude = const Value.absent(),
+            Value<double?> longitude = const Value.absent(),
+            Value<String?> amapId = const Value.absent(),
+            Value<int> visitCount = const Value.absent(),
+            Value<DateTime?> lastVisitedAt = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<String?> notes = const Value.absent(),
+          }) =>
+              FavoritePlacesCompanion(
+            id: id,
+            name: name,
+            category: category,
+            address: address,
+            phone: phone,
+            latitude: latitude,
+            longitude: longitude,
+            amapId: amapId,
+            visitCount: visitCount,
+            lastVisitedAt: lastVisitedAt,
+            createdAt: createdAt,
+            notes: notes,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String name,
+            required String category,
+            Value<String?> address = const Value.absent(),
+            Value<String?> phone = const Value.absent(),
+            Value<double?> latitude = const Value.absent(),
+            Value<double?> longitude = const Value.absent(),
+            Value<String?> amapId = const Value.absent(),
+            Value<int> visitCount = const Value.absent(),
+            Value<DateTime?> lastVisitedAt = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<String?> notes = const Value.absent(),
+          }) =>
+              FavoritePlacesCompanion.insert(
+            id: id,
+            name: name,
+            category: category,
+            address: address,
+            phone: phone,
+            latitude: latitude,
+            longitude: longitude,
+            amapId: amapId,
+            visitCount: visitCount,
+            lastVisitedAt: lastVisitedAt,
+            createdAt: createdAt,
+            notes: notes,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$FavoritePlacesTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $FavoritePlacesTable,
+    FavoritePlace,
+    $$FavoritePlacesTableFilterComposer,
+    $$FavoritePlacesTableOrderingComposer,
+    $$FavoritePlacesTableAnnotationComposer,
+    $$FavoritePlacesTableCreateCompanionBuilder,
+    $$FavoritePlacesTableUpdateCompanionBuilder,
+    (
+      FavoritePlace,
+      BaseReferences<_$AppDatabase, $FavoritePlacesTable, FavoritePlace>
+    ),
+    FavoritePlace,
+    PrefetchHooks Function()>;
+typedef $$UserPreferencesTableCreateCompanionBuilder = UserPreferencesCompanion
+    Function({
+  required String key,
+  required String value,
+  Value<int> rowid,
+});
+typedef $$UserPreferencesTableUpdateCompanionBuilder = UserPreferencesCompanion
+    Function({
+  Value<String> key,
+  Value<String> value,
+  Value<int> rowid,
+});
+
+class $$UserPreferencesTableFilterComposer
+    extends Composer<_$AppDatabase, $UserPreferencesTable> {
+  $$UserPreferencesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get key => $composableBuilder(
+      column: $table.key, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get value => $composableBuilder(
+      column: $table.value, builder: (column) => ColumnFilters(column));
+}
+
+class $$UserPreferencesTableOrderingComposer
+    extends Composer<_$AppDatabase, $UserPreferencesTable> {
+  $$UserPreferencesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get key => $composableBuilder(
+      column: $table.key, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get value => $composableBuilder(
+      column: $table.value, builder: (column) => ColumnOrderings(column));
+}
+
+class $$UserPreferencesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UserPreferencesTable> {
+  $$UserPreferencesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get key =>
+      $composableBuilder(column: $table.key, builder: (column) => column);
+
+  GeneratedColumn<String> get value =>
+      $composableBuilder(column: $table.value, builder: (column) => column);
+}
+
+class $$UserPreferencesTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $UserPreferencesTable,
+    UserPreference,
+    $$UserPreferencesTableFilterComposer,
+    $$UserPreferencesTableOrderingComposer,
+    $$UserPreferencesTableAnnotationComposer,
+    $$UserPreferencesTableCreateCompanionBuilder,
+    $$UserPreferencesTableUpdateCompanionBuilder,
+    (
+      UserPreference,
+      BaseReferences<_$AppDatabase, $UserPreferencesTable, UserPreference>
+    ),
+    UserPreference,
+    PrefetchHooks Function()> {
+  $$UserPreferencesTableTableManager(
+      _$AppDatabase db, $UserPreferencesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$UserPreferencesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UserPreferencesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UserPreferencesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<String> key = const Value.absent(),
+            Value<String> value = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              UserPreferencesCompanion(
+            key: key,
+            value: value,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String key,
+            required String value,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              UserPreferencesCompanion.insert(
+            key: key,
+            value: value,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$UserPreferencesTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $UserPreferencesTable,
+    UserPreference,
+    $$UserPreferencesTableFilterComposer,
+    $$UserPreferencesTableOrderingComposer,
+    $$UserPreferencesTableAnnotationComposer,
+    $$UserPreferencesTableCreateCompanionBuilder,
+    $$UserPreferencesTableUpdateCompanionBuilder,
+    (
+      UserPreference,
+      BaseReferences<_$AppDatabase, $UserPreferencesTable, UserPreference>
+    ),
+    UserPreference,
+    PrefetchHooks Function()>;
+typedef $$ExportSettingsTableCreateCompanionBuilder = ExportSettingsCompanion
+    Function({
+  Value<int> id,
+  required String pinHash,
+  required String salt,
+  Value<bool> enabled,
+  Value<DateTime> createdAt,
+});
+typedef $$ExportSettingsTableUpdateCompanionBuilder = ExportSettingsCompanion
+    Function({
+  Value<int> id,
+  Value<String> pinHash,
+  Value<String> salt,
+  Value<bool> enabled,
+  Value<DateTime> createdAt,
+});
+
+class $$ExportSettingsTableFilterComposer
+    extends Composer<_$AppDatabase, $ExportSettingsTable> {
+  $$ExportSettingsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get pinHash => $composableBuilder(
+      column: $table.pinHash, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get salt => $composableBuilder(
+      column: $table.salt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get enabled => $composableBuilder(
+      column: $table.enabled, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+}
+
+class $$ExportSettingsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ExportSettingsTable> {
+  $$ExportSettingsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get pinHash => $composableBuilder(
+      column: $table.pinHash, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get salt => $composableBuilder(
+      column: $table.salt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get enabled => $composableBuilder(
+      column: $table.enabled, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+}
+
+class $$ExportSettingsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ExportSettingsTable> {
+  $$ExportSettingsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get pinHash =>
+      $composableBuilder(column: $table.pinHash, builder: (column) => column);
+
+  GeneratedColumn<String> get salt =>
+      $composableBuilder(column: $table.salt, builder: (column) => column);
+
+  GeneratedColumn<bool> get enabled =>
+      $composableBuilder(column: $table.enabled, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$ExportSettingsTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $ExportSettingsTable,
+    ExportSetting,
+    $$ExportSettingsTableFilterComposer,
+    $$ExportSettingsTableOrderingComposer,
+    $$ExportSettingsTableAnnotationComposer,
+    $$ExportSettingsTableCreateCompanionBuilder,
+    $$ExportSettingsTableUpdateCompanionBuilder,
+    (
+      ExportSetting,
+      BaseReferences<_$AppDatabase, $ExportSettingsTable, ExportSetting>
+    ),
+    ExportSetting,
+    PrefetchHooks Function()> {
+  $$ExportSettingsTableTableManager(
+      _$AppDatabase db, $ExportSettingsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ExportSettingsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ExportSettingsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ExportSettingsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> pinHash = const Value.absent(),
+            Value<String> salt = const Value.absent(),
+            Value<bool> enabled = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+          }) =>
+              ExportSettingsCompanion(
+            id: id,
+            pinHash: pinHash,
+            salt: salt,
+            enabled: enabled,
+            createdAt: createdAt,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String pinHash,
+            required String salt,
+            Value<bool> enabled = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+          }) =>
+              ExportSettingsCompanion.insert(
+            id: id,
+            pinHash: pinHash,
+            salt: salt,
+            enabled: enabled,
+            createdAt: createdAt,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$ExportSettingsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $ExportSettingsTable,
+    ExportSetting,
+    $$ExportSettingsTableFilterComposer,
+    $$ExportSettingsTableOrderingComposer,
+    $$ExportSettingsTableAnnotationComposer,
+    $$ExportSettingsTableCreateCompanionBuilder,
+    $$ExportSettingsTableUpdateCompanionBuilder,
+    (
+      ExportSetting,
+      BaseReferences<_$AppDatabase, $ExportSettingsTable, ExportSetting>
+    ),
+    ExportSetting,
+    PrefetchHooks Function()>;
+typedef $$PoiCacheTableCreateCompanionBuilder = PoiCacheCompanion Function({
+  Value<int> id,
+  required String amapId,
+  required String name,
+  required String category,
+  Value<String?> address,
+  Value<String?> phone,
+  Value<String?> description,
+  required double latitude,
+  required double longitude,
+  Value<String?> city,
+  Value<String> source,
+  Value<int> cloudVersion,
+  Value<DateTime?> cloudSyncedAt,
+  Value<DateTime> localUpdatedAt,
+  Value<String?> submittedBy,
+  Value<bool> active,
+});
+typedef $$PoiCacheTableUpdateCompanionBuilder = PoiCacheCompanion Function({
+  Value<int> id,
+  Value<String> amapId,
+  Value<String> name,
+  Value<String> category,
+  Value<String?> address,
+  Value<String?> phone,
+  Value<String?> description,
+  Value<double> latitude,
+  Value<double> longitude,
+  Value<String?> city,
+  Value<String> source,
+  Value<int> cloudVersion,
+  Value<DateTime?> cloudSyncedAt,
+  Value<DateTime> localUpdatedAt,
+  Value<String?> submittedBy,
+  Value<bool> active,
+});
+
+class $$PoiCacheTableFilterComposer
+    extends Composer<_$AppDatabase, $PoiCacheTable> {
+  $$PoiCacheTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get amapId => $composableBuilder(
+      column: $table.amapId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get address => $composableBuilder(
+      column: $table.address, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get phone => $composableBuilder(
+      column: $table.phone, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get latitude => $composableBuilder(
+      column: $table.latitude, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get longitude => $composableBuilder(
+      column: $table.longitude, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get city => $composableBuilder(
+      column: $table.city, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get source => $composableBuilder(
+      column: $table.source, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get cloudVersion => $composableBuilder(
+      column: $table.cloudVersion, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get cloudSyncedAt => $composableBuilder(
+      column: $table.cloudSyncedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get localUpdatedAt => $composableBuilder(
+      column: $table.localUpdatedAt,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get submittedBy => $composableBuilder(
+      column: $table.submittedBy, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get active => $composableBuilder(
+      column: $table.active, builder: (column) => ColumnFilters(column));
+}
+
+class $$PoiCacheTableOrderingComposer
+    extends Composer<_$AppDatabase, $PoiCacheTable> {
+  $$PoiCacheTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get amapId => $composableBuilder(
+      column: $table.amapId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get address => $composableBuilder(
+      column: $table.address, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get phone => $composableBuilder(
+      column: $table.phone, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get latitude => $composableBuilder(
+      column: $table.latitude, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get longitude => $composableBuilder(
+      column: $table.longitude, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get city => $composableBuilder(
+      column: $table.city, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get source => $composableBuilder(
+      column: $table.source, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get cloudVersion => $composableBuilder(
+      column: $table.cloudVersion,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get cloudSyncedAt => $composableBuilder(
+      column: $table.cloudSyncedAt,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get localUpdatedAt => $composableBuilder(
+      column: $table.localUpdatedAt,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get submittedBy => $composableBuilder(
+      column: $table.submittedBy, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get active => $composableBuilder(
+      column: $table.active, builder: (column) => ColumnOrderings(column));
+}
+
+class $$PoiCacheTableAnnotationComposer
+    extends Composer<_$AppDatabase, $PoiCacheTable> {
+  $$PoiCacheTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get amapId =>
+      $composableBuilder(column: $table.amapId, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<String> get address =>
+      $composableBuilder(column: $table.address, builder: (column) => column);
+
+  GeneratedColumn<String> get phone =>
+      $composableBuilder(column: $table.phone, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => column);
+
+  GeneratedColumn<double> get latitude =>
+      $composableBuilder(column: $table.latitude, builder: (column) => column);
+
+  GeneratedColumn<double> get longitude =>
+      $composableBuilder(column: $table.longitude, builder: (column) => column);
+
+  GeneratedColumn<String> get city =>
+      $composableBuilder(column: $table.city, builder: (column) => column);
+
+  GeneratedColumn<String> get source =>
+      $composableBuilder(column: $table.source, builder: (column) => column);
+
+  GeneratedColumn<int> get cloudVersion => $composableBuilder(
+      column: $table.cloudVersion, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get cloudSyncedAt => $composableBuilder(
+      column: $table.cloudSyncedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get localUpdatedAt => $composableBuilder(
+      column: $table.localUpdatedAt, builder: (column) => column);
+
+  GeneratedColumn<String> get submittedBy => $composableBuilder(
+      column: $table.submittedBy, builder: (column) => column);
+
+  GeneratedColumn<bool> get active =>
+      $composableBuilder(column: $table.active, builder: (column) => column);
+}
+
+class $$PoiCacheTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $PoiCacheTable,
+    PoiCacheEntry,
+    $$PoiCacheTableFilterComposer,
+    $$PoiCacheTableOrderingComposer,
+    $$PoiCacheTableAnnotationComposer,
+    $$PoiCacheTableCreateCompanionBuilder,
+    $$PoiCacheTableUpdateCompanionBuilder,
+    (
+      PoiCacheEntry,
+      BaseReferences<_$AppDatabase, $PoiCacheTable, PoiCacheEntry>
+    ),
+    PoiCacheEntry,
+    PrefetchHooks Function()> {
+  $$PoiCacheTableTableManager(_$AppDatabase db, $PoiCacheTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PoiCacheTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PoiCacheTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PoiCacheTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> amapId = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<String> category = const Value.absent(),
+            Value<String?> address = const Value.absent(),
+            Value<String?> phone = const Value.absent(),
+            Value<String?> description = const Value.absent(),
+            Value<double> latitude = const Value.absent(),
+            Value<double> longitude = const Value.absent(),
+            Value<String?> city = const Value.absent(),
+            Value<String> source = const Value.absent(),
+            Value<int> cloudVersion = const Value.absent(),
+            Value<DateTime?> cloudSyncedAt = const Value.absent(),
+            Value<DateTime> localUpdatedAt = const Value.absent(),
+            Value<String?> submittedBy = const Value.absent(),
+            Value<bool> active = const Value.absent(),
+          }) =>
+              PoiCacheCompanion(
+            id: id,
+            amapId: amapId,
+            name: name,
+            category: category,
+            address: address,
+            phone: phone,
+            description: description,
+            latitude: latitude,
+            longitude: longitude,
+            city: city,
+            source: source,
+            cloudVersion: cloudVersion,
+            cloudSyncedAt: cloudSyncedAt,
+            localUpdatedAt: localUpdatedAt,
+            submittedBy: submittedBy,
+            active: active,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String amapId,
+            required String name,
+            required String category,
+            Value<String?> address = const Value.absent(),
+            Value<String?> phone = const Value.absent(),
+            Value<String?> description = const Value.absent(),
+            required double latitude,
+            required double longitude,
+            Value<String?> city = const Value.absent(),
+            Value<String> source = const Value.absent(),
+            Value<int> cloudVersion = const Value.absent(),
+            Value<DateTime?> cloudSyncedAt = const Value.absent(),
+            Value<DateTime> localUpdatedAt = const Value.absent(),
+            Value<String?> submittedBy = const Value.absent(),
+            Value<bool> active = const Value.absent(),
+          }) =>
+              PoiCacheCompanion.insert(
+            id: id,
+            amapId: amapId,
+            name: name,
+            category: category,
+            address: address,
+            phone: phone,
+            description: description,
+            latitude: latitude,
+            longitude: longitude,
+            city: city,
+            source: source,
+            cloudVersion: cloudVersion,
+            cloudSyncedAt: cloudSyncedAt,
+            localUpdatedAt: localUpdatedAt,
+            submittedBy: submittedBy,
+            active: active,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$PoiCacheTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $PoiCacheTable,
+    PoiCacheEntry,
+    $$PoiCacheTableFilterComposer,
+    $$PoiCacheTableOrderingComposer,
+    $$PoiCacheTableAnnotationComposer,
+    $$PoiCacheTableCreateCompanionBuilder,
+    $$PoiCacheTableUpdateCompanionBuilder,
+    (
+      PoiCacheEntry,
+      BaseReferences<_$AppDatabase, $PoiCacheTable, PoiCacheEntry>
+    ),
+    PoiCacheEntry,
+    PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -7607,10 +11255,20 @@ class $AppDatabaseManager {
       $$WalkRecordsTableTableManager(_db, _db.walkRecords);
   $$TrainingLogsTableTableManager get trainingLogs =>
       $$TrainingLogsTableTableManager(_db, _db.trainingLogs);
+  $$TrainingPlansTableTableManager get trainingPlans =>
+      $$TrainingPlansTableTableManager(_db, _db.trainingPlans);
   $$SettingsTableTableManager get settings =>
       $$SettingsTableTableManager(_db, _db.settings);
   $$ForbiddenFoodsTableTableManager get forbiddenFoods =>
       $$ForbiddenFoodsTableTableManager(_db, _db.forbiddenFoods);
   $$ContactsTableTableManager get contacts =>
       $$ContactsTableTableManager(_db, _db.contacts);
+  $$FavoritePlacesTableTableManager get favoritePlaces =>
+      $$FavoritePlacesTableTableManager(_db, _db.favoritePlaces);
+  $$UserPreferencesTableTableManager get userPreferences =>
+      $$UserPreferencesTableTableManager(_db, _db.userPreferences);
+  $$ExportSettingsTableTableManager get exportSettings =>
+      $$ExportSettingsTableTableManager(_db, _db.exportSettings);
+  $$PoiCacheTableTableManager get poiCache =>
+      $$PoiCacheTableTableManager(_db, _db.poiCache);
 }

@@ -815,6 +815,1966 @@
       "name_zh": "含Xylitol产品 (无糖牙膏/低糖花生酱等)",
       "safe": false,
       "note": "❌ 必须看成分表, 木糖醇可能藏在'无糖'任何产品. 即使小量也致命."
+    },
+    {
+      "name_zh": "番茄 (熟透)",
+      "safe": true,
+      "note": "✅ 适量 (去蒂去茎). 富含番茄红素. 未熟含茄碱微毒"
+    },
+    {
+      "name_zh": "卷心菜/包菜",
+      "safe": true,
+      "note": "✅ 适量 (煮熟). 维 C + K. 大量可能胀气"
+    },
+    {
+      "name_zh": "苋菜",
+      "safe": true,
+      "note": "✅ 适量 (煮熟). 高钙高铁"
+    },
+    {
+      "name_zh": "油麦菜",
+      "safe": true,
+      "note": "✅ 适量. 类似生菜, 高纤维"
+    },
+    {
+      "name_zh": "茼蒿",
+      "safe": true,
+      "note": "✅ 适量. 含挥发性精油, 部分犬不喜"
+    },
+    {
+      "name_zh": "莲藕",
+      "safe": true,
+      "note": "✅ 适量 (煮熟). 高淀粉, 控量"
+    },
+    {
+      "name_zh": "桃子",
+      "safe": true,
+      "note": "✅ 适量 (去核). 核含氰化物, 务必去除"
+    },
+    {
+      "name_zh": "李子/西梅",
+      "safe": true,
+      "note": "✅ 适量 (去核). 核含氰化物"
+    },
+    {
+      "name_zh": "杏",
+      "safe": true,
+      "note": "✅ 适量 (去核). 核含氰化物"
+    },
+    {
+      "name_zh": "覆盆子/树莓",
+      "safe": true,
+      "note": "✅ 适量. 抗氧化, 含少量木糖醇(天然, 极微量安全)"
+    },
+    {
+      "name_zh": "黑莓",
+      "safe": true,
+      "note": "✅ 适量. 抗氧化. 部分犬过敏"
+    },
+    {
+      "name_zh": "蔓越莓",
+      "safe": true,
+      "note": "✅ 适量. 抗 UTI 天然. 无糖"
+    },
+    {
+      "name_zh": "火龙果",
+      "safe": true,
+      "note": "✅ 适量. 红色品种便便可能变红. 高纤维, 部分犬软便"
+    },
+    {
+      "name_zh": "鸡肉",
+      "safe": true,
+      "note": "✅ 经典主粮. 煮熟去骨去皮. 鸡骨绝不能煮吃"
+    },
+    {
+      "name_zh": "火鸡肉",
+      "safe": true,
+      "note": "✅ 优质蛋白, 低脂. 煮熟去骨"
+    },
+    {
+      "name_zh": "鸭肉",
+      "safe": true,
+      "note": "✅ 适量 (煮熟去骨). 高蛋白, 过敏犬常用"
+    },
+    {
+      "name_zh": "兔肉",
+      "safe": true,
+      "note": "✅ 适量. 极低脂, 过敏犬常用"
+    },
+    {
+      "name_zh": "羊肉",
+      "safe": true,
+      "note": "✅ 适量 (煮熟). 蛋白质丰富, 气味大, 部分犬敏感"
+    },
+    {
+      "name_zh": "鹿肉",
+      "safe": true,
+      "note": "✅ 适量. 极低脂. 罕见, 适合过敏犬"
+    },
+    {
+      "name_zh": "鹌鹑蛋",
+      "safe": true,
+      "note": "✅ 适量 (熟). 营养密度更高, 1 鹌鹑蛋≈1/3 鸡蛋"
+    },
+    {
+      "name_zh": "三文鱼",
+      "safe": true,
+      "note": "✅ 适量 (煮熟). Omega-3 极丰富. 必须去骨"
+    },
+    {
+      "name_zh": "鳕鱼",
+      "safe": true,
+      "note": "✅ 适量 (煮熟). 低脂高蛋白. 必须去骨"
+    },
+    {
+      "name_zh": "金枪鱼 (水浸)",
+      "safe": true,
+      "note": "✅ 适量. 无盐最佳. 长期大量可能汞. 控量"
+    },
+    {
+      "name_zh": "虾",
+      "safe": true,
+      "note": "✅ 适量 (去壳去虾线熟). 高蛋白低脂. 必须去壳防噎"
+    },
+    {
+      "name_zh": "蟹肉",
+      "safe": true,
+      "note": "✅ 少量. 部分犬过敏. 壳绝对不能吃"
+    },
+    {
+      "name_zh": "白米饭",
+      "safe": true,
+      "note": "✅ 煮软. 腹泻期首选"
+    },
+    {
+      "name_zh": "糙米",
+      "safe": true,
+      "note": "✅ 煮软. 比白米纤维多"
+    },
+    {
+      "name_zh": "燕麦",
+      "safe": true,
+      "note": "✅ 煮软. 纤维 + β-葡聚糖. 部分犬胀气"
+    },
+    {
+      "name_zh": "小米",
+      "safe": true,
+      "note": "✅ 适量. 易消化, 营养丰富"
+    },
+    {
+      "name_zh": "藜麦",
+      "safe": true,
+      "note": "✅ 适量 (煮熟). 完整蛋白, 低敏"
+    },
+    {
+      "name_zh": "意面 (白)",
+      "safe": true,
+      "note": "✅ 少量. 易消化. 控量, 高碳"
+    },
+    {
+      "name_zh": "红薯/紫薯",
+      "safe": true,
+      "note": "✅ 适量 (煮熟去皮). 高纤维维 A. 控量"
+    },
+    {
+      "name_zh": "原味酸奶",
+      "safe": true,
+      "note": "✅ 适量. 益生菌. 无糖无木糖醇. 乳糖不耐控量"
+    },
+    {
+      "name_zh": "奶酪 (低盐)",
+      "safe": true,
+      "note": "✅ 少量. 高钙. 选低盐无添加. 部分犬乳糖不耐"
+    },
+    {
+      "name_zh": "羊奶",
+      "safe": true,
+      "note": "✅ 适量. 乳糖比牛奶低, 易吸收. 选无糖"
+    },
+    {
+      "name_zh": "葡萄/葡萄干",
+      "safe": false,
+      "note": "🚫 禁忌! 致急性肾衰. 任何形式都禁 (果汁/果干/葡萄籽提取)"
+    },
+    {
+      "name_zh": "洋葱/大蒜/韭菜/葱",
+      "safe": false,
+      "note": "🚫 禁忌! 二硫化物破坏红细胞, 致溶血性贫血. 任何形式都禁"
+    },
+    {
+      "name_zh": "木糖醇",
+      "safe": false,
+      "note": "🚫 禁忌! 致低血糖 + 急性肝衰. 无糖口香糖/牙膏/低糖烘焙"
+    },
+    {
+      "name_zh": "咖啡因",
+      "safe": false,
+      "note": "🚫 禁忌! 茶/咖啡/能量饮料. 心率异常+抽搐+死亡"
+    },
+    {
+      "name_zh": "澳洲坚果/夏威夷果",
+      "safe": false,
+      "note": "🚫 禁忌! 致虚弱/呕吐/共济失调. 通常 12h 内症状"
+    },
+    {
+      "name_zh": "生面团 (含酵母)",
+      "safe": false,
+      "note": "🚫 禁忌! 酵母在胃里发酵膨胀, 致胃扩张+酒精中毒"
+    },
+    {
+      "name_zh": "牛油果 (含 Persin)",
+      "safe": false,
+      "note": "🚫 谨慎! 果肉部分犬可少量, 但 Persin 毒素, 核/皮/叶绝对禁"
+    },
+    {
+      "name_zh": "咖啡渣",
+      "safe": false,
+      "note": "🚫 禁忌! 高浓度咖啡因"
+    },
+    {
+      "name_zh": "生鱼 (淡水鱼)",
+      "safe": false,
+      "note": "🚫 风险! 硫胺素酶破坏维 B1. 长期致神经症状. 海鱼冷冻可"
+    },
+    {
+      "name_zh": "肥肉/油渣",
+      "safe": false,
+      "note": "⚠️ 控量. 大量致胰腺炎. 急性发作致命"
+    },
+    {
+      "name_zh": "鸡骨/鸭骨 (煮熟)",
+      "safe": false,
+      "note": "🚫 禁忌! 煮熟后碎成尖锐碎片, 刺穿胃肠. 生骨风险低但需监督"
+    },
+    {
+      "name_zh": "猪骨 (煮熟)",
+      "safe": false,
+      "note": "🚫 同鸡骨. 生猪骨可, 但需极严监督. 牛大骨相对安全"
+    },
+    {
+      "name_zh": "果核 (桃李杏樱桃)",
+      "safe": false,
+      "note": "🚫 禁忌! 含氰化物 + 噎. 务必去核"
+    },
+    {
+      "name_zh": "山药",
+      "safe": true,
+      "note": "✅ 适量 (煮熟去皮). 高纤维. 部分犬皮肤过敏"
+    },
+    {
+      "name_zh": "蒜薹/蒜苗",
+      "safe": false,
+      "note": "🚫 禁忌! 属葱属, 同洋葱"
+    },
+    {
+      "name_zh": "西蓝花",
+      "safe": true,
+      "note": "✅ 适量 (煮熟少量). 大量致胃肠胀气. 含异硫氰酸盐"
+    },
+    {
+      "name_zh": "梨 (去籽)",
+      "safe": true,
+      "note": "✅ 适量 (去籽). 纤维 + 维 C. 果糖中"
+    },
+    {
+      "name_zh": "桃子 (去核)",
+      "safe": true,
+      "note": "✅ 适量 (去核). 维 A + C. 糖中"
+    },
+    {
+      "name_zh": "李子 (去核)",
+      "safe": true,
+      "note": "✅ 适量 (去核). 纤维丰富"
+    },
+    {
+      "name_zh": "杏 (去核)",
+      "safe": true,
+      "note": "✅ 适量 (去核). 钾 + 维 A. 核含氰化物"
+    },
+    {
+      "name_zh": "樱桃 (去核)",
+      "safe": true,
+      "note": "✅ 少量 (去核). 抗氧化. 核/茎/叶含氰化物! 致中毒"
+    },
+    {
+      "name_zh": "草莓",
+      "safe": true,
+      "note": "✅ 适量. 维 C + 纤维. 抗氧化. 糖中"
+    },
+    {
+      "name_zh": "覆盆子 (树莓)",
+      "safe": true,
+      "note": "✅ 适量. 纤维 + 抗氧化. 少量木糖醇 (天然)"
+    },
+    {
+      "name_zh": "黑莓",
+      "safe": true,
+      "note": "✅ 适量. 维 C + 锰. 抗氧化"
+    },
+    {
+      "name_zh": "蔓越莓 (无糖)",
+      "safe": true,
+      "note": "✅ 适量 (无糖). 泌尿健康. 糖中"
+    },
+    {
+      "name_zh": "葡萄柚 (柚子)",
+      "safe": true,
+      "note": "✅ 少量. 维 C 高. 酸性可能刺激胃"
+    },
+    {
+      "name_zh": "金桔",
+      "safe": true,
+      "note": "✅ 少量 (去籽). 维 C 高"
+    },
+    {
+      "name_zh": "百香果",
+      "safe": true,
+      "note": "✅ 少量. 纤维高. 糖中"
+    },
+    {
+      "name_zh": "火龙果",
+      "safe": true,
+      "note": "✅ 适量. 维 C + 铁. 籽可吃"
+    },
+    {
+      "name_zh": "榴莲",
+      "safe": true,
+      "note": "⚠️ 极少量. 极高热量/糖, 肥胖犬禁"
+    },
+    {
+      "name_zh": "山竹",
+      "safe": true,
+      "note": "✅ 少量. 抗氧化. 高糖"
+    },
+    {
+      "name_zh": "荔枝",
+      "safe": true,
+      "note": "✅ 极少量. 高糖. 大量可致低血糖 (人/犬)"
+    },
+    {
+      "name_zh": "龙眼 (桂圆)",
+      "safe": true,
+      "note": "✅ 极少量. 高糖"
+    },
+    {
+      "name_zh": "红毛丹",
+      "safe": true,
+      "note": "✅ 极少量 (去核去皮毛). 糖高"
+    },
+    {
+      "name_zh": "杨桃",
+      "safe": true,
+      "note": "✅ 极少量. 草酸高, 肾犬禁"
+    },
+    {
+      "name_zh": "枇杷",
+      "safe": true,
+      "note": "✅ 适量 (去核). 维 A 高"
+    },
+    {
+      "name_zh": "桑葚",
+      "safe": true,
+      "note": "✅ 适量. 维 C + 铁. 染色"
+    },
+    {
+      "name_zh": "无花果 (鲜)",
+      "safe": true,
+      "note": "✅ 适量. 纤维 + 钙. 高糖"
+    },
+    {
+      "name_zh": "石榴 (去籽)",
+      "safe": true,
+      "note": "✅ 少量. 抗氧化. 籽多难消化"
+    },
+    {
+      "name_zh": "杨梅",
+      "safe": true,
+      "note": "✅ 适量. 维 C + 抗氧化"
+    },
+    {
+      "name_zh": "椰子 (肉/水)",
+      "safe": true,
+      "note": "✅ 少量椰肉. 椰水适量 (电解质). 椰油可外用润肤"
+    },
+    {
+      "name_zh": "枣 (红枣)",
+      "safe": true,
+      "note": "✅ 极少量 (去核). 高糖. 纤维高"
+    },
+    {
+      "name_zh": "柿子",
+      "safe": true,
+      "note": "⚠️ 极少量. 鞣酸多, 可致肠梗阻 + 高糖"
+    },
+    {
+      "name_zh": "黑枣 (君迁子)",
+      "safe": true,
+      "note": "⚠️ 极少量. 鞣酸高, 肠梗阻风险"
+    },
+    {
+      "name_zh": "沙田柚",
+      "safe": true,
+      "note": "✅ 适量. 维 C + 纤维"
+    },
+    {
+      "name_zh": "青柠 (酸柑)",
+      "safe": true,
+      "note": "⚠️ 极少. 酸刺激胃. 皮含精油"
+    },
+    {
+      "name_zh": "杨桃",
+      "safe": true,
+      "note": "⚠️ 极少. 草酸高, 肾犬禁"
+    },
+    {
+      "name_zh": "茄子",
+      "safe": true,
+      "note": "✅ 适量 (去皮熟). 纤维 + 抗氧化 (nasunin). 茄碱未成熟/生有"
+    },
+    {
+      "name_zh": "甜菜根",
+      "safe": true,
+      "note": "✅ 适量 (熟). 维 B + 铁. 染色尿/粪. 草酸"
+    },
+    {
+      "name_zh": "大白菜",
+      "safe": true,
+      "note": "✅ 适量. 维 C + 纤维. 硫氰酸盐, 大量致甲减"
+    },
+    {
+      "name_zh": "小白菜 (青菜)",
+      "safe": true,
+      "note": "✅ 适量. 维 A/C/K + 钙"
+    },
+    {
+      "name_zh": "油麦菜",
+      "safe": true,
+      "note": "✅ 适量. 纤维 + 维 K"
+    },
+    {
+      "name_zh": "生菜 (叶用莴苣)",
+      "safe": true,
+      "note": "✅ 适量. 维 K + 水. 营养低"
+    },
+    {
+      "name_zh": "羽衣甘蓝 (kale)",
+      "safe": true,
+      "note": "✅ 适量. 维 K/C/A + 钙. 草酸中, 大量结石"
+    },
+    {
+      "name_zh": "秋葵",
+      "safe": true,
+      "note": "✅ 适量. 维 C + 纤维. 黏液"
+    },
+    {
+      "name_zh": "茭白 (菰)",
+      "safe": true,
+      "note": "✅ 适量. 纤维 + 维 B. 草酸中"
+    },
+    {
+      "name_zh": "莲藕",
+      "safe": true,
+      "note": "✅ 适量 (熟). 维 C + 纤维. 淀粉中"
+    },
+    {
+      "name_zh": "山药",
+      "safe": true,
+      "note": "✅ 适量 (熟去皮). 淀粉 + 维 B. 黏液可护胃"
+    },
+    {
+      "name_zh": "芋头",
+      "safe": true,
+      "note": "✅ 适量 (熟). 淀粉. 草酸高, 生刺激"
+    },
+    {
+      "name_zh": "玉米 (去芯粒)",
+      "safe": true,
+      "note": "✅ 适量 (去芯). 纤维 + 维 B. **玉米芯勿给! 肠梗阻. 玉米粒可少量**"
+    },
+    {
+      "name_zh": "蚕豆",
+      "safe": true,
+      "note": "⚠️ 少量 (熟). 蛋白高. 大量胀气"
+    },
+    {
+      "name_zh": "毛豆 (黄豆嫩)",
+      "safe": true,
+      "note": "✅ 适量 (熟). 蛋白 + 维 K. 大量胀气"
+    },
+    {
+      "name_zh": "豆芽",
+      "safe": true,
+      "note": "✅ 适量 (熟). 维 C 高. 沙门氏菌风险 (生食禁)"
+    },
+    {
+      "name_zh": "苜蓿芽",
+      "safe": true,
+      "note": "✅ 适量. 维 K. 沙门氏菌风险"
+    },
+    {
+      "name_zh": "紫甘蓝",
+      "safe": true,
+      "note": "✅ 适量. 抗氧化 (花青素). 硫氰酸盐"
+    },
+    {
+      "name_zh": "大葱",
+      "safe": true,
+      "note": "❌ 禁! 同洋葱含 N-丙基二硫化物, 溶血性贫血"
+    },
+    {
+      "name_zh": "韭菜",
+      "safe": true,
+      "note": "❌ 禁! 同葱蒜, 溶血 + 胃肠刺激"
+    },
+    {
+      "name_zh": "香菜",
+      "safe": true,
+      "note": "✅ 极少量. 维 K + C. 精油可能刺激"
+    },
+    {
+      "name_zh": "薄荷",
+      "safe": true,
+      "note": "✅ 极少量. 助消化. 精油勿内服"
+    },
+    {
+      "name_zh": "罗勒 (九层塔)",
+      "safe": true,
+      "note": "✅ 极少量. 抗氧化"
+    },
+    {
+      "name_zh": "迷迭香",
+      "safe": true,
+      "note": "✅ 极少量. 抗氧化. 精油勿用"
+    },
+    {
+      "name_zh": "姜黄 (姜黄粉)",
+      "safe": true,
+      "note": "✅ 极少量. 抗炎 (姜黄素). 大量可能胃不适"
+    },
+    {
+      "name_zh": "茴香 (小茴香籽)",
+      "safe": true,
+      "note": "✅ 极少量. 助消化. 胀气"
+    },
+    {
+      "name_zh": "芹菜",
+      "safe": true,
+      "note": "✅ 适量. 维 K + 水. 纤维筋可致呛咳"
+    },
+    {
+      "name_zh": "欧芹 (荷兰芹)",
+      "safe": true,
+      "note": "✅ 极少量. 维 K/C. 光敏性, 大量可能皮肤反应"
+    },
+    {
+      "name_zh": "花椰菜 (白花菜)",
+      "safe": true,
+      "note": "✅ 适量 (熟). 维 C + 纤维. 胀气"
+    },
+    {
+      "name_zh": "菜花 (花菜/西兰花/白花菜)",
+      "safe": true,
+      "note": "✅ 适量 (熟). 维 C + 纤维. 胀气"
+    },
+    {
+      "name_zh": "孢子甘蓝 (小卷心菜)",
+      "safe": true,
+      "note": "✅ 适量. 维 K/C 高. 胀气"
+    },
+    {
+      "name_zh": "菊苣",
+      "safe": true,
+      "note": "✅ 适量. 苦味助消化. 菊苣根代咖啡"
+    },
+    {
+      "name_zh": "朝鲜蓟 (洋蓟)",
+      "safe": true,
+      "note": "✅ 适量. 纤维 + 抗氧化. 大量胀气"
+    },
+    {
+      "name_zh": "虾 (去壳去肠)",
+      "safe": true,
+      "note": "✅ 极少量 (去壳去肠线). 蛋白 + 磷. 高敏. 甲壳类过敏犬禁"
+    },
+    {
+      "name_zh": "蟹 (去壳)",
+      "safe": true,
+      "note": "✅ 极少量. 蛋白 + 锌. 高敏. 大量致胰腺炎"
+    },
+    {
+      "name_zh": "章鱼",
+      "safe": true,
+      "note": "✅ 极少量 (去骨煮). 蛋白. 致敏"
+    },
+    {
+      "name_zh": "鳕鱼",
+      "safe": true,
+      "note": "✅ 适量 (去骨熟). 蛋白 + Omega-3 低脂"
+    },
+    {
+      "name_zh": "三文鱼",
+      "safe": true,
+      "note": "✅ 适量 (熟). Omega-3 高. **生有寄生虫风险, 必须熟**"
+    },
+    {
+      "name_zh": "金枪鱼 (罐头水浸)",
+      "safe": true,
+      "note": "✅ 少量. Omega-3. 油浸高脂, 胰腺炎犬禁"
+    },
+    {
+      "name_zh": "沙丁鱼 (罐装水浸)",
+      "safe": true,
+      "note": "✅ 适量. Omega-3 + 钙. 骨可吃 (软)"
+    },
+    {
+      "name_zh": "鲱鱼",
+      "safe": true,
+      "note": "✅ 适量 (熟). Omega-3. 骨多小心"
+    },
+    {
+      "name_zh": "鲈鱼",
+      "safe": true,
+      "note": "✅ 适量 (去骨熟). 蛋白低敏"
+    },
+    {
+      "name_zh": "罗非鱼",
+      "safe": true,
+      "note": "✅ 适量 (去骨熟). 蛋白. 野生产地重金属"
+    },
+    {
+      "name_zh": "鹌鹑蛋 (熟)",
+      "safe": true,
+      "note": "✅ 适量 (熟). 蛋白 + 维 B"
+    },
+    {
+      "name_zh": "鸭蛋 (熟)",
+      "safe": true,
+      "note": "✅ 适量 (熟). 蛋白. 胆固醇高"
+    },
+    {
+      "name_zh": "鹅蛋 (熟)",
+      "safe": true,
+      "note": "✅ 适量 (熟). 蛋白. 胆固醇高"
+    },
+    {
+      "name_zh": "鸽子肉",
+      "safe": true,
+      "note": "✅ 适量 (去骨熟). 蛋白"
+    },
+    {
+      "name_zh": "兔肉",
+      "safe": true,
+      "note": "✅ 适量 (熟). 低脂高蛋白. 低敏 (过敏粮常用)"
+    },
+    {
+      "name_zh": "鹿肉 (驯鹿)",
+      "safe": true,
+      "note": "✅ 适量 (熟). 低敏 (过敏粮常用)"
+    },
+    {
+      "name_zh": "袋鼠肉",
+      "safe": true,
+      "note": "✅ 适量 (熟). 低敏. 中国罕见"
+    },
+    {
+      "name_zh": "马肉",
+      "safe": true,
+      "note": "✅ 适量 (熟). 蛋白. 低敏"
+    },
+    {
+      "name_zh": "鸵鸟肉",
+      "safe": true,
+      "note": "✅ 适量 (熟). 低脂高蛋白"
+    },
+    {
+      "name_zh": "驴肉",
+      "safe": true,
+      "note": "✅ 适量 (熟). 蛋白. 脂肪低"
+    },
+    {
+      "name_zh": "骆驼肉",
+      "safe": true,
+      "note": "✅ 适量 (熟). 蛋白. 罕见"
+    },
+    {
+      "name_zh": "昆虫 (蟋蟀)",
+      "safe": true,
+      "note": "✅ 适量 (商品化). 蛋白 + 钙. 罕见"
+    },
+    {
+      "name_zh": "羊奶 (鲜/奶粉)",
+      "safe": true,
+      "note": "✅ 适量. 乳糖比牛奶低. 蛋白 + 钙"
+    },
+    {
+      "name_zh": "山羊奶",
+      "safe": true,
+      "note": "✅ 适量. 蛋白 + 钙. 比牛奶低敏"
+    },
+    {
+      "name_zh": "水牛奶",
+      "safe": true,
+      "note": "✅ 适量. 蛋白 + 钙. 乳糖高"
+    },
+    {
+      "name_zh": "骆驼奶",
+      "safe": true,
+      "note": "✅ 适量. 蛋白. 维 C 高. 罕见"
+    },
+    {
+      "name_zh": "希腊酸奶 (无糖无添加)",
+      "safe": true,
+      "note": "✅ 适量. 蛋白 + 益生菌. 无糖无木糖醇"
+    },
+    {
+      "name_zh": "茅屋奶酪 (低脂)",
+      "safe": true,
+      "note": "✅ 适量. 蛋白 + 钙. 少量低脂"
+    },
+    {
+      "name_zh": "切达奶酪",
+      "safe": true,
+      "note": "✅ 极少量. 蛋白 + 钙. 乳糖低. 钠/脂高, 限量"
+    },
+    {
+      "name_zh": "马苏里拉 (低水份)",
+      "safe": true,
+      "note": "✅ 极少量. 蛋白 + 钙"
+    },
+    {
+      "name_zh": "蓝纹奶酪",
+      "safe": true,
+      "note": "❌ 禁! 霉菌产 roquefortine C, 中毒"
+    },
+    {
+      "name_zh": "布里奶酪 (白霉)",
+      "safe": true,
+      "note": "⚠️ 极少量. 乳糖低. 高脂"
+    },
+    {
+      "name_zh": "帕尔马干酪 (Parmesan)",
+      "safe": true,
+      "note": "⚠️ 极少量. 高钙钠. 肾/心犬禁"
+    },
+    {
+      "name_zh": "黄油 (无盐)",
+      "safe": true,
+      "note": "⚠️ 极少量. 高脂. 胰腺炎犬禁. 维生素 A/D/E/K"
+    },
+    {
+      "name_zh": "藜麦 (cooked)",
+      "safe": true,
+      "note": "✅ 适量 (熟). 完全蛋白 + 铁. 须煮熟去皂素"
+    },
+    {
+      "name_zh": "荞麦",
+      "safe": true,
+      "note": "✅ 适量 (熟). 蛋白 + 镁. 与其他谷物交叉反应少"
+    },
+    {
+      "name_zh": "小米",
+      "safe": true,
+      "note": "✅ 适量 (熟). 维 B + 镁. 容易消化"
+    },
+    {
+      "name_zh": "高粱",
+      "safe": true,
+      "note": "✅ 适量 (熟). 蛋白 + 抗氧化物"
+    },
+    {
+      "name_zh": "苋菜籽 (amaranth)",
+      "safe": true,
+      "note": "✅ 适量 (熟). 蛋白 + 赖氨酸"
+    },
+    {
+      "name_zh": "燕麦麸",
+      "safe": true,
+      "note": "✅ 适量. 纤维 β-葡聚糖, 降胆固醇"
+    },
+    {
+      "name_zh": "燕麦 (whole, cooked)",
+      "safe": true,
+      "note": "✅ 适量 (熟). 维 B + 纤维. 易消化"
+    },
+    {
+      "name_zh": "大麦",
+      "safe": true,
+      "note": "✅ 适量 (熟). 纤维 + 硒"
+    },
+    {
+      "name_zh": "糙米",
+      "safe": true,
+      "note": "✅ 适量 (熟). 纤维 + 维 B"
+    },
+    {
+      "name_zh": "黑米",
+      "safe": true,
+      "note": "✅ 适量 (熟). 抗氧化花青素"
+    },
+    {
+      "name_zh": "红米",
+      "safe": true,
+      "note": "✅ 适量 (熟). 纤维 + 维 B"
+    },
+    {
+      "name_zh": "小米 (粟米)",
+      "safe": true,
+      "note": "✅ 适量 (熟). 蛋白. 无麸质"
+    },
+    {
+      "name_zh": "木薯 (熟)",
+      "safe": true,
+      "note": "⚠️ 必须熟透! 天然含氰苷. 淀粉高"
+    },
+    {
+      "name_zh": "椰子粉",
+      "safe": true,
+      "note": "✅ 适量. 纤维高. 低碳水"
+    },
+    {
+      "name_zh": "杏仁奶 (无糖)",
+      "safe": true,
+      "note": "⚠️ 少量. 部分犬对坚果过敏. 无糖无添加"
+    },
+    {
+      "name_zh": "燕麦奶 (无糖)",
+      "safe": true,
+      "note": "✅ 少量. 乳糖不耐代用"
+    },
+    {
+      "name_zh": "椰奶 (无糖)",
+      "safe": true,
+      "note": "✅ 少量. 脂肪高. 胰腺炎禁"
+    },
+    {
+      "name_zh": "亚麻籽 (磨碎)",
+      "safe": true,
+      "note": "✅ 极少量 (磨碎). Omega-3 + 纤维. 整粒不被消化"
+    },
+    {
+      "name_zh": "奇亚籽",
+      "safe": true,
+      "note": "✅ 极少量 (泡水). Omega-3 + 纤维. 干吃呛咳风险"
+    },
+    {
+      "name_zh": "大麻籽 (hemp seed)",
+      "safe": true,
+      "note": "✅ 极少量. 蛋白 + Omega-3. CBD 大麻二酚中国非法"
+    },
+    {
+      "name_zh": "葵花籽 (去壳无盐)",
+      "safe": true,
+      "note": "✅ 极少量. 维 E + 镁. 高脂, 胰腺炎禁"
+    },
+    {
+      "name_zh": "南瓜籽 (去壳无盐)",
+      "safe": true,
+      "note": "✅ 适量 (去壳). 锌 + 镁. 驱虫传说无证据"
+    },
+    {
+      "name_zh": "芝麻",
+      "safe": true,
+      "note": "✅ 极少量. 钙 + 维 E"
+    },
+    {
+      "name_zh": "亚麻籽油",
+      "safe": true,
+      "note": "✅ 极少量. Omega-3 补充. 冷藏"
+    },
+    {
+      "name_zh": "椰子油 (初榨)",
+      "safe": true,
+      "note": "✅ 极少 (1 tsp/10kg). 椰子中链脂肪, 致胖. 胰腺炎禁"
+    },
+    {
+      "name_zh": "橄榄油 (特级初榨)",
+      "safe": true,
+      "note": "✅ 适量. 单不饱和脂肪. 改善毛质. 不过量"
+    },
+    {
+      "name_zh": "鱼油 (宠物专用)",
+      "safe": true,
+      "note": "✅ 适量. EPA + DHA. 抗炎 + 美毛. 防变质"
+    },
+    {
+      "name_zh": "亚麻油",
+      "safe": true,
+      "note": "✅ 极少量. Omega-3 前体, 转化率低"
+    },
+    {
+      "name_zh": "鼠尾草籽 (chia 替代品)",
+      "safe": true,
+      "note": "✅ 极少量. 纤维 + Omega-3"
+    },
+    {
+      "name_zh": "椰子水 (无添加)",
+      "safe": true,
+      "note": "✅ 适量. 电解质 (钾/钠). 无糖无添加"
+    },
+    {
+      "name_zh": "麦草汁 (wheatgrass)",
+      "safe": true,
+      "note": "✅ 极少. 维 K/C. 大量致溶血"
+    },
+    {
+      "name_zh": "无盐番茄汁",
+      "safe": true,
+      "note": "✅ 适量. 番茄红素. 无盐无糖"
+    },
+    {
+      "name_zh": "苹果醋",
+      "safe": true,
+      "note": "✅ 极少量 (稀释). 助消化. 高酸, 大量胃不适"
+    },
+    {
+      "name_zh": "蔓越莓汁 (无糖)",
+      "safe": true,
+      "note": "✅ 少量. 尿路酸. 无糖无添加"
+    },
+    {
+      "name_zh": "蜂蜜 (生, 1 岁后犬)",
+      "safe": true,
+      "note": "✅ 极少量. 抗氧化. 高糖. **1 岁以下犬禁! 肉毒梭菌风险**"
+    },
+    {
+      "name_zh": "枫糖浆 (纯, 无添加)",
+      "safe": true,
+      "note": "⚠️ 极少. 极高糖"
+    },
+    {
+      "name_zh": "花生酱 (无糖无盐无木糖醇)",
+      "safe": true,
+      "note": "✅ 极少. 蛋白 + 健康脂肪. 千万检查无木糖醇! (致低血糖肝衰)"
+    },
+    {
+      "name_zh": "杏仁酱 (无糖无盐)",
+      "safe": true,
+      "note": "⚠️ 极少. 蛋白. 部分过敏"
+    },
+    {
+      "name_zh": "椰子酱 (manjar)",
+      "safe": true,
+      "note": "⚠️ 极少. 高糖高脂. 胰腺炎禁"
+    },
+    {
+      "name_zh": "南瓜泥 (无添加)",
+      "safe": true,
+      "note": "✅ 适量. 纤维 + 维 A. 软便/便秘皆可"
+    },
+    {
+      "name_zh": "红薯泥 (无添加)",
+      "safe": true,
+      "note": "✅ 适量 (熟). 维 A + 纤维. 糖中"
+    },
+    {
+      "name_zh": "冰沙 (无葡萄无添加)",
+      "safe": true,
+      "note": "⚠️ 极少. 用安全水果. 冰可能刺激胃"
+    },
+    {
+      "name_zh": "无盐肉汤 (鸡/牛)",
+      "safe": true,
+      "note": "✅ 适量. 补水 + 食欲刺激. 无洋葱大蒜. 限盐"
+    },
+    {
+      "name_zh": "杨桃",
+      "safe": false,
+      "note": "❌ 肾毒. 草酸致肾衰, 犬肾本来敏感"
+    },
+    {
+      "name_zh": "柿子 (过量)",
+      "safe": false,
+      "note": "❌ 鞣酸致肠梗阻, 高糖. 极少量可"
+    },
+    {
+      "name_zh": "西米",
+      "safe": false,
+      "note": "⚠️ 极少量. 难消化, 易胀气, 几乎无营养"
+    },
+    {
+      "name_zh": "含糖酸奶 (大量)",
+      "safe": false,
+      "note": "❌ 高糖 + 添加剂. 无糖无添加的少量可"
+    },
+    {
+      "name_zh": "巧克力 (任何形式)",
+      "safe": false,
+      "note": "❌ 可可碱中毒. 黑巧>牛奶巧>白巧. **任何形式致命风险**"
+    },
+    {
+      "name_zh": "可可粉",
+      "safe": false,
+      "note": "❌ 高浓度可可碱"
+    },
+    {
+      "name_zh": "咖啡",
+      "safe": false,
+      "note": "❌ 咖啡因. 中枢兴奋. 心律失常"
+    },
+    {
+      "name_zh": "茶 (含咖啡因)",
+      "safe": false,
+      "note": "❌ 茶碱 + 咖啡因. 中枢兴奋"
+    },
+    {
+      "name_zh": "可乐/雪碧/汽水",
+      "safe": false,
+      "note": "❌ 咖啡因 + 高糖 + 人工甜味剂"
+    },
+    {
+      "name_zh": "能量饮料",
+      "safe": false,
+      "note": "❌ 咖啡因 + 牛磺酸 + 大量糖"
+    },
+    {
+      "name_zh": "酒精",
+      "safe": false,
+      "note": "❌ 致命! 昏迷/呼吸抑制. 即使啤酒"
+    },
+    {
+      "name_zh": "啤酒花 (蛇麻草)",
+      "safe": false,
+      "note": "❌ 犬高度敏感, 体温急升. 致命"
+    },
+    {
+      "name_zh": "生面团 (未烤)",
+      "safe": false,
+      "note": "❌ 酵母在胃里产气 + 酒精. 胃扩张"
+    },
+    {
+      "name_zh": "生豆/生豆芽",
+      "safe": false,
+      "note": "❌ 血凝素 (lectin) 致呕吐. 必须煮熟"
+    },
+    {
+      "name_zh": "蚕豆 (大量)",
+      "safe": false,
+      "note": "❌ G6PD 缺乏犬致溶血 (罕见, 但风险)"
+    },
+    {
+      "name_zh": "生鸡蛋 (蛋白)",
+      "safe": false,
+      "note": "❌ 抗生物素蛋白 → 维 H 缺乏. 沙门氏菌"
+    },
+    {
+      "name_zh": "生鱼 (三文鱼/鳟鱼)",
+      "safe": false,
+      "note": "❌ 寄生虫 (Anisakis) + 硫胺素酶破坏维 B1"
+    },
+    {
+      "name_zh": "生贝类",
+      "safe": false,
+      "note": "❌ 弧菌/沙门氏菌. 麻痹性贝毒"
+    },
+    {
+      "name_zh": "生蚝/牡蛎",
+      "safe": false,
+      "note": "❌ 重金属 + 弧菌. 禁"
+    },
+    {
+      "name_zh": "河豚 (未经许可)",
+      "safe": false,
+      "note": "❌ 河豚毒素致命"
+    },
+    {
+      "name_zh": "生肝 (大量)",
+      "safe": false,
+      "note": "❌ 维 A 中毒 (肌间/骨痛). 每周 < 肝 15% 食量"
+    },
+    {
+      "name_zh": "动物脂肪 (大量)",
+      "safe": false,
+      "note": "❌ 胰腺炎主要诱因. 1 块肥肉可致 5kg 犬胰腺炎"
+    },
+    {
+      "name_zh": "烧烤/熏制食物",
+      "safe": false,
+      "note": "❌ 高盐 + 亚硝胺 + 油脂. 致胰腺炎/肾损"
+    },
+    {
+      "name_zh": "腊肉/腌肉/火腿",
+      "safe": false,
+      "note": "❌ 高盐 + 亚硝酸盐. 致中毒/肾"
+    },
+    {
+      "name_zh": "皮蛋 (松花蛋)",
+      "safe": false,
+      "note": "❌ 强碱 + 高盐 + 重金属. 犬肾脏负担"
+    },
+    {
+      "name_zh": "咸鸭蛋",
+      "safe": false,
+      "note": "❌ 极高盐. 致盐中毒"
+    },
+    {
+      "name_zh": "臭豆腐",
+      "safe": false,
+      "note": "❌ 高盐 + 发酵致组胺 + 多种菌"
+    },
+    {
+      "name_zh": "方便面 (调料包)",
+      "safe": false,
+      "note": "❌ 极高盐 + 油 + 味精. 致急性肾衰/胰腺炎"
+    },
+    {
+      "name_zh": "薯片/锅巴",
+      "safe": false,
+      "note": "❌ 油盐 + 添加剂. 致胰腺炎"
+    },
+    {
+      "name_zh": "饼干 (人用)",
+      "safe": false,
+      "note": "❌ 油糖盐 + 巧克力可能 + 添加剂"
+    },
+    {
+      "name_zh": "蛋糕 (奶油)",
+      "safe": false,
+      "note": "❌ 乳糖 + 糖 + 奶油 + 巧克力可能 + 木糖醇可能"
+    },
+    {
+      "name_zh": "奶油 (黄油/植物)",
+      "safe": false,
+      "note": "❌ 高脂. 胰腺炎诱因"
+    },
+    {
+      "name_zh": "冰淇淋",
+      "safe": false,
+      "note": "❌ 乳糖 + 糖 + 巧克力可能 + 木糖醇可能"
+    },
+    {
+      "name_zh": "奶酪 (蓝纹/青霉)",
+      "safe": false,
+      "note": "❌ Roquefortine C 中毒"
+    },
+    {
+      "name_zh": "烟熏奶酪/重味奶酪",
+      "safe": false,
+      "note": "❌ 高盐高脂 + 添加剂"
+    },
+    {
+      "name_zh": "未灭菌生奶",
+      "safe": false,
+      "note": "❌ 沙门氏菌/李斯特菌/布鲁氏菌. 犬和人都有风险"
+    },
+    {
+      "name_zh": "人用维生素 (含铁)",
+      "safe": false,
+      "note": "❌ 铁中毒致呕吐/肝衰. 用犬专用"
+    },
+    {
+      "name_zh": "钙片 (人用)",
+      "safe": false,
+      "note": "❌ 高钙 + 维 D 致软组织钙化. 用犬专用"
+    },
+    {
+      "name_zh": "鱼刺 (碎骨)",
+      "safe": false,
+      "note": "❌ 刺穿消化道. 给鱼必去骨"
+    },
+    {
+      "name_zh": "家禽骨头 (熟)",
+      "safe": false,
+      "note": "❌ 碎裂刺穿. 必须生骨 (大块) 或粉碎. 鸡腿骨煮熟后仍可致裂"
+    },
+    {
+      "name_zh": "兔骨/羊骨 (熟)",
+      "safe": false,
+      "note": "❌ 碎裂致刺穿. 大块生骨可少量"
+    },
+    {
+      "name_zh": "猪骨/牛骨 (熟)",
+      "safe": false,
+      "note": "⚠️ 大块生牛骨可啃, 熟骨碎裂. 煮猪骨汤小心碎骨"
+    },
+    {
+      "name_zh": "玉米芯",
+      "safe": false,
+      "note": "❌ 整粒吞致肠梗阻. 玉米粒剥下少量可"
+    },
+    {
+      "name_zh": "桃核/李核/杏核/樱桃核",
+      "safe": false,
+      "note": "❌ 氰化物. 整吞肠梗阻. 必去核"
+    },
+    {
+      "name_zh": "苹果籽/梨籽",
+      "safe": false,
+      "note": "❌ 氰苷. 大量致命. 必去籽"
+    },
+    {
+      "name_zh": "枇杷核",
+      "safe": false,
+      "note": "❌ 氰苷"
+    },
+    {
+      "name_zh": "荔枝核",
+      "safe": false,
+      "note": "❌ 肠梗阻"
+    },
+    {
+      "name_zh": "芒果皮/芒果核",
+      "safe": false,
+      "note": "❌ 漆酚 (urushiol) 致敏. 果肉少量可"
+    },
+    {
+      "name_zh": "大黄叶柄 (rhubarb)",
+      "safe": false,
+      "note": "❌ 草酸高, 肾毒"
+    },
+    {
+      "name_zh": "番茄叶/茎/未熟番茄",
+      "safe": false,
+      "note": "❌ 茄碱. 成熟红番茄果肉少量可"
+    },
+    {
+      "name_zh": "马铃薯芽/绿皮",
+      "safe": false,
+      "note": "❌ 茄碱中毒. 削皮煮熟可少量"
+    },
+    {
+      "name_zh": "茄子皮 (部分)",
+      "safe": false,
+      "note": "❌ 茄碱 (紫色品种), 去皮煮熟可少量"
+    },
+    {
+      "name_zh": "银杏 (白果)",
+      "safe": false,
+      "note": "❌ 银杏酸 + 氢氰酸. 致命"
+    },
+    {
+      "name_zh": "巴旦木/苦杏仁",
+      "safe": false,
+      "note": "❌ 氢氰酸. 致命"
+    },
+    {
+      "name_zh": "腰果 (大量)",
+      "safe": false,
+      "note": "❌ 高脂 + 黄樟素 (黄樟油). 极少量可"
+    },
+    {
+      "name_zh": "夏威夷果 (澳洲坚果)",
+      "safe": false,
+      "note": "❌ 神秘毒素, 致后肢无力/震颤/呕吐. 即使 1-2 颗可致瘫"
+    },
+    {
+      "name_zh": "核桃 (黑核桃/英国核桃)",
+      "safe": false,
+      "note": "❌ 黑核桃: 毒性强. 英国核桃: 高脂, 少量可"
+    },
+    {
+      "name_zh": "山核桃 (碧根果)",
+      "safe": false,
+      "note": "⚠️ 高脂. 极少量. 霉菌毒风险 (黄曲霉)"
+    },
+    {
+      "name_zh": "开心果 (盐/霉菌)",
+      "safe": false,
+      "note": "❌ 霉菌毒 (黄曲霉). 高脂. 果壳碎裂致肠穿孔"
+    },
+    {
+      "name_zh": "栗子 (生/过量)",
+      "safe": false,
+      "note": "⚠️ 煮熟极少量. 淀粉高致胀气. 大量胰腺炎"
+    },
+    {
+      "name_zh": "榛子",
+      "safe": false,
+      "note": "⚠️ 极少量. 高脂. 部分过敏"
+    },
+    {
+      "name_zh": "巴西坚果 (大量)",
+      "safe": false,
+      "note": "❌ 硒中毒 (硒 1 颗/小型犬风险). 极少量"
+    },
+    {
+      "name_zh": "可乐果",
+      "safe": false,
+      "note": "❌ 咖啡因. 致心律失常"
+    },
+    {
+      "name_zh": "瓜拉那 (guarana)",
+      "safe": false,
+      "note": "❌ 咖啡因含量极高 (比咖啡 2-4 倍)"
+    },
+    {
+      "name_zh": "卡瓦胡椒 (kava)",
+      "safe": false,
+      "note": "❌ 镇静 + 肝毒"
+    },
+    {
+      "name_zh": "圣约翰草 (St. John's Wort)",
+      "safe": false,
+      "note": "❌ 光敏 + 多药相互作用"
+    },
+    {
+      "name_zh": "银杏提取物",
+      "safe": false,
+      "note": "❌ 出血风险. 抗凝血"
+    },
+    {
+      "name_zh": "紫锥菊 (过量)",
+      "safe": false,
+      "note": "❌ 免疫刺激. 自身免疫病犬禁"
+    },
+    {
+      "name_zh": "人用感冒药 (含对乙酰氨基酚)",
+      "safe": false,
+      "note": "❌ **致命! 致红细胞氧化 + 肝衰**"
+    },
+    {
+      "name_zh": "布洛芬/萘普生/双氯芬酸 (NSAID)",
+      "safe": false,
+      "note": "❌ **致命! 致胃溃疡 + 肾衰**"
+    },
+    {
+      "name_zh": "阿司匹林 (剂量错误)",
+      "safe": false,
+      "note": "❌ 胃溃疡 + 出血. 仅兽医指导下用"
+    },
+    {
+      "name_zh": "苯二氮卓类安眠药",
+      "safe": false,
+      "note": "❌ 矛盾兴奋/呼吸抑制. 兽医指导外禁"
+    },
+    {
+      "name_zh": "对乙酰氨基酚 (泰诺)",
+      "safe": false,
+      "note": "❌ **致命! 1 片可毒死 10kg 犬**"
+    },
+    {
+      "name_zh": "维生素 D 过量 (人用补充剂)",
+      "safe": false,
+      "note": "❌ 软组织钙化 + 肾衰. 犬用补充剂按剂量"
+    },
+    {
+      "name_zh": "维生素 A 过量 (肝/鱼肝油)",
+      "safe": false,
+      "note": "❌ 骨痛 + 维 A 中毒"
+    },
+    {
+      "name_zh": "钙磷比例失调 (大量肉/肝)",
+      "safe": false,
+      "note": "❌ 致骨骼发育不良. 幼犬勿长期单吃肉"
+    },
+    {
+      "name_zh": "洋葱/葱/蒜/韭/薤",
+      "safe": false,
+      "note": "❌ 葱属植物. N-丙基二硫化物溶血性贫血"
+    },
+    {
+      "name_zh": "大蒜 (大量)",
+      "safe": false,
+      "note": "❌ 同葱属. **犬比人对大蒜更敏感** (硫化物代谢慢). 1 瓣/5kg 风险"
+    },
+    {
+      "name_zh": "黄樟素 (sassafras)",
+      "safe": false,
+      "note": "❌ 致癌 + 肝毒. 含于黄樟根啤/沙士"
+    },
+    {
+      "name_zh": "桉树油/茶树油 (高浓度)",
+      "safe": false,
+      "note": "❌ 中枢抑制. 稀释外用少量可, 内服禁"
+    },
+    {
+      "name_zh": "冬青油 (水杨酸甲酯)",
+      "safe": false,
+      "note": "❌ 致阿司匹林样中毒"
+    },
+    {
+      "name_zh": "樟脑 (camphor)",
+      "safe": false,
+      "note": "❌ 中枢兴奋 + 抽搐"
+    },
+    {
+      "name_zh": "桂皮油 (高浓度)",
+      "safe": false,
+      "note": "❌ 肝毒. 粉末少量调味可"
+    },
+    {
+      "name_zh": "丁香 (大量/精油)",
+      "safe": false,
+      "note": "❌ 酚类致肝毒"
+    },
+    {
+      "name_zh": "肉豆蔻 (大量/精油)",
+      "safe": false,
+      "note": "❌ 致幻觉 + 心动过速"
+    },
+    {
+      "name_zh": "八角 (大量)",
+      "safe": false,
+      "note": "❌ 致呕吐/中枢抑制"
+    },
+    {
+      "name_zh": "甜菊糖 (stevia)",
+      "safe": false,
+      "note": "⚠️ 少量可. 高浓度可致胃肠不适"
+    },
+    {
+      "name_zh": "三氯蔗糖 (sucralose)",
+      "safe": false,
+      "note": "⚠️ 少量可. 含氯化合物. 安全数据不足"
+    },
+    {
+      "name_zh": "安赛蜜 (acesulfame K)",
+      "safe": false,
+      "note": "⚠️ 长期安全性不明, 少量可"
+    },
+    {
+      "name_zh": "阿斯巴甜 (aspartame)",
+      "safe": false,
+      "note": "⚠️ 含苯丙氨酸, 苯丙酮尿症犬勿用. 安全数据有限"
+    },
+    {
+      "name_zh": "糖精 (saccharin)",
+      "safe": false,
+      "note": "⚠️ 犬可能致癌 (旧研究), 现争议. 避开"
+    },
+    {
+      "name_zh": "蜂蜜 (1 岁以下犬)",
+      "safe": false,
+      "note": "❌ 1 岁以下犬禁! 肉毒梭菌芽孢风险 (如同婴儿)"
+    },
+    {
+      "name_zh": "生/未熟鸡蛋蛋白",
+      "safe": false,
+      "note": "❌ 抗生物素蛋白 → 维 H 缺乏. 沙门氏菌. 熟蛋黄适量可"
+    },
+    {
+      "name_zh": "生贝类 (牡蛎/蛤)",
+      "safe": false,
+      "note": "❌ 弧菌 (副溶血/霍乱). 麻痹性贝毒"
+    },
+    {
+      "name_zh": "青口贝 (淡菜)",
+      "safe": false,
+      "note": "❌ 贝类毒素. 弧菌"
+    },
+    {
+      "name_zh": "河螺/田螺 (生)",
+      "safe": false,
+      "note": "❌ 寄生虫 (管圆线虫)"
+    },
+    {
+      "name_zh": "福寿螺 (生)",
+      "safe": false,
+      "note": "❌ 广州管圆线虫. 致脑膜炎"
+    },
+    {
+      "name_zh": "海螺 (生)",
+      "safe": false,
+      "note": "❌ 贝类毒素"
+    },
+    {
+      "name_zh": "章鱼 (活)",
+      "safe": false,
+      "note": "❌ 窒息风险. 致敏. 煮熟极少量可"
+    },
+    {
+      "name_zh": "河豚",
+      "safe": false,
+      "note": "❌ 河豚毒素致命. 严禁"
+    },
+    {
+      "name_zh": "野生菌 (不熟)",
+      "safe": false,
+      "note": "❌ 鹅膏毒素致命. 食用菌熟可"
+    },
+    {
+      "name_zh": "青番茄/发芽马铃薯",
+      "safe": false,
+      "note": "❌ 龙葵素致命"
+    },
+    {
+      "name_zh": "木薯 (生)",
+      "safe": false,
+      "note": "❌ 氰苷. 必须浸泡煮熟"
+    },
+    {
+      "name_zh": "竹笋 (大量)",
+      "safe": false,
+      "note": "⚠️ 氰苷. 煮熟极少量可"
+    },
+    {
+      "name_zh": "亚麻籽 (生/未磨)",
+      "safe": false,
+      "note": "❌ 氰苷前体. 必须磨碎 + 极少量. 商业熟化产品可"
+    },
+    {
+      "name_zh": "苦瓜 (大量)",
+      "safe": false,
+      "note": "⚠️ 葫芦素. 致呕吐/低血糖. 极少量可"
+    },
+    {
+      "name_zh": "丝瓜子",
+      "safe": false,
+      "note": "❌ 葫芦素中毒"
+    },
+    {
+      "name_zh": "葫芦瓜 (苦味)",
+      "safe": false,
+      "note": "❌ 葫芦素中毒. 苦味说明有毒"
+    },
+    {
+      "name_zh": "西葫芦 (苦味)",
+      "safe": false,
+      "note": "❌ 同上"
+    },
+    {
+      "name_zh": "马醉木 (植物)",
+      "safe": false,
+      "note": "❌ 灰叶毒素"
+    },
+    {
+      "name_zh": "杜鹃花/山踯躅",
+      "safe": false,
+      "note": "❌ 梫木毒素. 致心衰"
+    },
+    {
+      "name_zh": "夹竹桃",
+      "safe": false,
+      "note": "❌ 强心苷. 致命"
+    },
+    {
+      "name_zh": "水仙花/石蒜",
+      "safe": false,
+      "note": "❌ 石蒜碱"
+    },
+    {
+      "name_zh": "风信子",
+      "safe": false,
+      "note": "❌ 球根毒"
+    },
+    {
+      "name_zh": "郁金香 (球根)",
+      "safe": false,
+      "note": "❌ 球根毒"
+    },
+    {
+      "name_zh": "百合 (所有部位)",
+      "safe": false,
+      "note": "❌ **猫致命! 犬也肾毒. 家中勿养百合**"
+    },
+    {
+      "name_zh": "金针菇 (生)",
+      "safe": false,
+      "note": "⚠️ 难消化, 抗胃. 煮熟极少量可"
+    },
+    {
+      "name_zh": "鹿花菌",
+      "safe": false,
+      "note": "❌ 鹿花菌素致命"
+    },
+    {
+      "name_zh": "白毒伞 (致命鹅膏)",
+      "safe": false,
+      "note": "❌ 致肝肾衰. 致命"
+    },
+    {
+      "name_zh": "未消毒牛奶",
+      "safe": false,
+      "note": "❌ 沙门氏菌/李斯特菌/布鲁氏菌"
+    },
+    {
+      "name_zh": "生蟹/醉蟹",
+      "safe": false,
+      "note": "❌ 肺吸虫. 必须煮熟"
+    },
+    {
+      "name_zh": "小龙虾 (生/不熟)",
+      "safe": false,
+      "note": "❌ 肺吸虫. 致肺/脑损害"
+    },
+    {
+      "name_zh": "荸荠 (生)",
+      "safe": false,
+      "note": "❌ 姜片虫. 必须去皮煮熟"
+    },
+    {
+      "name_zh": "菱角 (生)",
+      "safe": false,
+      "note": "❌ 姜片虫"
+    },
+    {
+      "name_zh": "茭白 (生)",
+      "safe": false,
+      "note": "⚠️ 草酸高. 必须煮熟少量"
+    },
+    {
+      "name_zh": "凉粉/凉皮 (生)",
+      "safe": false,
+      "note": "❌ 米酵菌酸 (变质致命). 即食也含明矾"
+    },
+    {
+      "name_zh": "银耳 (变质)",
+      "safe": false,
+      "note": "❌ 米酵菌酸致命. 鲜银耳煮熟可"
+    },
+    {
+      "name_zh": "木耳 (变质)",
+      "safe": false,
+      "note": "❌ 米酵菌酸. 鲜品泡发煮熟可"
+    },
+    {
+      "name_zh": "高果糖玉米糖浆",
+      "safe": false,
+      "note": "❌ 致肥胖/糖尿病. 大量果糖伤肝"
+    },
+    {
+      "name_zh": "工业糖 (含硫)",
+      "safe": false,
+      "note": "❌ 杂质 + 致敏"
+    },
+    {
+      "name_zh": "糖蜜 (少量)",
+      "safe": false,
+      "note": "⚠️ 极少量. 高糖高钾. 犬不易消化"
+    },
+    {
+      "name_zh": "黑糖/红糖 (大量)",
+      "safe": false,
+      "note": "❌ 极高糖"
+    },
+    {
+      "name_zh": "炼乳",
+      "safe": false,
+      "note": "❌ 极高糖 + 乳糖"
+    },
+    {
+      "name_zh": "豆豉/腐乳",
+      "safe": false,
+      "note": "❌ 高盐 + 霉菌 + 大蒜 (部分)"
+    },
+    {
+      "name_zh": "臭豆腐乳",
+      "safe": false,
+      "note": "❌ 高盐 + 组胺 + 发酵物"
+    },
+    {
+      "name_zh": "虾酱/鱼露",
+      "safe": false,
+      "note": "❌ 极高盐 + 组胺"
+    },
+    {
+      "name_zh": "老干妈 (含辣油/盐)",
+      "safe": false,
+      "note": "❌ 高盐 + 辣 + 大豆 (少量)"
+    },
+    {
+      "name_zh": "咖喱块 (含蒜/葱/辣)",
+      "safe": false,
+      "note": "❌ 葱蒜 + 辣 + 大量添加剂"
+    },
+    {
+      "name_zh": "现磨咖啡 (高浓度)",
+      "safe": false,
+      "note": "❌ 咖啡因 + 多酚致胃肠"
+    },
+    {
+      "name_zh": "脱咖啡因咖啡 (大量)",
+      "safe": false,
+      "note": "⚠️ 极少量. 仍有残咖啡因"
+    },
+    {
+      "name_zh": "运动饮料 (人用)",
+      "safe": false,
+      "note": "⚠️ 糖高 + 电解质不平衡. 犬专用可"
+    },
+    {
+      "name_zh": "苏打水",
+      "safe": false,
+      "note": "⚠️ 极少量. 产气. 调味剂可能含木糖醇"
+    },
+    {
+      "name_zh": "果汁饮料 (含糖/添加)",
+      "safe": false,
+      "note": "❌ 糖 + 添加剂. 新鲜纯果汁可少量"
+    },
+    {
+      "name_zh": "含糖冰棍",
+      "safe": false,
+      "note": "❌ 糖 + 木糖醇可能 + 乳糖可能"
+    },
+    {
+      "name_zh": "无糖冰棍 (含木糖醇)",
+      "safe": false,
+      "note": "❌ **木糖醇致命**"
+    },
+    {
+      "name_zh": "巧克力冰激凌",
+      "safe": false,
+      "note": "❌ 巧克力 + 乳糖 + 糖"
+    },
+    {
+      "name_zh": "鲜奶油 (whipping cream)",
+      "safe": false,
+      "note": "❌ 高脂. 胰腺炎禁"
+    },
+    {
+      "name_zh": "糖霜/糖粉",
+      "safe": false,
+      "note": "❌ 极高糖. 部分含木糖醇"
+    },
+    {
+      "name_zh": "棉花糖",
+      "safe": false,
+      "note": "❌ 糖. 部分明胶 (来源不明)"
+    },
+    {
+      "name_zh": "QQ 糖/果冻",
+      "safe": false,
+      "note": "❌ 糖 + 凝胶 + 窒息风险"
+    },
+    {
+      "name_zh": "口香糖",
+      "safe": false,
+      "note": "❌ **含木糖醇致命!** 即便 1 颗"
+    },
+    {
+      "name_zh": "薄荷糖 (无糖)",
+      "safe": false,
+      "note": "❌ 木糖醇可能"
+    },
+    {
+      "name_zh": "止咳糖浆 (含木糖醇/对乙酰氨基酚)",
+      "safe": false,
+      "note": "❌ 多种毒物"
+    },
+    {
+      "name_zh": "牙膏 (氟/人用)",
+      "safe": false,
+      "note": "❌ 氟 + 木糖醇. 用犬专用"
+    },
+    {
+      "name_zh": "漱口水",
+      "safe": false,
+      "note": "❌ 酒精 + 氟 + 薄荷醇"
+    },
+    {
+      "name_zh": "洗手液 (酒精基)",
+      "safe": false,
+      "note": "❌ 酒精 + 表面活性剂"
+    },
+    {
+      "name_zh": "精油 (浓缩, 多种)",
+      "safe": false,
+      "note": "❌ 茶树/冬青/柑橘/薄荷/桂皮/丁香等多对犬有毒"
+    },
+    {
+      "name_zh": "驱虫喷雾 (含菊酯)",
+      "safe": false,
+      "note": "❌ 菊酯对猫致命, 对犬也刺激. 用犬专用"
+    },
+    {
+      "name_zh": "杀虫剂/老鼠药",
+      "safe": false,
+      "note": "❌ **致命! 严格收好**"
+    },
+    {
+      "name_zh": "除草剂/农药",
+      "safe": false,
+      "note": "❌ **致命! 严格收好**"
+    },
+    {
+      "name_zh": "防冻液 (乙二醇)",
+      "safe": false,
+      "note": "❌ **致命! 1 茶匙可毒死 5kg 犬. 甜味吸引**"
+    },
+    {
+      "name_zh": "汽车冷却液",
+      "safe": false,
+      "note": "❌ 同防冻液"
+    },
+    {
+      "name_zh": "汽车挡风玻璃清洗液",
+      "safe": false,
+      "note": "❌ 甲醇. 致失明/死亡"
+    },
+    {
+      "name_zh": "洁厕剂 (含盐酸)",
+      "safe": false,
+      "note": "❌ 腐蚀. 致食道穿孔"
+    },
+    {
+      "name_zh": "84 消毒液 (含氯)",
+      "safe": false,
+      "note": "❌ 强腐蚀. 稀释对地面/物品消毒可 (晾干后)"
+    },
+    {
+      "name_zh": "洗衣液/柔顺剂",
+      "safe": false,
+      "note": "❌ 表面活性剂 + 香精. 致胃肠炎"
+    },
+    {
+      "name_zh": "洗洁精",
+      "safe": false,
+      "note": "❌ 同上"
+    },
+    {
+      "name_zh": "漂白剂",
+      "safe": false,
+      "note": "❌ 强腐蚀. 误食致口腔食道烧伤"
+    },
+    {
+      "name_zh": "染发剂/染甲",
+      "safe": false,
+      "note": "❌ 多种化学物. 严格收好"
+    },
+    {
+      "name_zh": "指甲油/卸甲水",
+      "safe": false,
+      "note": "❌ 丙酮. 致肝/中枢"
+    },
+    {
+      "name_zh": "香水/古龙水",
+      "safe": false,
+      "note": "❌ 酒精 + 精油"
+    },
+    {
+      "name_zh": "发胶/摩丝",
+      "safe": false,
+      "note": "❌ 酒精 + 化学气溶胶"
+    },
+    {
+      "name_zh": "定型啫喱 (含 PVP)",
+      "safe": false,
+      "note": "❌ 化学物"
+    },
+    {
+      "name_zh": "防晒霜 (含氧化锌/水杨酸)",
+      "safe": false,
+      "note": "❌ 水杨酸吸收中毒. 犬用专用"
+    },
+    {
+      "name_zh": "唇膏/口红 (含铅)",
+      "safe": false,
+      "note": "❌ 重金属 + 化学物"
+    },
+    {
+      "name_zh": "眼线笔/眼影",
+      "safe": false,
+      "note": "❌ 重金属 + 化学物"
+    },
+    {
+      "name_zh": "铅笔芯 (含石墨)",
+      "safe": false,
+      "note": "⚠️ 极少量通常无毒 (现代无铅), 但异物风险"
+    },
+    {
+      "name_zh": "油画颜料 (含重金属)",
+      "safe": false,
+      "note": "❌ 铅/镉/汞"
+    },
+    {
+      "name_zh": "粘鼠板",
+      "safe": false,
+      "note": "❌ 误食异物 + 胶水"
+    },
+    {
+      "name_zh": "玻璃球/弹珠",
+      "safe": false,
+      "note": "❌ 异物 + 误吞窒息"
+    },
+    {
+      "name_zh": "电池 (钮扣/碱性)",
+      "safe": false,
+      "note": "❌ **致命! 腐蚀 + 重金属**"
+    },
+    {
+      "name_zh": "磁铁 (钕磁)",
+      "safe": false,
+      "note": "❌ 多块磁铁相吸致肠穿孔"
+    },
+    {
+      "name_zh": "硬币 (含镍/铜/锌)",
+      "safe": false,
+      "note": "❌ 锌中毒. 美分 (1982 后含锌 97.5%) 风险"
+    },
+    {
+      "name_zh": "回形针/订书钉",
+      "safe": false,
+      "note": "❌ 异物 + 锌镀层"
+    },
+    {
+      "name_zh": "橡皮筋/发圈",
+      "safe": false,
+      "note": "❌ 异物. 可能套肠"
+    },
+    {
+      "name_zh": "塑料包装袋",
+      "safe": false,
+      "note": "❌ 异物 + 窒息"
+    },
+    {
+      "name_zh": "铝箔/锡纸",
+      "safe": false,
+      "note": "❌ 异物. 大量致金属中毒"
+    },
+    {
+      "name_zh": "玻璃碎片",
+      "safe": false,
+      "note": "❌ 刺穿"
+    },
+    {
+      "name_zh": "石头/沙子 (大量)",
+      "safe": false,
+      "note": "❌ 磨牙/肠梗阻"
+    },
+    {
+      "name_zh": "棉花 (整块)",
+      "safe": false,
+      "note": "❌ 异物 + 阻塞"
+    },
+    {
+      "name_zh": "纱布/绷带",
+      "safe": false,
+      "note": "❌ 异物 + 阻塞"
+    },
+    {
+      "name_zh": "牙线",
+      "safe": false,
+      "note": "❌ 异物 + 套肠"
+    },
+    {
+      "name_zh": "头发/假发",
+      "safe": false,
+      "note": "❌ 异物 + 阻塞"
+    },
+    {
+      "name_zh": "地毯毛/毛绒玩具碎片",
+      "safe": false,
+      "note": "❌ 异物"
+    },
+    {
+      "name_zh": "石灰粉 (生石灰)",
+      "safe": false,
+      "note": "❌ 强碱. 烧伤"
+    },
+    {
+      "name_zh": "石膏粉",
+      "safe": false,
+      "note": "❌ 异物 + 阻塞"
+    },
+    {
+      "name_zh": "漂白粉 (游泳池)",
+      "safe": false,
+      "note": "❌ 强腐蚀"
+    },
+    {
+      "name_zh": "海泡石/硅藻土 (大量)",
+      "safe": false,
+      "note": "❌ 异物"
+    },
+    {
+      "name_zh": "硅胶干燥剂",
+      "safe": false,
+      "note": "⚠️ 通常无毒但大量致胃肠刺激"
+    },
+    {
+      "name_zh": "活性炭 (食品级, 适量)",
+      "safe": true,
+      "note": "⚠️ 仅兽医指导下 (中毒处理). 不作日常食用"
     }
   ]
 }

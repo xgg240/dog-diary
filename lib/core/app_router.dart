@@ -15,6 +15,10 @@ import '../features/tools/tools_page.dart';
 import '../features/training/training_page.dart';
 import '../features/walks/walks_page.dart';
 import '../features/food/forbidden_foods_page.dart';
+import '../features/nearby/nearby_page.dart';
+import '../features/location/location_page.dart';
+import '../features/tools/monthly_report.dart';
+import '../features/encyclopedia/encyclopedia_page.dart';
 import 'app_shell.dart';
 
 class AppRouter {
@@ -28,10 +32,14 @@ class AppRouter {
       case '/food': return MaterialPageRoute(builder: (_) => const FoodPage());
       case '/finance': return MaterialPageRoute(builder: (_) => const FinancePage());
       case '/tools': return MaterialPageRoute(builder: (_) => const ToolsPage());
+      case '/encyclopedia': return MaterialPageRoute(builder: (_) => const EncyclopediaPage());
       case '/contacts': return MaterialPageRoute(builder: (_) => const ContactsPage());
       case '/walks': return MaterialPageRoute(builder: (_) => const WalksPage());
       case '/training': return MaterialPageRoute(builder: (_) => const TrainingPage());
       case '/forbidden-foods': return MaterialPageRoute(builder: (_) => const ForbiddenFoodsPage());
+      case '/nearby': return MaterialPageRoute(builder: (_) => const NearbyPage());
+      case '/location': return MaterialPageRoute(builder: (_) => const LocationPage());
+      case '/monthly-report': return MaterialPageRoute(builder: (_) => const MonthlyReportPage());
     }
     return null;
   }

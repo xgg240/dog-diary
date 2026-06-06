@@ -1,0 +1,341 @@
+// ============================================================
+//  仪表盘 - 接入宠物/健康预警/低库存/本月消费
+// ============================================================
+
+import 'package:drift/drift.dart' as drift;
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../core/providers.dart';
+import '../../core/reminder_service.dart';
+import '../contacts/contacts_page.dart';
+import 'weight_chart_card.dart';
+import '../../db/database.dart';
+import 'blacklist_alert.dart';
+import '../../core/pet_switcher_provider.dart';
+
+final _overdueProvider = StreamProvider<List<dynamic>>((ref) {
+  return (ref.watch(databaseProvider).select(ref.watch(databaseProvider).healthEvents)
+        ..where((t) => t.nextDueDate.isSmallerThanValue(DateTime.now()))
+        ..orderBy([(t) => drift.OrderingTerm.asc(t.nextDueDate)]))
+      .watch();
+});
+final _upcomingProvider = StreamProvider<List<dynamic>>((ref) {
+  final in30 = DateTime.now().add(const Duration(days: 30));
+  return (ref.watch(databaseProvider).select(ref.watch(databaseProvider).healthEvents)
+        ..where((t) => t.nextDueDate.isBetweenValues(DateTime.now(), in30))
+        ..orderBy([(t) => drift.OrderingTerm.asc(t.nextDueDate)]))
+      .watch();
+});
+final _lowStockProvider = StreamProvider<List<dynamic>>((ref) {
+  return (ref.watch(databaseProvider).select(ref.watch(databaseProvider).foodItems)
+        ..where((t) => t.remainingKg.isSmallerOrEqualValue(1.0)))
+      .watch();
+});
+final _monthExpenseProvider = StreamProvider<double>((ref) {
+  final now = DateTime.now();
+  final start = DateTime(now.year, now.month, 1);
+  final end = DateTime(now.year, now.month + 1, 1);
+  return (ref.watch(databaseProvider).select(ref.watch(databaseProvider).expenses)
+        ..where((t) => t.spentAt.isBetweenValues(start, end)))
+      .watch()
+      .map((list) => list.fold<double>(0, (s, e) => s + e.amount));
+});
+
+class DashboardPage extends ConsumerWidget {
+  const DashboardPage({super.key});
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final petsAsync = ref.watch(petsStreamProvider);
+    final overdueAsync = ref.watch(_overdueProvider);
+    final upcomingAsync = ref.watch(_upcomingProvider);
+    final lowAsync = ref.watch(_lowStockProvider);
+    final monthExpAsync = ref.watch(_monthExpenseProvider);
+    final pets = petsAsync.value ?? const <Pet>[];
+    final currentPetId = ref.watch(currentPetIdProvider);
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('🏠 养狗日记'),
+      ),
+      body: petsAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, st) => Center(child: Text('错误: $e')),
+        data: (pets) => ListView(
+          padding: const EdgeInsets.fromLTRB(12, 4, 12, 24),
+          children: [
+            const SizedBox(height: 6),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(4, 0, 4, 10),
+              child: Row(
+                children: [
+                  const Icon(Icons.pets, size: 14, color: Colors.indigo),
+                  const SizedBox(width: 6),
+                  Text('我有 ${pets.length} 只狗', style: const TextStyle(fontSize: 13, color: Colors.grey)),
+                  const Spacer(),
+                  if (currentPetId != null) GestureDetector(
+                    onTap: () => _showPetPicker(context, ref, pets, currentPetId),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      decoration: BoxDecoration(color: Colors.indigo.shade50, borderRadius: BorderRadius.circular(10)),
+                      child: Row(mainAxisSize: MainAxisSize.min, children: [
+                        Text('🐕 ${pets.firstWhere((p) => p.id == currentPetId, orElse: () => pets.first).name}',
+                            style: const TextStyle(fontSize: 12, color: Colors.indigo, fontWeight: FontWeight.w600)),
+                        const SizedBox(width: 2),
+                        const Icon(Icons.close, size: 12, color: Colors.indigo),
+                      ]),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // 第一排: 3 个小卡 (已逾期/30天内/低库存)
+            Row(children: [
+              Expanded(child: _StatCard(
+                icon: Icons.warning_amber_rounded,
+                color: Theme.of(context).colorScheme.error,
+                bg: Theme.of(context).colorScheme.errorContainer,
+                title: '已逾期',
+                async: overdueAsync,
+                format: (l) => '${l.length}',
+                onTap: () => Navigator.pushNamed(context, '/health'),
+              )),
+              const SizedBox(width: 8),
+              Expanded(child: _StatCard(
+                icon: Icons.alarm_rounded,
+                color: Theme.of(context).colorScheme.tertiary,
+                bg: Theme.of(context).colorScheme.tertiaryContainer,
+                title: '30 天内',
+                async: upcomingAsync,
+                format: (l) => '${l.length}',
+                onTap: () => Navigator.pushNamed(context, '/health'),
+              )),
+              const SizedBox(width: 8),
+              Expanded(child: _StatCard(
+                icon: Icons.kitchen_rounded,
+                color: Theme.of(context).colorScheme.secondary,
+                bg: Theme.of(context).colorScheme.secondaryContainer,
+                title: '低库存',
+                async: lowAsync,
+                format: (l) => '${l.length}',
+                onTap: () => Navigator.pushNamed(context, '/food'),
+              )),
+            ]),
+            const SizedBox(height: 10),
+            // 第二排: 3 个中卡 (我的宠物 / 本月支出 / 位置入口)
+            Row(children: [
+              Expanded(child: _StatCard(
+                icon: Icons.pets_rounded,
+                color: Colors.indigo,
+                bg: Colors.indigo.shade50,
+                title: '我的宠物',
+                async: petsAsync,
+                format: (l) => '${l.length}',
+                big: true,
+                onTap: () => Navigator.pushNamed(context, '/pets'),
+              )),
+              const SizedBox(width: 8),
+              Expanded(child: _StatCard(
+                icon: Icons.account_balance_wallet_rounded,
+                color: Theme.of(context).colorScheme.primary,
+                bg: Theme.of(context).colorScheme.primaryContainer,
+                title: '本月支出',
+                async: monthExpAsync,
+                format: (v) => '¥${v.toStringAsFixed(0)}',
+                big: true,
+                onTap: () => Navigator.pushNamed(context, '/finance'),
+              )),
+              const SizedBox(width: 8),
+              Expanded(child: _StatCard(
+                icon: Icons.location_on_rounded,
+                color: Colors.green,
+                bg: Colors.green.shade50,
+                title: '位置',
+                async: const AsyncValue.data<String>('点查看'),
+                format: (s) => s,
+                big: true,
+                onTap: () => Navigator.pushNamed(context, '/location'),
+              )),
+            ]),
+            const SizedBox(height: 18),
+            WeightChartCard(),
+            BlacklistAlertCard(),
+            const SizedBox(height: 18),
+            const _SectionHeader(label: '快捷入口'),
+            const SizedBox(height: 8),
+            Card(
+              margin: EdgeInsets.zero,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+                child: Row(children: [
+                  Expanded(child: _QuickAction(emoji: '🏥', label: '紧急电话', onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ContactsPage())))),
+                  Expanded(child: _QuickAction(emoji: '🚶', label: '遛狗', onTap: () => Navigator.pushNamed(context, '/walks'))),
+                  Expanded(child: _QuickAction(emoji: '🎓', label: '训练', onTap: () => Navigator.pushNamed(context, '/training'))),
+                  Expanded(child: _QuickAction(emoji: '📚', label: '百科', onTap: () => Navigator.pushNamed(context, '/encyclopedia'))),
+                ]),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _StatCard<T> extends StatelessWidget {
+  final IconData icon;
+  final Color color;
+  final String title;
+  final AsyncValue<T> async;
+  final String Function(T) format;
+  final Color? bg;
+  final VoidCallback? onTap;
+  final bool big;
+  const _StatCard({required this.icon, required this.color, required this.title, required this.async, required this.format, this.bg, this.onTap, this.big = false});
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final iconBox = big ? 36.0 : 28.0;
+    final iconSize = big ? 20.0 : 16.0;
+    final titleSize = big ? 13.0 : 12.0;
+    final valueSize = big ? 28.0 : 22.0;
+    final pad = big ? const EdgeInsets.fromLTRB(14, 14, 14, 14) : const EdgeInsets.fromLTRB(12, 12, 12, 12);
+    final card = Card(
+      color: bg,
+      margin: EdgeInsets.zero,
+      child: Padding(
+        padding: pad,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
+            Container(
+              width: iconBox, height: iconBox,
+              decoration: BoxDecoration(color: color.withValues(alpha: 0.18), borderRadius: BorderRadius.circular(8)),
+              child: Icon(icon, color: color, size: iconSize),
+            ),
+            const SizedBox(width: 8),
+            Expanded(child: Text(title, style: TextStyle(fontSize: titleSize, color: cs.onSurface.withValues(alpha: 0.75), fontWeight: FontWeight.w500), maxLines: 1, overflow: TextOverflow.ellipsis)),
+            if (onTap != null) Icon(Icons.chevron_right_rounded, size: 16, color: cs.onSurface.withValues(alpha: 0.5)),
+          ]),
+          const SizedBox(height: 8),
+          async.when(
+            loading: () => SizedBox(width: big ? 26 : 22, height: big ? 26 : 22, child: const CircularProgressIndicator(strokeWidth: 2)),
+            error: (e, st) => Text('!', style: TextStyle(color: cs.error, fontSize: valueSize, fontWeight: FontWeight.w700)),
+            data: (v) => Text(format(v), style: TextStyle(fontSize: valueSize, fontWeight: FontWeight.w800, color: cs.onSurface, height: 1.1)),
+          ),
+        ]),
+      ),
+    );
+    if (onTap == null) return card;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: card,
+    );
+  }
+}
+
+
+class _SectionHeader extends StatelessWidget {
+  final String label;
+  const _SectionHeader({required this.label});
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.only(left: 4),
+      child: Row(children: [
+        Container(width: 3, height: 14, decoration: BoxDecoration(color: cs.primary, borderRadius: BorderRadius.circular(2))),
+        const SizedBox(width: 8),
+        Text(label, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: cs.onSurface, letterSpacing: 0.2)),
+      ]),
+    );
+  }
+}
+
+class _QuickAction extends StatelessWidget {
+  final String emoji;
+  final String label;
+  final VoidCallback onTap;
+  const _QuickAction({required this.emoji, required this.label, required this.onTap});
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, mainAxisSize: MainAxisSize.min, children: [
+          SizedBox(
+            width: 36,
+            height: 36,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(emoji, style: const TextStyle(fontSize: 26, height: 1.0)),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(fontSize: 11, color: cs.onSurfaceVariant, fontWeight: FontWeight.w500),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+          ),
+        ]),
+      ),
+    );
+  }
+}
+
+
+// ============================================================
+//  左上角选狗下拉
+// ============================================================
+
+// ============================================================
+//  仪表盘顶卡: 选狗
+// ============================================================
+
+
+// ============================================================
+//  AppBar 点标题 → 选狗菜单
+// ============================================================
+void _showPetPicker(BuildContext context, WidgetRef ref, List<Pet> pets, int? currentPetId) {
+  showModalBottomSheet(
+    context: context,
+    showDragHandle: true,
+    builder: (_) => SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.list),
+            title: const Text('📚 全部'),
+            selected: currentPetId == null,
+            onTap: () {
+              ref.read(currentPetIdProvider.notifier).state = null;
+              Navigator.pop(context);
+            },
+          ),
+          const Divider(height: 1),
+          for (final p in pets)
+            ListTile(
+              leading: const Text('🐕', style: TextStyle(fontSize: 22)),
+              title: Text(p.name.isEmpty ? '未命名' : p.name),
+              selected: currentPetId == p.id,
+              onTap: () {
+                ref.read(currentPetIdProvider.notifier).state = p.id;
+                Navigator.pop(context);
+              },
+            ),
+        ],
+      ),
+    ),
+  );
+}
+
+// ============================================================
+//  定位卡 (StatCard 形式, IP 定位)
+// ============================================================

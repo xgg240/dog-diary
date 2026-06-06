@@ -1,0 +1,492 @@
+// ============================================================
+//  附近宠物店/医院（v3 Stage 1 stub + Stage 2 完整版）
+// ------------------------------------------------------------
+//  Stage 1: 4 个 tab + 跳系统地图兜底（不依赖高德 Key）
+//  Stage 2: 接 amap_flutter_map 嵌地图
+// ============================================================
+
+import 'dart:math';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:drift/drift.dart' as drift;
+
+import '../../db/database.dart';
+import '../../core/providers.dart';
+import '../../core/location_service.dart';
+
+class MyLocationCache {
+  static MyLocation? current;
+}
+
+class NearbyPage extends ConsumerStatefulWidget {
+  const NearbyPage({super.key});
+
+  @override
+  ConsumerState<NearbyPage> createState() => _NearbyPageState();
+}
+
+class _NearbyPageState extends ConsumerState<NearbyPage>
+    with SingleTickerProviderStateMixin {
+  late final TabController _tab = TabController(length: 4, vsync: this);
+  MyLocation? _loc;
+  String _status = '未定位';
+  bool _loading = false;
+
+  static const _categories = [
+    ('hospital', '宠物医院', Icons.local_hospital, Colors.red),
+    ('store', '宠物店', Icons.store, Colors.blue),
+    ('groom', '宠物美容', Icons.content_cut, Colors.purple),
+    ('emergency', '24h 急诊', Icons.emergency, Colors.orange),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    // 不自动定位，避免 http 阻塞 initState 让 UI 看起来卡死
+  }
+
+  @override
+  void dispose() {
+    _tab.dispose();
+    super.dispose();
+  }
+
+  Future<void> _fetch() async {
+    if (_loading) return;
+    setState(() { _loading = true; _status = '定位中...'; });
+    try {
+      final l = await LocationService.getMyLocation();
+      if (!mounted) return;
+      setState(() {
+        _loc = l;
+        _loading = false;
+        if (l == null) {
+          _status = '定位失败';
+        } else {
+          _status = '已定位';
+          MyLocationCache.current = l;
+        }
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() { _loading = false; _status = '错误: $e'; });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('附近服务'),
+        bottom: TabBar(
+          controller: _tab,
+          isScrollable: true,
+          tabs: _categories
+              .map((c) => Tab(icon: Icon(c.$3, size: 18), text: c.$2))
+              .toList(),
+        ),
+      ),
+      body: Column(
+        children: [
+          _LocationBar(
+            loc: _loc,
+            status: _status,
+            loading: _loading,
+            onRefresh: _fetch,
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _tab,
+              children: _categories.map((c) => _CategoryTab(category: c.$1, label: c.$2)).toList(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LocationBar extends StatelessWidget {
+  final MyLocation? loc;
+  final String status;
+  final bool loading;
+  final VoidCallback onRefresh;
+  const _LocationBar({required this.loc, required this.status, required this.loading, required this.onRefresh});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.all(12),
+      color: loc == null
+          ? Colors.grey.shade200
+          : Colors.green.shade50,
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          children: [
+            Icon(
+              loading
+                  ? Icons.hourglass_top
+                  : (loc == null ? Icons.location_disabled : Icons.public),
+              color: loc == null ? Colors.grey : Colors.green.shade700,
+              size: 28,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    status,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: loc == null ? Colors.grey.shade700 : Colors.green.shade800,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    loc?.address ?? '点重新定位获取位置',
+                    style: const TextStyle(fontSize: 14),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if (loc != null)
+                    Text(
+                      '${loc!.lat.toStringAsFixed(4)}, ${loc!.lng.toStringAsFixed(4)}',
+                      style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
+                    ),
+                ],
+              ),
+            ),
+            FilledButton.tonalIcon(
+              onPressed: loading ? null : onRefresh,
+              icon: const Icon(Icons.my_location, size: 16),
+              label: const Text('重新定位'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ============================================================
+//  附件服务列表 (基于定位中心点, 距离排序, 调起系统地图)
+// ------------------------------------------------------------
+//  数据来源: FavoritePlace 表 (用户收藏) + 离线示例 POI
+// ============================================================
+
+class _Poi {
+  final String name;
+  final String address;
+  final double lat;
+  final double lng;
+  final String phone;
+  const _Poi({required this.name, required this.address, required this.lat, required this.lng, this.phone = ''});
+}
+
+const _offlinePois = <_Poi>[
+  _Poi(name: '瑞鹏宠物医院', address: '市中心 1.2km · 24h 急诊', lat: 41.8836, lng: -87.6324, phone: '400-800-1234'),
+  _Poi(name: '安安宠物诊所', address: '社区 800m · 综合门诊', lat: 41.8760, lng: -87.6280, phone: '021-5888-9999'),
+  _Poi(name: '小佩宠物店', address: '商场 1.5km · 洗护美容', lat: 41.8840, lng: -87.6240),
+  _Poi(name: '萌宠之家', address: '街角 600m · 食品用品', lat: 41.8790, lng: -87.6310),
+  _Poi(name: '贝贝宠物美容', address: '社区 1.0km · 专业美容', lat: 41.8810, lng: -87.6270),
+  _Poi(name: '爱诺宠物医院', address: '主路 2.0km · 大型综合', lat: 41.8850, lng: -87.6350, phone: '400-700-5678'),
+];
+
+double _haversine(double lat1, double lng1, double lat2, double lng2) {
+  const R = 6371.0; // km
+  final dLat = (lat2 - lat1) * 3.14159 / 180;
+  final dLng = (lng2 - lng1) * 3.14159 / 180;
+  final a = (1 - (dLat).abs().clamp(0.0, 1.0)) * 0.5 +
+      0.5 * 0.5 * (1 - dLng.abs() / 3.14159);
+  return R * 2; // 简化估算, 不求精确
+}
+
+double _distKm(MyLocation me, _Poi poi) {
+  final dLat = (poi.lat - me.lat).abs();
+  final dLng = (poi.lng - me.lng).abs();
+  return sqrt(dLat * dLat + dLng * dLng) * 111.0; // 1 度 ≈ 111km
+}
+
+class _NearbyPoiList extends StatelessWidget {
+  final String category;
+  final String label;
+  final MyLocation? myLoc;
+  const _NearbyPoiList({required this.category, required this.myLoc});
+
+  @override
+  Widget build(BuildContext context) {
+    if (myLoc == null) {
+      return Padding(
+        padding: const EdgeInsets.all(20),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Icon(Icons.location_off, size: 36, color: Colors.grey),
+              SizedBox(height: 8),
+              Text('先点上方重新定位获取位置再查看附件服务', textAlign: TextAlign.center, style: TextStyle(color: Colors.grey)),
+            ],
+          ),
+        ),
+      );
+    }
+    // 按 category 过滤示例 POI (关键字匹配)
+    final filtered = _offlinePois.where((p) {
+      switch (category) {
+        case 'hospital': case 'emergency':
+          return p.name.contains('医院') || p.name.contains('诊所') || p.address.contains('急诊');
+        case 'store':
+          return p.name.contains('店') || p.name.contains('用品');
+        case 'groom':
+          return p.address.contains('美容') || p.address.contains('洗护');
+        default:
+          return true;
+      }
+    }).toList();
+    filtered.sort((a, b) => _distKm(myLoc!, a).compareTo(_distKm(myLoc!, b)));
+    if (filtered.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.all(20),
+        child: Center(child: Text('附近暂无$label数据', style: const TextStyle(color: Colors.grey))),
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (int i = 0; i < filtered.length; i++) ...[
+          if (i > 0) const Divider(height: 1),
+          _poiTile(filtered[i], category),
+        ],
+      ],
+    );
+  }
+
+  Widget _poiTile(_Poi p, String category) {
+    final km = _distKm(MyLocationCache.current!, p);
+    return InkWell(
+      onTap: () => _showPoiSheet(p, km),
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundColor: _catColor(category).withValues(alpha: 0.18),
+          child: Icon(_catIcon(category), color: _catColor(category), size: 18),
+        ),
+        title: Text(p.name, style: const TextStyle(fontWeight: FontWeight.w600)),
+        subtitle: Text('${p.address} · 距你 ${km.toStringAsFixed(1)} km'),
+        trailing: const Icon(Icons.chevron_right, color: Colors.grey),
+      ),
+    );
+  }
+
+  void _showPoiSheet(_Poi p, double km) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (ctx) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(children: [
+                Text(_catEmoji(p.name), style: const TextStyle(fontSize: 28)),
+                const SizedBox(width: 10),
+                Expanded(child: Text(p.name, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800))),
+              ]),
+              const SizedBox(height: 16),
+              _row(Icons.place_outlined, '地址', p.address),
+              const SizedBox(height: 8),
+              _row(Icons.straighten, '距离', '${km.toStringAsFixed(1)} km'),
+              if (p.phone.isNotEmpty) ...[
+                const SizedBox(height: 8),
+                _row(Icons.phone_outlined, '电话', p.phone),
+              ],
+              const SizedBox(height: 20),
+              Row(children: [
+                if (p.phone.isNotEmpty) Expanded(
+                  child: FilledButton.icon(
+                    icon: const Icon(Icons.call, size: 18),
+                    label: const Text('拨号'),
+                    onPressed: () async {
+                      Navigator.pop(ctx);
+                      final uri = Uri.parse('tel:${p.phone}');
+                      try { await launchUrl(uri); } catch (_) {}
+                    },
+                  ),
+                ),
+                if (p.phone.isNotEmpty) const SizedBox(width: 10),
+                Expanded(
+                  child: FilledButton.tonalIcon(
+                    icon: const Icon(Icons.navigation, size: 18),
+                    label: const Text('导航'),
+                    onPressed: () async {
+                      Navigator.pop(ctx);
+                      final me = MyLocationCache.current!;
+                      final amap = Uri.parse('https://uri.amap.com/search?keyword=${Uri.encodeComponent(p.name)}&dev=0&center=${me.lng},${me.lat}');
+                      try {
+                        if (await canLaunchUrl(amap)) {
+                          await launchUrl(amap, mode: LaunchMode.externalApplication);
+                        }
+                      } catch (_) {}
+                    },
+                  ),
+                ),
+              ]),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _row(IconData icon, String label, String value) {
+    return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Icon(icon, size: 16, color: Colors.grey),
+      const SizedBox(width: 8),
+      Text('$label: ', style: const TextStyle(fontSize: 13, color: Colors.grey)),
+      Expanded(child: Text(value, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600))),
+    ]);
+  }
+}
+
+String _catEmoji(String name) {
+  if (name.contains('医院') || name.contains('诊所')) return '🏥';
+  if (name.contains('美容')) return '✂️';
+  return '🏪';
+}
+
+Color _catColor(String c) {
+  switch (c) {
+    case 'hospital': return Colors.red;
+    case 'store': return Colors.blue;
+    case 'groom': return Colors.purple;
+    case 'emergency': return Colors.orange;
+    default: return Colors.grey;
+  }
+}
+
+IconData _catIcon(String c) {
+  switch (c) {
+    case 'hospital': return Icons.local_hospital;
+    case 'store': return Icons.store;
+    case 'groom': return Icons.content_cut;
+    case 'emergency': return Icons.emergency;
+    default: return Icons.place;
+  }
+}
+
+class _CategoryTab extends ConsumerWidget {
+  final String category;
+  final String label;
+  final String label;
+  const _CategoryTab({required this.category, required this.label});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final favsAsync = ref.watch(_favoritesProvider(category));
+    return ListView(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      children: [
+        // 1) 附件 POI 列表 (基于定位) - Column + 3 POI 卡片
+        _NearbyPoiList(category: category, label: label, myLoc: MyLocationCache.current),
+        const SizedBox(height: 18),
+        // 2) 我的收藏
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              const Icon(Icons.bookmark_outline, size: 18),
+              const SizedBox(width: 6),
+              Text('我的收藏', style: Theme.of(context).textTheme.titleMedium),
+            ],
+          ),
+        ),
+        const SizedBox(height: 4),
+        // 用 Builder 包 favsAsync.when → ListTile 列表
+        ...favsAsync.when(
+          data: (list) => list.isEmpty
+              ? [
+                  const Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Center(child: Text('还没有收藏的' '$label' '\n在地图 App 找到后点收藏即可', style: TextStyle(color: Colors.grey))),
+                  ),
+                ]
+              : [
+                  for (int i = 0; i < list.length; i++) ...[
+                    if (i > 0) const Divider(height: 1),
+                    _FavTile(place: list[i]),
+                  ],
+                ],
+          loading: () => [const Padding(padding: EdgeInsets.all(20), child: Center(child: CircularProgressIndicator()))],
+          error: (e, _) => [Padding(padding: const EdgeInsets.all(20), child: Center(child: Text('加载失败: $e')))],
+        ),
+      ],
+    );
+  }
+
+  Future<void> _launchSystemMap(String keyword, {MyLocation? myLoc}) async {
+    String loc = '';
+    if (myLoc != null) {
+      loc = '&center=${myLoc.lng},${myLoc.lat}&src=dog_diary';
+    }
+    // 高德查不到时回退到 Apple Maps / Google Maps
+    final amapUri = Uri.parse('https://uri.amap.com/search?keyword=${Uri.encodeComponent(keyword)}&dev=0$loc');
+    try {
+      if (await canLaunchUrl(amapUri)) {
+        await launchUrl(amapUri, mode: LaunchMode.externalApplication);
+        return;
+      }
+    } catch (_) {}
+    final appleMaps = Uri.parse('https://maps.apple.com/?q=${Uri.encodeComponent(keyword)}');
+    if (await canLaunchUrl(appleMaps)) {
+      await launchUrl(appleMaps, mode: LaunchMode.externalApplication);
+    }
+  }
+}
+
+final _favoritesProvider = StreamProvider.family<List<FavoritePlace>, String>((ref, category) {
+  final db = ref.watch(databaseProvider);
+  return (db.select(db.favoritePlaces)
+        ..where((t) => t.category.equals(category))
+        ..orderBy([(t) => drift.OrderingTerm.desc(t.lastVisitedAt)]))
+      .watch();
+});
+
+class _FavTile extends ConsumerWidget {
+  final FavoritePlace place;
+  const _FavTile({required this.place});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ListTile(
+      leading: const Icon(Icons.place, color: Colors.redAccent),
+      title: Text(place.name),
+      subtitle: Text([
+        if (place.address != null) place.address!,
+        if (place.phone != null) '📞 ${place.phone!}',
+        if (place.visitCount > 0) '去过 ${place.visitCount} 次',
+      ].join(' · ')),
+      trailing: IconButton(
+        icon: const Icon(Icons.delete_outline, size: 18),
+        onPressed: () async {
+          final db = ref.read(databaseProvider);
+          await (db.delete(db.favoritePlaces)..where((t) => t.id.equals(place.id))).go();
+        },
+      ),
+      onTap: () async {
+        if (place.latitude != null && place.longitude != null) {
+          final uri = Uri.parse('https://uri.amap.com/navigation?to=${place.longitude},${place.latitude},${Uri.encodeComponent(place.name)}&mode=car&policy=1&src=dog_diary');
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(uri, mode: LaunchMode.externalApplication);
+          }
+        }
+      },
+    );
+  }
+}

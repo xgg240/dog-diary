@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import '../../core/providers.dart';
 import '../../db/database.dart';
 import 'health_repository.dart';
+import 'drug_interaction_banner.dart';
 
 final _eventsProvider = StreamProvider<List<HealthEvent>>((ref) {
   return ref.watch(healthRepoProvider).watchEvents();
@@ -66,7 +67,10 @@ class HealthPage extends ConsumerWidget {
               },
             ),
             body: TabBarView(children: [
-              _EventsTab(eventsAsync: eventsAsync),
+              Column(children: [
+                const DrugInteractionBanner(),
+                Expanded(child: _EventsTab(eventsAsync: eventsAsync)),
+              ]),
               _MedsTab(medsAsync: medsAsync),
               _AlertsTab(overdueAsync: overdueAsync, upcomingAsync: upcomingAsync),
             ]),
@@ -116,10 +120,16 @@ class _EventsTab extends ConsumerWidget {
       error: (e, st) => Center(child: Text('错误: $e')),
       data: (list) {
         if (list.isEmpty) return const Center(child: Text('暂无健康事件\n点击右下角添加'));
+        final petsAsync = ref.watch(petsStreamProvider);
+        final petNameMap = petsAsync.maybeWhen(
+          data: (pets) => {for (final p in pets) p.id: p.name},
+          orElse: () => <int, String>{},
+        );
         return ListView.builder(
           itemCount: list.length,
           itemBuilder: (_, i) {
             final e = list[i];
+            final petName = petNameMap[e.petId] ?? '未知宠物';
             return Dismissible(
               key: ValueKey(e.id),
               direction: DismissDirection.endToStart,
@@ -130,7 +140,7 @@ class _EventsTab extends ConsumerWidget {
               child: Card(
                 child: ListTile(
                   leading: CircleAvatar(backgroundColor: _typeColor(e.type).withValues(alpha: 0.2), child: Icon(_typeIcon(e.type), color: _typeColor(e.type))),
-                  title: Text(e.title, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  title: Text('$petName · ${e.title}', style: const TextStyle(fontWeight: FontWeight.bold)),
                   subtitle: Text(
                   e.type == 'medication'
                       ? '${_typeLabel(e.type)} · ${e.dosage ?? '-'} · ${DateFormat('yyyy-MM-dd').format(e.eventDate)}'
@@ -146,6 +156,15 @@ class _EventsTab extends ConsumerWidget {
                           ],
                         )
                       : null,
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      useSafeArea: true,
+                      showDragHandle: true,
+                      builder: (_) => _EventSheet(existing: e),
+                    );
+                  },
                 ),
               ),
             );
@@ -202,21 +221,51 @@ class _MedsTab extends ConsumerWidget {
       error: (e, st) => Center(child: Text('错误: $e')),
       data: (list) {
         if (list.isEmpty) return const Center(child: Text('暂无用药\n点击右下角添加'));
+        final petsAsync = ref.watch(petsStreamProvider);
+        final petNameMap = petsAsync.maybeWhen(
+          data: (pets) => {for (final p in pets) p.id: p.name},
+          orElse: () => <int, String>{},
+        );
         return ListView.builder(
           itemCount: list.length,
           itemBuilder: (_, i) {
             final m = list[i];
+            final petName = petNameMap[m.petId] ?? '未知宠物';
             return Card(
               child: ListTile(
                 leading: CircleAvatar(backgroundColor: Colors.teal.withValues(alpha: 0.2), child: const Icon(Icons.medication, color: Colors.teal)),
-                title: Text(m.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-                subtitle: Text('${m.dosage ?? '-'} · ${m.frequency ?? '-'} · ${DateFormat('yyyy-MM-dd').format(m.startDate)} 起'),
-                trailing: Switch(
-                  value: m.active,
-                  onChanged: (_) async {
-                    await ref.read(healthRepoProvider).toggleMedication(m);
-                  },
-                ),
+                title: Text('$petName · ${m.name}', style: const TextStyle(fontWeight: FontWeight.bold)),
+                subtitle: Text('${m.dosage ?? '-'} · ${_freqLabel(m.frequency)} · ${DateFormat('yyyy-MM-dd').format(m.startDate)} 起'),
+                trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+                  Switch(
+                    value: m.active,
+                    onChanged: (_) async {
+                      await ref.read(healthRepoProvider).toggleMedication(m);
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.edit, color: Colors.blue, size: 18),
+                    tooltip: '编辑',
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        useSafeArea: true,
+                        showDragHandle: true,
+                        builder: (_) => _MedSheet(existing: m),
+                      );
+                    },
+                  ),
+                ]),
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    useSafeArea: true,
+                    showDragHandle: true,
+                    builder: (_) => _MedSheet(existing: m),
+                  );
+                },
               ),
             );
           },
@@ -224,15 +273,29 @@ class _MedsTab extends ConsumerWidget {
       },
     );
   }
+
+  String _freqLabel(String? f) {
+    switch (f) {
+      case 'daily': return '每日';
+      case 'weekly': return '每周';
+      case 'monthly': return '每月';
+      default: return f ?? '-';
+    }
+  }
 }
 
-class _AlertsTab extends StatelessWidget {
+class _AlertsTab extends ConsumerWidget {
   final AsyncValue<List<HealthEvent>> overdueAsync;
   final AsyncValue<List<HealthEvent>> upcomingAsync;
   const _AlertsTab({required this.overdueAsync, required this.upcomingAsync});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final petsAsync = ref.watch(petsStreamProvider);
+    final petNameMap = petsAsync.maybeWhen(
+      data: (pets) => {for (final p in pets) p.id: p.name},
+      orElse: () => <int, String>{},
+    );
     return ListView(
       children: [
         overdueAsync.when(
@@ -253,7 +316,7 @@ class _AlertsTab extends StatelessWidget {
                       ListTile(
                         dense: true,
                         contentPadding: EdgeInsets.zero,
-                        title: Text(e.title),
+                        title: Text('${petNameMap[e.petId] ?? '未知'} · ${e.title}'),
                         subtitle: Text('${_label(e.type)} · 逾期 ${DateFormat('MM-dd').format(e.nextDueDate!)}'),
                         trailing: const Icon(Icons.arrow_forward, size: 16),
                       ),
@@ -281,7 +344,7 @@ class _AlertsTab extends StatelessWidget {
                       ListTile(
                         dense: true,
                         contentPadding: EdgeInsets.zero,
-                        title: Text(e.title),
+                        title: Text('${petNameMap[e.petId] ?? '未知'} · ${e.title}'),
                         subtitle: Text('${_label(e.type)} · ${DateFormat('MM-dd').format(e.nextDueDate!)}'),
                       ),
                   ],
@@ -308,7 +371,8 @@ class _AlertsTab extends StatelessWidget {
 }
 
 class _EventSheet extends ConsumerStatefulWidget {
-  const _EventSheet();
+  final dynamic existing;
+  const _EventSheet({this.existing});
   @override
   ConsumerState<_EventSheet> createState() => _EventS();
 }
@@ -323,6 +387,22 @@ class _EventS extends ConsumerState<_EventSheet> {
   DateTime _eventDate = DateTime.now();
   DateTime? _nextDue;
   bool _saving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final e = widget.existing;
+    if (e != null) {
+      _petId = e.petId;
+      _type = e.type ?? 'checkup';
+      _titleCtrl.text = e.title ?? '';
+      _descCtrl.text = e.description ?? '';
+      _vetCtrl.text = e.vetName ?? '';
+      _costCtrl.text = e.cost?.toString() ?? '';
+      _eventDate = e.eventDate ?? DateTime.now();
+      _nextDue = e.nextDueDate;
+    }
+  }
 
   @override
   void dispose() {
@@ -344,16 +424,31 @@ class _EventS extends ConsumerState<_EventSheet> {
     }
     setState(() => _saving = true);
     try {
-      await ref.read(healthRepoProvider).addEvent(
-        petId: _petId!,
-        type: _type,
-        title: _titleCtrl.text.trim(),
-        description: _descCtrl.text.trim().isEmpty ? null : _descCtrl.text.trim(),
-        eventDate: _eventDate,
-        nextDueDate: _nextDue,
-        vetName: _vetCtrl.text.trim().isEmpty ? null : _vetCtrl.text.trim(),
-        cost: double.tryParse(_costCtrl.text.trim()),
-      );
+      final repo = ref.read(healthRepoProvider);
+      if (widget.existing != null) {
+        await repo.updateEvent(
+          widget.existing.id,
+          petId: _petId!,
+          type: _type,
+          title: _titleCtrl.text.trim(),
+          description: _descCtrl.text.trim().isEmpty ? null : _descCtrl.text.trim(),
+          eventDate: _eventDate,
+          nextDueDate: _nextDue,
+          vetName: _vetCtrl.text.trim().isEmpty ? null : _vetCtrl.text.trim(),
+          cost: double.tryParse(_costCtrl.text.trim()),
+        );
+      } else {
+        await repo.addEvent(
+          petId: _petId!,
+          type: _type,
+          title: _titleCtrl.text.trim(),
+          description: _descCtrl.text.trim().isEmpty ? null : _descCtrl.text.trim(),
+          eventDate: _eventDate,
+          nextDueDate: _nextDue,
+          vetName: _vetCtrl.text.trim().isEmpty ? null : _vetCtrl.text.trim(),
+          cost: double.tryParse(_costCtrl.text.trim()),
+        );
+      }
       if (mounted) Navigator.pop(context);
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('失败: $e')));
@@ -370,7 +465,7 @@ class _EventS extends ConsumerState<_EventSheet> {
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Text('新增健康事件', style: Theme.of(context).textTheme.titleLarge),
+          Text(widget.existing != null ? '编辑健康事件' : '新增健康事件', style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 16),
           petsAsync.maybeWhen(
             data: (pets) {
@@ -436,7 +531,8 @@ class _EventS extends ConsumerState<_EventSheet> {
 }
 
 class _MedSheet extends ConsumerStatefulWidget {
-  const _MedSheet();
+  final dynamic existing;
+  const _MedSheet({this.existing});
   @override
   ConsumerState<_MedSheet> createState() => _MedS();
 }
@@ -448,6 +544,19 @@ class _MedS extends ConsumerState<_MedSheet> {
   String _freq = 'daily';
   DateTime _startDate = DateTime.now();
   bool _saving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final m = widget.existing;
+    if (m != null) {
+      _petId = m.petId;
+      _nameCtrl.text = m.name ?? '';
+      _dosageCtrl.text = m.dosage ?? '';
+      _freq = m.frequency ?? 'daily';
+      _startDate = m.startDate ?? DateTime.now();
+    }
+  }
 
   @override
   void dispose() {
@@ -467,13 +576,25 @@ class _MedS extends ConsumerState<_MedSheet> {
     }
     setState(() => _saving = true);
     try {
-      await ref.read(healthRepoProvider).addMedication(
-        petId: _petId!,
-        name: _nameCtrl.text.trim(),
-        dosage: _dosageCtrl.text.trim().isEmpty ? null : _dosageCtrl.text.trim(),
-        frequency: _freq,
-        startDate: _startDate,
-      );
+      final repo = ref.read(healthRepoProvider);
+      if (widget.existing != null) {
+        await repo.updateMedication(
+          widget.existing.id,
+          petId: _petId!,
+          name: _nameCtrl.text.trim(),
+          dosage: _dosageCtrl.text.trim().isEmpty ? null : _dosageCtrl.text.trim(),
+          frequency: _freq,
+          startDate: _startDate,
+        );
+      } else {
+        await repo.addMedication(
+          petId: _petId!,
+          name: _nameCtrl.text.trim(),
+          dosage: _dosageCtrl.text.trim().isEmpty ? null : _dosageCtrl.text.trim(),
+          frequency: _freq,
+          startDate: _startDate,
+        );
+      }
       if (mounted) Navigator.pop(context);
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('失败: $e')));
@@ -490,7 +611,7 @@ class _MedS extends ConsumerState<_MedSheet> {
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Text('新增用药', style: Theme.of(context).textTheme.titleLarge),
+          Text(widget.existing != null ? '编辑用药' : '新增用药', style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 16),
           petsAsync.maybeWhen(
             data: (pets) {

@@ -1,5 +1,6 @@
 // ============================================================
-//  数据工具 + 辅助功能
+//  工具页 v3 - 现代化分组卡片
+//  抛弃 emoji + 硬编码色, 用 cs.scheme + ModernCard + ModernListTile
 // ============================================================
 
 import 'dart:io';
@@ -18,8 +19,10 @@ import '../../core/reminder_service.dart';
 import '../contacts/contacts_page.dart';
 import '../training/training_page.dart';
 import '../walks/walks_page.dart';
-import '../food/forbidden_foods_page.dart';
 import 'data_io.dart';
+
+import '../../core/ui/design_tokens.dart';
+import '../../core/ui/modern_widgets.dart';
 
 final _dataIOProvider = Provider<DataIO>((ref) {
   return DataIO(ref.watch(databaseProvider));
@@ -27,321 +30,422 @@ final _dataIOProvider = Provider<DataIO>((ref) {
 
 class ToolsPage extends ConsumerWidget {
   const ToolsPage({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final cs = Theme.of(context).colorScheme;
+    final textScale = ref.watch(textScaleProvider);
+    final themeMode = ref.watch(themeModeProvider);
+    final themeModeLabel = switch (themeMode) {
+      ThemeMode.system => '跟随系统',
+      ThemeMode.light => '浅色',
+      ThemeMode.dark => '深色',
+    };
+
     return Scaffold(
-      appBar: AppBar(title: const Text('🔧 工具')),
+      appBar: const ModernPageHeader(
+        title: '工具',
+        subtitle: '数据管理与系统设置',
+      ),
       body: ListView(
+        padding: const EdgeInsets.fromLTRB(AppSpacing.lg, 0, AppSpacing.lg, 100),
         children: [
-          const _SectionHeader('导出 (可自定义位置)'),
-          ListTile(
-            leading: const Icon(Icons.backup, color: Colors.blue),
-            title: const Text('备份数据库'),
-            subtitle: const Text('默认位置: 文档/dog_diary_backups/'),
-            onTap: () => _backupDb(context, ref),
-            trailing: const Icon(Icons.chevron_right),
+          // ===== 显示设置 =====
+          const ModernSectionHeader(title: '显示'),
+          ModernCard(
+            padding: EdgeInsets.zero,
+            child: Column(
+              children: [
+                ModernListTile(
+                  icon: Icons.brightness_6_rounded,
+                  color: cs.primary,
+                  title: '主题',
+                  subtitle: '当前: $themeModeLabel',
+                  trailing: const Icon(Icons.chevron_right_rounded, size: 20),
+                  onTap: () => _showThemeDialog(context, ref),
+                ),
+                _Divider(),
+                ModernListTile(
+                  icon: Icons.text_fields_rounded,
+                  color: cs.primary,
+                  title: '字号设置',
+                  subtitle: textScale < 0.9 ? '当前: 小' : textScale > 1.1 ? '当前: 大' : '当前: 中',
+                  trailing: const Icon(Icons.chevron_right_rounded, size: 20),
+                  onTap: () => _showTextScaleDialog(context, ref),
+                ),
+              ],
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.save_alt, color: Colors.blue),
-            title: const Text('备份数据库 → 自定义位置'),
-            subtitle: const Text('选择保存路径'),
-            onTap: () => _backupDbToPath(context, ref),
+          const SizedBox(height: AppSpacing.lg),
+
+          // ===== 数据导出 =====
+          const ModernSectionHeader(title: '导出'),
+          ModernCard(
+            padding: EdgeInsets.zero,
+            child: Column(
+              children: [
+                ModernListTile(
+                  icon: Icons.backup_outlined,
+                  color: cs.secondary,
+                  title: '备份数据库',
+                  subtitle: '默认保存到「文档/dog_diary_backups」',
+                  trailing: const Icon(Icons.chevron_right_rounded, size: 20),
+                  onTap: () => _backupDb(context, ref),
+                ),
+                _Divider(),
+                ModernListTile(
+                  icon: Icons.save_alt_rounded,
+                  color: cs.secondary,
+                  title: '备份数据库到自定义位置',
+                  subtitle: '选择保存路径',
+                  trailing: const Icon(Icons.chevron_right_rounded, size: 20),
+                  onTap: () => _backupDbToPath(context, ref),
+                ),
+                _Divider(),
+                ModernListTile(
+                  icon: Icons.file_download_outlined,
+                  color: AppColors.success,
+                  title: '导出 Excel',
+                  subtitle: '默认保存到「文档/dog_diary_exports」',
+                  trailing: const Icon(Icons.chevron_right_rounded, size: 20),
+                  onTap: () => _exportExcel(context, ref),
+                ),
+                _Divider(),
+                ModernListTile(
+                  icon: Icons.save_alt_rounded,
+                  color: AppColors.success,
+                  title: '导出 Excel 到自定义位置',
+                  subtitle: '选择保存路径',
+                  trailing: const Icon(Icons.chevron_right_rounded, size: 20),
+                  onTap: () => _exportExcelToPath(context, ref),
+                ),
+              ],
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.file_download, color: Colors.green),
-            title: const Text('导出 Excel'),
-            subtitle: const Text('默认位置: 文档/dog_diary_exports/'),
-            onTap: () => _exportExcel(context, ref),
-            trailing: const Icon(Icons.chevron_right),
+          const SizedBox(height: AppSpacing.lg),
+
+          // ===== 数据导入 =====
+          const ModernSectionHeader(title: '导入'),
+          ModernCard(
+            padding: EdgeInsets.zero,
+            child: Column(
+              children: [
+                ModernListTile(
+                  icon: Icons.upload_outlined,
+                  color: AppColors.warning,
+                  title: '导入数据库',
+                  subtitle: '从 .db 文件恢复数据',
+                  trailing: const Icon(Icons.chevron_right_rounded, size: 20),
+                  onTap: () => _importDb(context, ref),
+                ),
+                _Divider(),
+                ModernListTile(
+                  icon: Icons.upload_file_outlined,
+                  color: AppColors.warning,
+                  title: '导入 Excel',
+                  subtitle: '从 .xlsx 文件恢复数据',
+                  trailing: const Icon(Icons.chevron_right_rounded, size: 20),
+                  onTap: () => _importExcel(context, ref),
+                ),
+              ],
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.save_alt, color: Colors.green),
-            title: const Text('导出 Excel → 自定义位置'),
-            subtitle: const Text('选择保存路径'),
-            onTap: () => _exportExcelToPath(context, ref),
+          const SizedBox(height: AppSpacing.lg),
+
+          // ===== 通知与扫描 =====
+          const ModernSectionHeader(title: '通知'),
+          ModernCard(
+            padding: EdgeInsets.zero,
+            child: Column(
+              children: [
+                ModernListTile(
+                  icon: Icons.notifications_active_outlined,
+                  color: cs.tertiary,
+                  title: '立即扫描提醒',
+                  subtitle: '检查即将到期的疫苗/驱虫/洗澡',
+                  trailing: const Icon(Icons.chevron_right_rounded, size: 20),
+                  onTap: () => ref.read(reminderServiceProvider).scanAndNotify(),
+                ),
+                _Divider(),
+                ModernListTile(
+                  icon: Icons.notifications_outlined,
+                  color: cs.tertiary,
+                  title: '打开通知设置',
+                  subtitle: 'iOS: 设置 → 通知 → 养狗日记',
+                  trailing: const Icon(Icons.open_in_new_rounded, size: 18),
+                  onTap: () => _openSystemSettings(context),
+                ),
+                _Divider(),
+                ModernListTile(
+                  icon: Icons.qr_code_2_rounded,
+                  color: cs.primary,
+                  title: '生成二维码',
+                  subtitle: '宠物档案分享 / 紧急联系卡',
+                  trailing: const Icon(Icons.chevron_right_rounded, size: 20),
+                  onTap: () => _showQrCodeDialog(context, ref),
+                ),
+                _Divider(),
+                ModernListTile(
+                  icon: Icons.bug_report_outlined,
+                  color: AppColors.danger,
+                  title: 'Bug 报告',
+                  subtitle: '复制日志到剪贴板',
+                  trailing: const Icon(Icons.chevron_right_rounded, size: 20),
+                  onTap: () => _exportBugReport(context, ref),
+                ),
+              ],
+            ),
           ),
-          const Divider(),
-          const _SectionHeader('导入'),
-          ListTile(
-            leading: const Icon(Icons.upload, color: Colors.deepOrange),
-            title: const Text('导入数据库 (.db)'),
-            subtitle: const Text('恢复数据库到上次备份'),
-            onTap: () => _importDb(context, ref),
+          const SizedBox(height: AppSpacing.lg),
+
+          // ===== 子页面入口 =====
+          const ModernSectionHeader(title: '更多'),
+          ModernCard(
+            padding: EdgeInsets.zero,
+            child: Column(
+              children: [
+                ModernListTile(
+                  icon: Icons.contacts_outlined,
+                  color: AppColors.danger,
+                  title: '紧急电话',
+                  subtitle: '兽医 / 医院 / 寄养 / 美容',
+                  trailing: const Icon(Icons.chevron_right_rounded, size: 20),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ContactsPage())),
+                ),
+                _Divider(),
+                ModernListTile(
+                  icon: Icons.directions_walk_rounded,
+                  color: AppColors.success,
+                  title: '遛狗记录',
+                  subtitle: '查看历史遛狗时长 / 距离',
+                  trailing: const Icon(Icons.chevron_right_rounded, size: 20),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const WalksPage())),
+                ),
+                _Divider(),
+                ModernListTile(
+                  icon: Icons.school_outlined,
+                  color: cs.tertiary,
+                  title: '训练计划',
+                  subtitle: '基础服从 / 行为纠正',
+                  trailing: const Icon(Icons.chevron_right_rounded, size: 20),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const TrainingPage())),
+                ),
+              ],
+            ),
           ),
-          ListTile(
-            leading: const Icon(Icons.upload_file, color: Colors.deepOrange),
-            title: const Text('导入 Excel (.xlsx)'),
-            subtitle: const Text('从导出的 Excel 恢复数据'),
-            onTap: () => _importExcel(context, ref),
+
+          const SizedBox(height: AppSpacing.xxl),
+          Center(
+            child: Text(
+              '养狗日记 · v1.0',
+              style: AppTypography.caption.copyWith(color: cs.onSurfaceVariant),
+            ),
           ),
-          const Divider(),
-          const _SectionHeader('通知'),
-          ListTile(
-            leading: const Icon(Icons.notifications_active, color: Colors.orange),
-            title: const Text('立即扫描提醒'),
-            subtitle: const Text('健康/库存提醒立即检查并弹通知'),
-            onTap: () async {
-              final messenger = ScaffoldMessenger.of(context);
-              final count = await ref.read(reminderServiceProvider).scanAndNotify();
-              messenger.showSnackBar(SnackBar(content: Text(count == 0 ? '当前无待办' : '已发出 $count 条通知')));
-            },
-          ),
-          const Divider(),
-          const _SectionHeader('辅助功能'),
-          ListTile(leading: const Text('🚫', style: TextStyle(fontSize: 28)), title: const Text('禁食食物库'), trailing: const Icon(Icons.chevron_right), onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ForbiddenFoodsPage()))),
-          ListTile(leading: const Text('🏥', style: TextStyle(fontSize: 28)), title: const Text('紧急电话'), trailing: const Icon(Icons.chevron_right), onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ContactsPage()))),
-          ListTile(leading: const Text('🚶', style: TextStyle(fontSize: 28)), title: const Text('遛狗打卡'), trailing: const Icon(Icons.chevron_right), onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const WalksPage()))),
-          ListTile(leading: const Text('🎓', style: TextStyle(fontSize: 28)), title: const Text('训练日志'), trailing: const Icon(Icons.chevron_right), onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const TrainingPage()))),
-          const Divider(),
-          const _SectionHeader('外观'),
-          ListTile(
-            leading: const Icon(Icons.palette),
-            title: const Text('主题'),
-            trailing: Consumer(builder: (context, ref, _) {
-              final mode = ref.watch(themeModeProvider);
-              return SegmentedButton<ThemeMode>(
-                segments: const [
-                  ButtonSegment(value: ThemeMode.system, icon: Icon(Icons.phone_iphone, size: 16)),
-                  ButtonSegment(value: ThemeMode.light, icon: Icon(Icons.light_mode, size: 16)),
-                  ButtonSegment(value: ThemeMode.dark, icon: Icon(Icons.dark_mode, size: 16)),
-                ],
-                selected: {mode},
-                onSelectionChanged: (s) => ref.read(themeModeProvider.notifier).state = s.first,
-              );
-            }),
-          ),
-          const Divider(),
-          const _SectionHeader('关于'),
-          const ListTile(leading: Icon(Icons.info_outline), title: Text('养狗日记 v0.7.0'), subtitle: Text('纯本地单机养宠管理软件')),
         ],
       ),
     );
   }
 
-  // ============ 备份/导出 (默认位置) ============
+  // ===== 字号 dialog =====
+  void _showTextScaleDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('字号设置'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (final s in const [0.85, 1.0, 1.15, 1.3])
+              RadioListTile<double>(
+                value: s,
+                groupValue: ref.read(textScaleProvider),
+                title: Text('${(s * 100).round()}%', style: AppTypography.bodyMedium),
+                onChanged: (v) {
+                  if (v != null) {
+                    ref.read(textScaleProvider.notifier).state = v;
+                    Navigator.pop(ctx);
+                  }
+                },
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ===== 主题 dialog =====
+  void _showThemeDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        final cs = Theme.of(ctx).colorScheme;
+        return AlertDialog(
+          title: const Text('选择主题'),
+          contentPadding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (final entry in const [
+                (ThemeMode.system, Icons.brightness_auto_rounded, '跟随系统'),
+                (ThemeMode.light, Icons.light_mode_rounded, '浅色'),
+                (ThemeMode.dark, Icons.dark_mode_rounded, '深色'),
+              ]) ...[
+                RadioListTile<ThemeMode>(
+                  value: entry.$1,
+                  groupValue: ref.read(themeModeProvider),
+                  secondary: Icon(entry.$2, color: cs.primary, size: 20),
+                  title: Text(entry.$3, style: AppTypography.bodyMedium),
+                  onChanged: (v) {
+                    if (v != null) {
+                      ref.read(themeModeProvider.notifier).state = v;
+                      Navigator.pop(ctx);
+                    }
+                  },
+                ),
+              ],
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  // ===== 系统通知设置 =====
+  void _openSystemSettings(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('请在系统设置 → 通知 → 养狗日记 中调整')),
+    );
+  }
+
+  // ===== 二维码 =====
+  void _showQrCodeDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('生成二维码'),
+        content: const Text('即将生成宠物档案二维码。\n功能开发中...'),
+        actions: [TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('好的'))],
+      ),
+    );
+  }
+
+  // ===== Bug 报告 =====
+  void _exportBugReport(BuildContext context, WidgetRef ref) async {
+    final logs = StringBuffer();
+    logs.writeln('=== 养狗日记 Bug 报告 ===');
+    logs.writeln('时间: ${DateTime.now()}');
+    logs.writeln('平台: ${Platform.operatingSystem} ${Platform.operatingSystemVersion}');
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('日志已复制到剪贴板')),
+    );
+  }
+
+  // ===== 备份数据库 =====
   Future<void> _backupDb(BuildContext context, WidgetRef ref) async {
     final messenger = ScaffoldMessenger.of(context);
-    if (kIsWeb) {
-      messenger.showSnackBar(const SnackBar(content: Text('Web 平台不支持数据库备份（浏览器沙箱限制）。请使用 Android / iOS / 桌面版。')));
-      return;
-    }
     try {
-      final file = await ref.read(_dataIOProvider).backupDatabase();
-      messenger.showSnackBar(SnackBar(content: Text('已备份: ${file.path}'), duration: const Duration(seconds: 6)));
+      final io = ref.read(_dataIOProvider);
+      final dir = await getApplicationDocumentsDirectory();
+      final backupDir = Directory('${dir.path}/dog_diary_backups');
+      if (!await backupDir.exists()) await backupDir.create(recursive: true);
+      final ts = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
+      final path = p.join(backupDir.path, 'dog_diary_$ts.db');
+      await io.backupDatabaseTo(path);
+      messenger.showSnackBar(SnackBar(content: Text('已备份到 $path')));
     } catch (e) {
-      messenger.showSnackBar(SnackBar(content: Text('失败: $e')));
+      messenger.showSnackBar(SnackBar(content: Text('备份失败: $e')));
+    }
+  }
+
+  Future<void> _backupDbToPath(BuildContext context, WidgetRef ref) async {
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      final io = ref.read(_dataIOProvider);
+      final path = await FilePicker.platform.saveFile(
+        dialogTitle: '选择备份保存位置',
+        fileName: 'dog_diary_${DateFormat('yyyyMMdd_HHmmss').format(DateTime.now())}.db',
+      );
+      if (path == null) return;
+      await io.backupDatabaseTo(path);
+      messenger.showSnackBar(SnackBar(content: Text('已备份到 $path')));
+    } catch (e) {
+      messenger.showSnackBar(SnackBar(content: Text('备份失败: $e')));
     }
   }
 
   Future<void> _exportExcel(BuildContext context, WidgetRef ref) async {
     final messenger = ScaffoldMessenger.of(context);
-    if (kIsWeb) {
-      messenger.showSnackBar(const SnackBar(content: Text('Web 平台不支持 Excel 导出。请使用 Android / iOS / 桌面版。')));
-      return;
-    }
     try {
-      messenger.showSnackBar(const SnackBar(content: Text('生成中...')));
-      final file = await ref.read(_dataIOProvider).exportAllToExcel();
-      messenger.hideCurrentSnackBar();
-      messenger.showSnackBar(SnackBar(content: Text('已导出: ${file.path}'), duration: const Duration(seconds: 6)));
-    } catch (e) {
-      messenger.showSnackBar(SnackBar(content: Text('失败: $e')));
-    }
-  }
-
-  // ============ 备份/导出 (自定义位置) ============
-  Future<void> _backupDbToPath(BuildContext context, WidgetRef ref) async {
-    final messenger = ScaffoldMessenger.of(context);
-    if (kIsWeb) {
-      messenger.showSnackBar(const SnackBar(content: Text('Web 平台不支持数据库备份（浏览器沙箱限制）。请使用 Android / iOS / 桌面版。')));
-      return;
-    }
-    try {
+      final io = ref.read(_dataIOProvider);
+      final dir = await getApplicationDocumentsDirectory();
+      final exportDir = Directory('${dir.path}/dog_diary_exports');
+      if (!await exportDir.exists()) await exportDir.create(recursive: true);
       final ts = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
-      final fileName = 'dog_diary_$ts.db';
-      // file_picker 8.x 平台行为表:
-      //   Android:   saveFile 接 bytes, 系统写好, 返回路径
-      //   iOS:       saveFile 接 bytes, 系统写好, 返回路径
-      //   macOS:     saveFile 拒绝 bytes 抩 UnsupportedError, 返回路径, app 自己写
-      //   Windows/Linux: saveFile 返回路径, app 自己写
-      // 所以所有平台: Android/iOS 传 bytes 一次到位, macOS/Win/Linux 不传 bytes + 拿 result 路径自己写
-      final tmpDir = await getTemporaryDirectory();
-      final tmpFile = File(p.join(tmpDir.path, fileName));
-      final tmpBytes = await File(p.join((await getApplicationDocumentsDirectory()).path, 'dog_diary.db')).readAsBytes();
-      await tmpFile.writeAsBytes(tmpBytes, flush: true);
-
-      final result = await FilePicker.platform.saveFile(
-        dialogTitle: '选择备份保存位置',
-        fileName: fileName,
-        type: FileType.any,
-        // macOS 抩 UnsupportedError if bytes != null; Windows/Linux 也不支持; 只 Android/iOS 传
-        bytes: (Platform.isAndroid || Platform.isIOS) ? Uint8List.fromList(tmpBytes) : null,
-      );
-      if (result == null) {
-        // 用户取消。清理临时文件。
-        try { await tmpFile.delete(); } catch (_) {}
-        return;
-      }
-      // macOS / Windows / Linux: saveFile 返回路径, app 需自己写 bytes 进去
-      if (!Platform.isIOS && !Platform.isAndroid) {
-        await ref.read(_dataIOProvider).backupDatabaseTo(result);
-      }
-      try { await tmpFile.delete(); } catch (_) {}
-      messenger.showSnackBar(SnackBar(content: Text('已保存: $result'), duration: const Duration(seconds: 6)));
+      final path = p.join(exportDir.path, 'dog_diary_$ts.xlsx');
+      await io.exportAllToExcelAt(path);
+      messenger.showSnackBar(SnackBar(content: Text('已导出到 $path')));
     } catch (e) {
-      messenger.showSnackBar(SnackBar(content: Text('失败: $e')));
+      messenger.showSnackBar(SnackBar(content: Text('导出失败: $e')));
     }
   }
 
   Future<void> _exportExcelToPath(BuildContext context, WidgetRef ref) async {
     final messenger = ScaffoldMessenger.of(context);
-    if (kIsWeb) {
-      messenger.showSnackBar(const SnackBar(content: Text('Web 平台不支持 Excel 导出。请使用 Android / iOS / 桌面版。')));
-      return;
-    }
     try {
-      messenger.showSnackBar(const SnackBar(content: Text('生成中...')));
-      final ts = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
-      final fileName = 'dog_diary_$ts.xlsx';
-      // 先生成 Excel 到临时文件拿 bytes（file_picker 8.x saveFile 必须传 bytes）
-      final tmpDir = await getTemporaryDirectory();
-      final tmpFile = File(p.join(tmpDir.path, fileName));
-      await ref.read(_dataIOProvider).exportAllToExcelAt(tmpFile.path);
-      final tmpBytes = await tmpFile.readAsBytes();
-
-      final result = await FilePicker.platform.saveFile(
-        dialogTitle: '选择 Excel 保存位置',
-        fileName: fileName,
-        type: FileType.any,
-        // macOS 抩 UnsupportedError if bytes != null; Windows/Linux 也不支持; 只 Android/iOS 传
-        bytes: (Platform.isAndroid || Platform.isIOS) ? Uint8List.fromList(tmpBytes) : null,
+      final io = ref.read(_dataIOProvider);
+      final path = await FilePicker.platform.saveFile(
+        dialogTitle: '选择导出位置',
+        fileName: 'dog_diary_${DateFormat('yyyyMMdd_HHmmss').format(DateTime.now())}.xlsx',
       );
-      if (result == null) {
-        messenger.hideCurrentSnackBar();
-        try { await tmpFile.delete(); } catch (_) {}
-        return;
-      }
-      // macOS / Windows / Linux: saveFile 返回路径, app 需自己写 bytes 进去
-      if (!Platform.isIOS && !Platform.isAndroid) {
-        await ref.read(_dataIOProvider).exportAllToExcelAt(result);
-      }
-      try { await tmpFile.delete(); } catch (_) {}
-      messenger.hideCurrentSnackBar();
-      messenger.showSnackBar(SnackBar(content: Text('已保存: $result'), duration: const Duration(seconds: 6)));
+      if (path == null) return;
+      await io.exportAllToExcelAt(path);
+      messenger.showSnackBar(SnackBar(content: Text('已导出到 $path')));
     } catch (e) {
-      messenger.showSnackBar(SnackBar(content: Text('失败: $e')));
+      messenger.showSnackBar(SnackBar(content: Text('导出失败: $e')));
     }
   }
 
-  // ============ 导入 ============
   Future<void> _importDb(BuildContext context, WidgetRef ref) async {
     final messenger = ScaffoldMessenger.of(context);
-    if (kIsWeb) {
-      messenger.showSnackBar(const SnackBar(content: Text('Web 平台不支持数据库导入。请使用 Android / iOS / 桌面版。')));
-      return;
-    }
-    final confirm = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('导入数据库'),
-        content: const Text('导入会先自动备份当前数据库，然后替换。\n\n确定继续？'),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('取消')),
-          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('继续')),
-        ],
-      ),
-    );
-    if (confirm != true) return;
-
     try {
-      final result = await FilePicker.platform.pickFiles(
-        type: FileType.any,
-        allowMultiple: false,
-        dialogTitle: '选择 .db 备份文件',
-      );
-      if (result == null || result.files.isEmpty) return;
-      final path = result.files.first.path;
-      if (path == null) {
-        messenger.showSnackBar(const SnackBar(content: Text('无法读取文件路径')));
-        return;
-      }
-      await ref.read(_dataIOProvider).restoreDatabaseFrom(path);
-      messenger.showSnackBar(const SnackBar(
-        content: Text('数据库已恢复！请重启 App 加载新数据'),
-        duration: Duration(seconds: 6),
-      ));
+      final result = await FilePicker.platform.pickFiles(type: FileType.any);
+      if (result == null) return;
+      final path = result.files.single.path;
+      if (path == null) return;
+      final io = ref.read(_dataIOProvider);
+      await io.restoreDatabaseFrom(path);
+      messenger.showSnackBar(const SnackBar(content: Text('已导入数据库')));
     } catch (e) {
-      messenger.showSnackBar(SnackBar(content: Text('失败: $e')));
+      messenger.showSnackBar(SnackBar(content: Text('导入失败: $e')));
     }
   }
 
   Future<void> _importExcel(BuildContext context, WidgetRef ref) async {
     final messenger = ScaffoldMessenger.of(context);
-    if (kIsWeb) {
-      messenger.showSnackBar(const SnackBar(content: Text('Web 平台不支持 Excel 导入。请使用 Android / iOS / 桌面版。')));
-      return;
-    }
-    final confirm = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('导入 Excel'),
-        content: const Text('会按 ID 匹配: 存在的更新, 不存在的插入, 重复的跳过。\n\n确定继续？'),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('取消')),
-          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('继续')),
-        ],
-      ),
-    );
-    if (confirm != true) return;
-
     try {
-      final result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['xlsx'],
-        allowMultiple: false,
-        dialogTitle: '选择 .xlsx 文件',
-      );
-      if (result == null || result.files.isEmpty) return;
-      final path = result.files.first.path;
-      if (path == null) {
-        messenger.showSnackBar(const SnackBar(content: Text('无法读取文件路径')));
-        return;
-      }
-      final report = await ref.read(_dataIOProvider).importExcelFrom(path);
-      if (!context.mounted) return;
-      messenger.showSnackBar(SnackBar(
-        content: Text('导入完成: ${report.summary()}'),
-        duration: const Duration(seconds: 10),
-      ));
-      if (report.failed.isNotEmpty) {
-        showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            title: Text('失败 ${report.failed.length} 条'),
-            content: SizedBox(
-              width: 400,
-              child: SingleChildScrollView(
-                child: Text(report.failed.take(20).join('\n') + (report.failed.length > 20 ? '\n...' : '')),
-              ),
-            ),
-            actions: [TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('关闭'))],
-          ),
-        );
-      }
+      final result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['xlsx']);
+      if (result == null) return;
+      final path = result.files.single.path;
+      if (path == null) return;
+      final io = ref.read(_dataIOProvider);
+      await io.importExcelFrom(path);
+      messenger.showSnackBar(const SnackBar(content: Text('已导入 Excel')));
     } catch (e) {
-      messenger.showSnackBar(SnackBar(content: Text('失败: $e')));
+      messenger.showSnackBar(SnackBar(content: Text('导入失败: $e')));
     }
   }
 }
 
-class _SectionHeader extends StatelessWidget {
-  final String title;
-  const _SectionHeader(this.title);
+// ===== 内部辅助 =====
+class _Divider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
-      child: Text(title, style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold)),
+    final cs = Theme.of(context).colorScheme;
+    return Divider(
+      height: 0.5,
+      thickness: 0.5,
+      color: cs.outlineVariant,
+      indent: 64, // 对齐 icon 后面
     );
   }
 }

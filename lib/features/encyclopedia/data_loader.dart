@@ -24,6 +24,8 @@ class DataLoader {
   static Map<String, dynamic>? _homeSafety;
   static Map<String, dynamic>? _toysTreats;
   static Map<String, dynamic>? _travel;
+  static Map<String, dynamic>? _dogPlay;
+  static Map<String, dynamic>? _humanMeds;
 
   static Future<Map<String, dynamic>> _load(String path) async {
     final s = await rootBundle.loadString(path);
@@ -124,5 +126,15 @@ class DataLoader {
   static Future<Map<String, dynamic>> travel() async {
     _travel ??= await _load('assets/data/travel.json');
     return _travel!;
+  }
+
+  static Future<Map<String, dynamic>> dogPlay() async {
+    _dogPlay ??= await _load('assets/data/dog_play_spots.json');
+    return _dogPlay!;
+  }
+
+  static Future<Map<String, dynamic>> humanMeds() async {
+    _humanMeds ??= await _load('assets/data/human_meds.json');
+    return _humanMeds!;
   }
 }

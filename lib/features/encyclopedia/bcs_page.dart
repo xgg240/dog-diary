@@ -1,12 +1,13 @@
 // 体型评分 BCS
 import 'package:flutter/material.dart';
 import 'data_loader.dart';
-
+import '../../core/ui/design_tokens.dart';
 class BcsPage extends StatelessWidget {
   const BcsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(title: const Text('⚖️ 体型评分 BCS')),
       body: FutureBuilder(
@@ -18,7 +19,7 @@ class BcsPage extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             children: [
               Card(
-                color: Colors.amber.shade50,
+                color: Theme.of(context).colorScheme.errorContainer,
                 child: const Padding(
                   padding: EdgeInsets.all(12),
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -34,10 +35,10 @@ class BcsPage extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               for (final l in list) Card(
-                color: _colorFor(l['score'] as int).withValues(alpha: 0.15),
+                color: _colorFor(ctx, l['score'] as int).withValues(alpha: 0.15),
                 child: ListTile(
                   leading: CircleAvatar(
-                    backgroundColor: _colorFor(l['score'] as int),
+                    backgroundColor: _colorFor(ctx, l['score'] as int),
                     child: Text('${l['score']}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                   ),
                   title: Text(l['label'], style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -52,11 +53,11 @@ class BcsPage extends StatelessWidget {
     );
   }
 
-  Color _colorFor(int s) {
-    if (s <= 3) return Colors.red;
-    if (s <= 4) return Colors.orange;
-    if (s == 5) return Colors.green;
-    if (s <= 6) return Colors.amber;
-    return Colors.red;
+  Color _colorFor(BuildContext context, int s) {
+    if (s <= 3) return Theme.of(context).colorScheme.error;
+    if (s <= 4) return Theme.of(context).colorScheme.error;
+    if (s == 5) return Theme.of(context).colorScheme.tertiary;
+    if (s <= 6) return Theme.of(context).colorScheme.error;
+    return Theme.of(context).colorScheme.error;
   }
 }

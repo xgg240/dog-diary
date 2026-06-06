@@ -47,6 +47,25 @@ class FinanceRepository {
 
   Future<int> delete(int id) =>
       (db.delete(db.expenses)..where((t) => t.id.equals(id))).go();
+
+  Future<int> updateExpense(
+    int id, {
+    int? petId,
+    DateTime? spentAt,
+    double? amount,
+    String? category,
+    String? description,
+    String? paymentMethod,
+  }) async {
+    return (db.update(db.expenses)..where((t) => t.id.equals(id))).write(ExpensesCompanion(
+      petId: petId != null ? drift.Value(petId) : const drift.Value.absent(),
+      spentAt: spentAt != null ? drift.Value(spentAt) : const drift.Value.absent(),
+      amount: amount != null ? drift.Value(amount) : const drift.Value.absent(),
+      category: category != null ? drift.Value(category) : const drift.Value.absent(),
+      description: description != null ? drift.Value(description) : const drift.Value.absent(),
+      paymentMethod: paymentMethod != null ? drift.Value(paymentMethod) : const drift.Value.absent(),
+    ));
+  }
 }
 
 final financeRepoProvider = Provider<FinanceRepository>((ref) {

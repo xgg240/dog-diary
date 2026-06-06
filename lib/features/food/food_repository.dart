@@ -37,6 +37,8 @@ class FoodRepository {
     required DateTime purchaseDate,
     DateTime? expireDate,
     String? notes,
+    bool blacklisted = false,
+    String? allergyReason,
   }) {
     return db.into(db.foodItems).insert(FoodItemsCompanion(
       petId: drift.Value(petId),
@@ -50,11 +52,44 @@ class FoodRepository {
       purchaseDate: drift.Value(purchaseDate),
       expireDate: drift.Value(expireDate),
       notes: drift.Value(notes),
+      blacklisted: drift.Value(blacklisted),
+      allergyReason: drift.Value(allergyReason),
     ));
   }
 
   Future<int> deleteInventory(int id) =>
       (db.delete(db.foodItems)..where((t) => t.id.equals(id))).go();
+
+  Future<int> updateInventory(
+    int id, {
+    int? petId,
+    String? category,
+    String? brand,
+    String? productName,
+    String? flavor,
+    double? totalKg,
+    double? pricePerKg,
+    DateTime? purchaseDate,
+    DateTime? expireDate,
+    String? notes,
+    bool? blacklisted,
+    String? allergyReason,
+  }) async {
+    return (db.update(db.foodItems)..where((t) => t.id.equals(id))).write(FoodItemsCompanion(
+      petId: petId != null ? drift.Value(petId) : const drift.Value.absent(),
+      category: category != null ? drift.Value(category) : const drift.Value.absent(),
+      brand: brand != null ? drift.Value(brand) : const drift.Value.absent(),
+      productName: productName != null ? drift.Value(productName) : const drift.Value.absent(),
+      flavor: flavor != null ? drift.Value(flavor) : const drift.Value.absent(),
+      totalKg: totalKg != null ? drift.Value(totalKg) : const drift.Value.absent(),
+      pricePerKg: pricePerKg != null ? drift.Value(pricePerKg) : const drift.Value.absent(),
+      purchaseDate: purchaseDate != null ? drift.Value(purchaseDate) : const drift.Value.absent(),
+      expireDate: expireDate != null ? drift.Value(expireDate) : const drift.Value.absent(),
+      notes: notes != null ? drift.Value(notes) : const drift.Value.absent(),
+      blacklisted: blacklisted != null ? drift.Value(blacklisted) : const drift.Value.absent(),
+      allergyReason: allergyReason != null ? drift.Value(allergyReason) : const drift.Value.absent(),
+    ));
+  }
 
   // 喂食
   Stream<List<FeedingRecord>> watchFeedings() {
@@ -102,6 +137,25 @@ class FoodRepository {
       }
     }
     return (db.delete(db.feedingRecords)..where((t) => t.id.equals(id))).go();
+  }
+
+  Future<int> updateFeeding(
+    int id, {
+    int? petId,
+    int? foodId,
+    DateTime? fedAt,
+    double? amountKg,
+    String? mealType,
+    String? notes,
+  }) async {
+    return (db.update(db.feedingRecords)..where((t) => t.id.equals(id))).write(FeedingRecordsCompanion(
+      petId: petId != null ? drift.Value(petId) : const drift.Value.absent(),
+      foodId: foodId != null ? drift.Value(foodId) : const drift.Value.absent(),
+      fedAt: fedAt != null ? drift.Value(fedAt) : const drift.Value.absent(),
+      amountKg: amountKg != null ? drift.Value(amountKg) : const drift.Value.absent(),
+      mealType: mealType != null ? drift.Value(mealType) : const drift.Value.absent(),
+      notes: notes != null ? drift.Value(notes) : const drift.Value.absent(),
+    ));
   }
 }
 

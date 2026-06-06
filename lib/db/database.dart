@@ -10,7 +10,7 @@
 import 'dart:io';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb, debugPrint;
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -89,6 +89,8 @@ class FoodItems extends Table {
   RealColumn get totalKg => real()();
   RealColumn get remainingKg => real()();
   RealColumn get pricePerKg => real().nullable()();
+  BoolColumn get blacklisted => boolean().withDefault(const Constant(false))();
+  TextColumn get allergyReason => text().nullable()();
   DateTimeColumn get purchaseDate => dateTime()();
   DateTimeColumn get expireDate => dateTime().nullable()();
   TextColumn get notes => text().nullable()();
@@ -138,6 +140,21 @@ class TrainingLogs extends Table {
   TextColumn get notes => text().nullable()();
 }
 
+@DataClassName('TrainingPlan')
+class TrainingPlans extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get petId => integer().references(Pets, #id, onDelete: KeyAction.cascade)();
+  TextColumn get title => text()();        // "坐下训练"
+  TextColumn get command => text()();      // "sit"
+  IntColumn get targetDays => integer()(); // 计划天数
+  IntColumn get dailyMinutes => integer().withDefault(const Constant(10))();
+  IntColumn get progress => integer().withDefault(const Constant(0))(); // 已完成天数
+  DateTimeColumn get startDate => dateTime()();
+  DateTimeColumn get endDate => dateTime().nullable()();
+  BoolColumn get completed => boolean().withDefault(const Constant(false))();
+  TextColumn get notes => text().nullable()();
+}
+
 @DataClassName('Setting')
 class Settings extends Table {
   TextColumn get key => text()();
@@ -165,6 +182,70 @@ class Contacts extends Table {
   TextColumn get notes => text().nullable()();
 }
 
+// ============================================================
+//  v3 新增表（2026-06-05 阶段一重构）
+// ------------------------------------------------------------
+//  FavoritePlaces  收藏常去的店/医院（高德 POI 缓存）
+//  UserPreferences 用户偏好（顶栏当前选中狗、弹窗已读状态等）
+//  ExportSettings  加密导出配置（PIN hash + 启用标记）
+//  PoiCache        云端 POI 缓存（Day 2: 合并云端增量到本地, 支持离线浏览）
+// ============================================================
+
+@DataClassName('PoiCacheEntry')
+class PoiCache extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get amapId => text().unique()();      // 云端 id (高德或后端 uuid), 唯一
+  TextColumn get name => text()();
+  TextColumn get category => text()();             // hospital / store / groom / emergency
+  TextColumn get address => text().nullable()();
+  TextColumn get phone => text().nullable()();
+  TextColumn get description => text().nullable()();
+  RealColumn get latitude => real()();
+  RealColumn get longitude => real()();
+  TextColumn get city => text().nullable()();      // 城市, 用于按城市过滤
+  TextColumn get source => text().withDefault(const Constant('cloud'))(); // cloud / local (用户提交)
+  IntColumn get cloudVersion => integer().withDefault(const Constant(0))(); // 云端版本号, 增量同步用
+  DateTimeColumn get cloudSyncedAt => dateTime().nullable()();    // 上次从云端拉取/推送时间
+  DateTimeColumn get localUpdatedAt => dateTime().withDefault(currentDateAndTime)();
+  TextColumn get submittedBy => text().nullable()();               // 提交者 (user_xxx / anon)
+  BoolColumn get active => boolean().withDefault(const Constant(true))(); // 软删标记
+}
+
+@DataClassName('FavoritePlace')
+class FavoritePlaces extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
+  TextColumn get category => text()(); // hospital / store / groom / emergency
+  TextColumn get address => text().nullable()();
+  TextColumn get phone => text().nullable()();
+  RealColumn get latitude => real().nullable()();
+  RealColumn get longitude => real().nullable()();
+  TextColumn get amapId => text().nullable()(); // 高德 POI id
+  IntColumn get visitCount => integer().withDefault(const Constant(0))();
+  DateTimeColumn get lastVisitedAt => dateTime().nullable()();
+  DateTimeColumn get createdAt =>
+      dateTime().withDefault(currentDateAndTime)();
+  TextColumn get notes => text().nullable()();
+}
+
+@DataClassName('UserPreference')
+class UserPreferences extends Table {
+  TextColumn get key => text()();
+  TextColumn get value => text()();
+  @override
+  Set<Column> get primaryKey => {key};
+}
+
+@DataClassName('ExportSetting')
+class ExportSettings extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get pinHash => text()(); // SHA-256(PIN + salt)
+  TextColumn get salt => text()();
+  BoolColumn get enabled => boolean().withDefault(const Constant(true))();
+  DateTimeColumn get createdAt =>
+      dateTime().withDefault(currentDateAndTime)();
+}
+
 @DriftDatabase(tables: [
   Pets,
   WeightRecords,
@@ -176,16 +257,21 @@ class Contacts extends Table {
   Expenses,
   WalkRecords,
   TrainingLogs,
+  TrainingPlans,
   Settings,
   ForbiddenFoods,
   Contacts,
+  FavoritePlaces,
+  UserPreferences,
+  ExportSettings,
+  PoiCache,
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
   AppDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -200,6 +286,34 @@ class AppDatabase extends _$AppDatabase {
             await m.addColumn(healthEvents, healthEvents.dosage);
             await m.addColumn(foodItems, foodItems.category);
           }
+          if (from < 3) {
+            // v3: Stage 1 重构 - 高德 POI 收藏 + 用户偏好 + 加密导出
+            await m.createTable(favoritePlaces);
+            await m.createTable(userPreferences);
+            await m.createTable(exportSettings);
+            // 默认选中第一只狗
+            final firstPet = await (select(pets)..limit(1)).getSingleOrNull();
+            if (firstPet != null) {
+              await into(userPreferences).insertOnConflictUpdate(
+                UserPreferencesCompanion.insert(key: 'current_pet_id', value: firstPet.id.toString()),
+              );
+            }
+          }
+          if (from < 4) {
+            // v4: Stage 2 - 训练计划 + 食物黑名单
+            await m.createTable(trainingPlans);
+            await m.addColumn(foodItems, foodItems.blacklisted);
+            await m.addColumn(foodItems, foodItems.allergyReason);
+          }
+          if (from < 5) {
+            // v5: Day 2 - 云端 POI 缓存 (合并云端增量到本地, 11 万目标)
+            await m.createTable(poiCache);
+            // 建索引加速按城市/分类查询
+            await customStatement('CREATE INDEX IF NOT EXISTS idx_poi_cache_city ON poi_cache (city)');
+            await customStatement('CREATE INDEX IF NOT EXISTS idx_poi_cache_category ON poi_cache (category)');
+            await customStatement('CREATE INDEX IF NOT EXISTS idx_poi_cache_cloud_synced ON poi_cache (cloud_synced_at)');
+          }
+          // v6 的 description 迁移放到 beforeOpen 里 (幂等), 避免 v6 fresh install 报 duplicate
         },
         beforeOpen: (details) async {
           // 打开前防御：验证数据库完整性
@@ -211,6 +325,19 @@ class AppDatabase extends _$AppDatabase {
             } catch (_) {
               // backup 失败不应阻断 db 打开
             }
+          }
+          // 幂等迁移: 给 PoiCache 加 description 字段 (v6 任务, 必须在 v5 create 之后)
+          // - 第一次跑: 加上
+          // - 第二次跑: 检测到已存在, 跳过
+          // - 避免 v6 fresh install 启动时 addColumn 报 duplicate column
+          try {
+            final cols = await customSelect("PRAGMA table_info(poi_cache)").get();
+            final hasDescription = cols.any((r) => r.data['name'] == 'description');
+            if (!hasDescription) {
+              await customStatement('ALTER TABLE poi_cache ADD COLUMN description TEXT NULL');
+            }
+          } on Exception catch (e) {
+            debugPrint('[db] description 幂等迁移失败: $e (可忽略, 后续同步会 fallback)');
           }
         },
       );

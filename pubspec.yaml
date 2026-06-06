@@ -37,6 +37,19 @@ dependencies:
   # UI
   cupertino_icons: ^1.0.8
 
+  # 定位 (geolocator 已在下方)
+  geocoding: ^3.0.0
+  http: ^1.2.2
+
+  # Stage 1 新增（v3）: 加密 + URL 跳转
+  encrypt: ^5.0.3
+  crypto: ^3.0.3
+  url_launcher: ^6.3.0
+  geolocator: ^13.0.2
+  # Stage 2 新增（v4）: 月度 PDF 报告
+  pdf: ^3.10.8
+  printing: ^5.13.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -64,3 +77,5 @@ flutter:
     - assets/data/home_safety.json
     - assets/data/toys_treats.json
     - assets/data/travel.json
+    - assets/data/human_meds.json
+    - assets/data/dog_play_spots.json

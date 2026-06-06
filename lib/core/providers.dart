@@ -18,6 +18,13 @@ final databaseProvider = Provider<AppDatabase>((ref) {
 /// 主题模式
 final themeModeProvider = StateProvider<ThemeMode>((_) => ThemeMode.system);
 
+/// 全局字体缩放 (0.85=小 1.0=中 1.2=大) - 不覆盖系统, 供工具页手动设置
+final textScaleProvider = StateProvider<double>((_) {
+  try {
+    return WidgetsBinding.instance.platformDispatcher.textScaleFactor;
+  } catch (_) { return 1.0; }
+});
+
 /// 所有宠物 (Stream)
 final petsStreamProvider = StreamProvider<List<Pet>>((ref) {
   return (ref.watch(databaseProvider).select(ref.watch(databaseProvider).pets)

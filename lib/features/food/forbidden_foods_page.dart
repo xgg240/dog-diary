@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/providers.dart';
 import '../../db/database.dart';
 
+import '../../core/ui/modern_widgets.dart';
 final _forbiddenFoodsProvider = StreamProvider<List<ForbiddenFood>>((ref) {
   return (ref.watch(databaseProvider).select(ref.watch(databaseProvider).forbiddenFoods)
         ..orderBy([(t) => drift.OrderingTerm.asc(t.severity)]))
@@ -28,7 +29,7 @@ class _S extends ConsumerState<ForbiddenFoodsPage> {
   Widget build(BuildContext context) {
     final foodsAsync = ref.watch(_forbiddenFoodsProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('🚫 禁食食物库')),
+      appBar: ModernPageHeader(title: '禁食食物库'),
       body: Column(
         children: [
           Padding(

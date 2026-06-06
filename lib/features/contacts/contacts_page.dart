@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/providers.dart';
 import '../../db/database.dart';
 
+import '../../core/ui/modern_widgets.dart';
 final _contactsProvider = StreamProvider<List<Contact>>((ref) {
   return (ref.watch(databaseProvider).select(ref.watch(databaseProvider).contacts)
         ..orderBy([(t) => drift.OrderingTerm.asc(t.name)]))
@@ -21,7 +22,7 @@ class ContactsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final contactsAsync = ref.watch(_contactsProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('🏥 紧急电话')),
+      appBar: ModernPageHeader(title: '紧急电话'),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           showModalBottomSheet(

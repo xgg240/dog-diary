@@ -616,6 +616,2950 @@
         "口令不固定, 狗学不会"
       ],
       "tips": "幼犬定点排便关键技能. 定点训好后终身受益"
+    },
+    {
+      "id": "stand_v2",
+      "name_zh": "站立",
+      "name_en": "Stand",
+      "difficulty": "easy",
+      "category": "基础服从",
+      "age_start_months": 2,
+      "duration_minutes_per_day": 5,
+      "command_word": "站",
+      "steps": [
+        "狗狗已会'坐'",
+        "手托狗狗胸前轻向上抬, 同时另一只手护住后腿",
+        "嘴里说'站', 让狗狗维持 2-3 秒",
+        "站稳后立刻给零食并口头表扬",
+        "反复练习, 逐步延长站立时间到 10 秒、30 秒"
+      ],
+      "tips": [
+        "小型犬学站立更轻松, 大型犬注意护腰",
+        "不要用零食诱导狗狗跳起来, 是站立不是跳",
+        "配合梳毛、兽医检查等真实场景练习"
+      ]
+    },
+    {
+      "id": "wait",
+      "name_zh": "等待",
+      "name_en": "Wait",
+      "difficulty": "medium",
+      "category": "基础服从",
+      "age_start_months": 3,
+      "duration_minutes_per_day": 10,
+      "command_word": "等",
+      "steps": [
+        "狗狗坐下或站立, 手掌面向狗狗做出 stop 手势",
+        "说'等', 退 1 步, 计时 3 秒",
+        "返回给零食奖励",
+        "逐步延长时间到 10 秒、30 秒、1 分钟",
+        "在门口、楼梯口、饭前都练, 强化通用性"
+      ],
+      "tips": [
+        "与 stay 的区别: wait 是短时间、距离近, stay 是长时间、远距离",
+        "等待时不要回头看狗狗, 破坏规则要重来",
+        "切勿在没成功前升级难度"
+      ]
+    },
+    {
+      "id": "recall_v2",
+      "name_zh": "过来",
+      "name_en": "Come",
+      "difficulty": "easy",
+      "category": "基础服从",
+      "age_start_months": 2,
+      "duration_minutes_per_day": 5,
+      "command_word": "来",
+      "steps": [
+        "在小空间、零干扰环境, 蹲下拍手喊名字+'来'",
+        "狗狗跑过来立刻给零食并热情表扬",
+        "逐步在房间内不同位置喊",
+        "加长距离、加干扰 (户外、有其他狗)",
+        "永远让召回 = 好事 (零食/玩具/游戏), 不召回去责骂"
+      ],
+      "tips": [
+        "召回是救命技能, 必须练到 100% 服从",
+        "绝不在召回后做狗狗不喜欢的事 (打针、关笼)",
+        "声音要欢快, 像邀请而非命令"
+      ]
+    },
+    {
+      "id": "heel_v2",
+      "name_zh": "随行",
+      "name_en": "Heel",
+      "difficulty": "medium",
+      "category": "基础服从",
+      "age_start_months": 4,
+      "duration_minutes_per_day": 15,
+      "command_word": "跟",
+      "steps": [
+        "短牵引绳, 狗狗在主人左侧",
+        "起步前说名字+'跟', 迈步走",
+        "狗狗超前/落后时改变方向, 引导回到左腿旁",
+        "正确位置立刻给零食",
+        "逐步在小区、街道等不同环境练习"
+      ],
+      "tips": [
+        "不要用力拽绳, 用方向变化引导",
+        "随行 ≠ 散步, 节奏要变化, 防止无聊",
+        "大型犬 3 月龄就可以开始, 小型犬 4 月龄"
+      ]
+    },
+    {
+      "id": "go_out",
+      "name_zh": "出去",
+      "name_en": "Go Out",
+      "difficulty": "easy",
+      "category": "基础服从",
+      "age_start_months": 3,
+      "duration_minutes_per_day": 5,
+      "command_word": "出",
+      "steps": [
+        "在门口站定, 手指门外说'出'",
+        "开门让狗狗先出去, 立刻给零食",
+        "反复练习, 让'出'与出门动作绑定",
+        "在不同门口练习, 强化通用性",
+        "结合'等'口令, 出门前先坐下再放行"
+      ],
+      "tips": [
+        "配合 wait 一起训练更安全",
+        "门开门关时注意不要夹到狗狗",
+        "出门前不要激动, 否则狗狗会爆冲"
+      ]
+    },
+    {
+      "id": "go_in",
+      "name_zh": "进去",
+      "name_en": "Go In",
+      "difficulty": "easy",
+      "category": "基础服从",
+      "age_start_months": 3,
+      "duration_minutes_per_day": 5,
+      "command_word": "进",
+      "steps": [
+        "指向航空箱/狗窝, 说'进'",
+        "用零食在窝里引导狗狗进入",
+        "进入后说'好'并给零食",
+        "关门 1 秒再开门, 逐步延长时间",
+        "让狗狗把'进' = 安全/休息的地方"
+      ],
+      "tips": [
+        "航空箱训练是分离焦虑、防应激的良药",
+        "绝对不在狗狗抗拒时强行塞入",
+        "窝里放零食/玩具建立好感"
+      ]
+    },
+    {
+      "id": "leave_it_v2",
+      "name_zh": "拒食",
+      "name_en": "Leave It",
+      "difficulty": "medium",
+      "category": "基础服从",
+      "age_start_months": 4,
+      "duration_minutes_per_day": 10,
+      "command_word": "不吃",
+      "steps": [
+        "手掌合拢放零食, 伸到狗狗面前",
+        "狗狗嗅/舔/扒都不给, 等它放弃",
+        "放弃的瞬间说'不吃'并给另一只手的好零食",
+        "地上放零食, 牵引绳控制, 走近时阻止",
+        "升级到户外、餐桌旁等高诱惑场景"
+      ],
+      "tips": [
+        "拒食是救命技能, 尤其防误食毒饵",
+        "初期绝不让狗狗真的吃到, 一定要成功阻止",
+        "训练者必须比环境里的食物更有吸引力"
+      ]
+    },
+    {
+      "id": "name_response",
+      "name_zh": "名字回应",
+      "name_en": "Name Response",
+      "difficulty": "easy",
+      "category": "基础服从",
+      "age_start_months": 2,
+      "duration_minutes_per_day": 3,
+      "command_word": "名字",
+      "steps": [
+        "在安静房间, 喊狗狗名字",
+        "狗狗转头看你, 立刻给零食",
+        "每天 10 次, 短时间高频",
+        "在不同房间、不同人喊都练习",
+        "户外有干扰时也要能听到名字回头"
+      ],
+      "tips": [
+        "只用一个名字, 别叫'宝贝''小乖'多个昵称",
+        "喊名字时不要带生气语气, 名字 = 好事",
+        "建立后再训练召回更顺利"
+      ]
+    },
+    {
+      "id": "watch_me",
+      "name_zh": "看我",
+      "name_en": "Watch Me",
+      "difficulty": "easy",
+      "category": "基础服从",
+      "age_start_months": 2,
+      "duration_minutes_per_day": 5,
+      "command_word": "看",
+      "steps": [
+        "零食贴近眼睛, 引狗狗看你的脸",
+        "眼神接触瞬间说'看'并给零食",
+        "逐渐减少食物引导, 纯口令+手势",
+        "延长时间到 5 秒、10 秒",
+        "户外有干扰时也能做到"
+      ],
+      "tips": [
+        "是注意力训练的基石, 用于控制冲动",
+        "不要瞪着狗狗眼睛, 那是一种威胁",
+        "配合'坐'一起练, 坐下+看 = 平静"
+      ]
+    },
+    {
+      "id": "give_paw",
+      "name_zh": "给爪子",
+      "name_en": "Give Paw",
+      "difficulty": "easy",
+      "category": "基础服从",
+      "age_start_months": 2,
+      "duration_minutes_per_day": 5,
+      "command_word": "手",
+      "steps": [
+        "狗狗坐下, 手心向上伸到狗狗前爪旁",
+        "轻托起一只前爪放进手里",
+        "说'手'并给零食",
+        "反复练到狗狗主动伸爪",
+        "左右爪都练, 双爪都练"
+      ],
+      "tips": [
+        "剪指甲前的预备动作",
+        "不要每次都握很久, 短而频繁奖励",
+        "可延伸到握手/击掌等变体"
+      ]
+    },
+    {
+      "id": "shake_hand",
+      "name_zh": "握手",
+      "name_en": "Shake Hand",
+      "difficulty": "easy",
+      "category": "基础服从",
+      "age_start_months": 2,
+      "duration_minutes_per_day": 5,
+      "command_word": "握",
+      "steps": [
+        "狗狗已会'给爪子'",
+        "握住爪子上下摇动一次",
+        "同时说'握'并给零食",
+        "逐步延长时间, 让狗狗接受被握爪",
+        "左右爪都练"
+      ],
+      "tips": [
+        "比给爪子更正式, 用于见客人",
+        "剪指甲时配合做, 让狗狗不怕",
+        "注意指甲不要划伤人"
+      ]
+    },
+    {
+      "id": "high_five",
+      "name_zh": "击掌",
+      "name_en": "High Five",
+      "difficulty": "easy",
+      "category": "基础服从",
+      "age_start_months": 2,
+      "duration_minutes_per_day": 5,
+      "command_word": "啪",
+      "steps": [
+        "狗狗会'给爪子'",
+        "把零食放在自己手掌里, 掌心朝狗狗",
+        "狗狗用爪拍你手掌时说'啪'并打开手给零食",
+        "逐渐去掉零食, 纯手势口令",
+        "举高手让狗狗站着也能击掌"
+      ],
+      "tips": [
+        "进阶版握手, 视觉化更强",
+        "是社交场合的吸睛技能",
+        "可教'双手击掌'变体"
+      ]
+    },
+    {
+      "id": "say_bye",
+      "name_zh": "拜拜",
+      "name_en": "Say Bye",
+      "difficulty": "easy",
+      "category": "基础服从",
+      "age_start_months": 3,
+      "duration_minutes_per_day": 5,
+      "command_word": "拜",
+      "steps": [
+        "狗狗坐下, 把零食藏在手里举高",
+        "狗狗前爪搭上来够零食",
+        "前爪搭上来的瞬间说'拜'并给零食",
+        "逐步延长时间到 5 秒、10 秒",
+        "配合手势: 主人挥手"
+      ],
+      "tips": [
+        "老派才艺, 表演性强",
+        "注意不要让狗狗长时间站立, 伤后腿",
+        "可改用'合十'姿势, 减少站立时间"
+      ]
+    },
+    {
+      "id": "play_dead_v2",
+      "name_zh": "装死",
+      "name_en": "Play Dead",
+      "difficulty": "medium",
+      "category": "基础服从",
+      "age_start_months": 4,
+      "duration_minutes_per_day": 10,
+      "command_word": "砰",
+      "steps": [
+        "狗狗已会'趴下'",
+        "发出'砰'(倒地)音效或手势",
+        "用手轻推狗狗倒向一侧",
+        "倒下后立刻说'装死'并给零食",
+        "逐步延长装死时间到 30 秒、1 分钟"
+      ],
+      "tips": [
+        "配合'砰'手势或枪响音效更有戏剧性",
+        "倒下后绝对不要让狗狗起身才给零食",
+        "注意地面是否冷/硬, 垫个垫子"
+      ]
+    },
+    {
+      "id": "roll_over_v2",
+      "name_zh": "打滚",
+      "name_en": "Roll Over",
+      "difficulty": "medium",
+      "category": "基础服从",
+      "age_start_months": 3,
+      "duration_minutes_per_day": 8,
+      "command_word": "滚",
+      "steps": [
+        "狗狗趴下, 零食贴地面画弧",
+        "引导狗狗侧身、翻身、回到趴下",
+        "滚一整圈后说'滚'并给零食",
+        "逐步去掉零食引导, 纯口令",
+        "反向滚也练, 左右都能滚"
+      ],
+      "tips": [
+        "大型犬要保护脊椎, 沙发/软垫上练",
+        "不要在饭后立刻练, 容易吐",
+        "基础是'趴下', 趴下稳了再学滚"
+      ]
+    },
+    {
+      "id": "spin_v2",
+      "name_zh": "绕圈",
+      "name_en": "Spin",
+      "difficulty": "easy",
+      "category": "基础服从",
+      "age_start_months": 3,
+      "duration_minutes_per_day": 5,
+      "command_word": "转",
+      "steps": [
+        "手里拿零食, 引导狗狗鼻子顺时针绕一圈",
+        "转完一圈说'转'并给零食",
+        "反向也练, 顺逆都能转",
+        "逐步去掉零食, 纯手势",
+        "加快速度, 让动作流畅"
+      ],
+      "tips": [
+        "比打滚简单, 新手友好",
+        "注意不要让狗狗头晕, 每次 3-5 圈",
+        "是动态暖身动作, 表演开场常用"
+      ]
+    },
+    {
+      "id": "weave_legs",
+      "name_zh": "绕腿",
+      "name_en": "Weave Through Legs",
+      "difficulty": "medium",
+      "category": "基础服从",
+      "age_start_months": 5,
+      "duration_minutes_per_day": 10,
+      "command_word": "绕",
+      "steps": [
+        "站姿, 零食在左腿外侧引导狗狗绕左腿",
+        "再绕右腿, 完成 S 型穿越",
+        "穿越全程说'绕'并给零食",
+        "逐步去掉零食, 纯口令+脚步示意",
+        "加快节奏"
+      ],
+      "tips": [
+        "敏捷赛常用动作",
+        "主人跨步要小而稳, 别绊倒狗狗",
+        "大型犬更适合, 小型犬腿间距短"
+      ]
+    },
+    {
+      "id": "jump_through_hoop",
+      "name_zh": "跳圈",
+      "name_en": "Jump Through Hoop",
+      "difficulty": "medium",
+      "category": "基础服从",
+      "age_start_months": 4,
+      "duration_minutes_per_day": 8,
+      "command_word": "跳",
+      "steps": [
+        "把呼啦圈立在地上, 底部接触地面",
+        "零食在圈另一侧引导狗狗穿过",
+        "穿过时说'跳'并给零食",
+        "逐步抬高圈底到 10cm、20cm",
+        "换成呼啦圈道具, 主人手持"
+      ],
+      "tips": [
+        "关节未发育完全的幼犬 (小于 1 岁) 不要练",
+        "从低处开始, 慢慢升级高度",
+        "大型犬注意不要撞到圈"
+      ]
+    },
+    {
+      "id": "jump_over",
+      "name_zh": "跳过",
+      "name_en": "Jump Over",
+      "difficulty": "medium",
+      "category": "基础服从",
+      "age_start_months": 6,
+      "duration_minutes_per_day": 10,
+      "command_word": "过",
+      "steps": [
+        "地上放小障碍 (扫帚横放)",
+        "牵绳带狗狗从一侧跳到另一侧",
+        "跳过的瞬间说'过'并给零食",
+        "逐步升高障碍到 20cm、40cm",
+        "增加障碍数量, 连续跳过"
+      ],
+      "tips": [
+        "幼犬骨骼未发育好, 6 月龄前不要练",
+        "大型犬 1 岁后再练高度",
+        "从低处开始, 永远别让狗狗撞杆"
+      ]
+    },
+    {
+      "id": "crawl_v2",
+      "name_zh": "匍匐前进",
+      "name_en": "Crawl",
+      "difficulty": "hard",
+      "category": "基础服从",
+      "age_start_months": 6,
+      "duration_minutes_per_day": 10,
+      "command_word": "爬",
+      "steps": [
+        "狗狗趴下, 零食贴近地面往前方慢慢移动",
+        "狗狗保持趴姿跟过来",
+        "前进 1 米后说'爬'并给零食",
+        "逐步延距离, 2 米、5 米",
+        "在低矮空间 (桌下) 强化"
+      ],
+      "tips": [
+        "力量型犬种更擅长, 腊肠/柯基等腿短犬不适合",
+        "地面不能太滑, 会伤关节",
+        "比打滚难, 适合 6 月龄以上"
+      ]
+    },
+    {
+      "id": "nose_bump",
+      "name_zh": "鼻子碰鼻",
+      "name_en": "Nose Bump",
+      "difficulty": "easy",
+      "category": "基础服从",
+      "age_start_months": 2,
+      "duration_minutes_per_day": 5,
+      "command_word": "亲",
+      "steps": [
+        "手心涂少许花生酱/湿粮",
+        "手靠近自己鼻尖, 引狗狗鼻子贴过来",
+        "接触瞬间说'亲'并给零食",
+        "逐步减少手心食物, 纯口令+手势",
+        "用脸颊代替手也可以"
+      ],
+      "tips": [
+        "增进亲密度的简单动作",
+        "注意手心食物别太多, 否则狗狗只顾舔手",
+        "配合'亲亲'口令效果更佳"
+      ]
+    },
+    {
+      "id": "kiss",
+      "name_zh": "亲亲",
+      "name_en": "Kiss",
+      "difficulty": "easy",
+      "category": "基础服从",
+      "age_start_months": 2,
+      "duration_minutes_per_day": 5,
+      "command_word": "亲亲",
+      "steps": [
+        "脸颊涂少许湿粮, 蹲下与狗狗平视",
+        "引导狗狗舔你脸颊",
+        "舔到时说'亲'并给零食",
+        "逐步去食物引导",
+        "配合'亲亲'口令"
+      ],
+      "tips": [
+        "有些人会反感, 注意场合",
+        "只在家里/信任的人面前练",
+        "定期检查狗狗口腔卫生"
+      ]
+    },
+    {
+      "id": "hug",
+      "name_zh": "抱抱",
+      "name_en": "Hug",
+      "difficulty": "easy",
+      "category": "基础服从",
+      "age_start_months": 3,
+      "duration_minutes_per_day": 5,
+      "command_word": "抱",
+      "steps": [
+        "蹲下, 双臂环抱狗狗肩部",
+        "嘴里说'抱'并给零食",
+        "逐步延长时间到 5 秒、10 秒",
+        "配合抚摸和口头表扬",
+        "让狗狗接受被抱而不挣扎"
+      ],
+      "tips": [
+        "让狗狗接受被抱是去兽医、剪指甲的前提",
+        "中大型犬抱不动, 改为依偎即可",
+        "幼犬期就要建立被抱的习惯"
+      ]
+    },
+    {
+      "id": "find_it_v2",
+      "name_zh": "找东西",
+      "name_en": "Find It",
+      "difficulty": "medium",
+      "category": "基础服从",
+      "age_start_months": 5,
+      "duration_minutes_per_day": 15,
+      "command_word": "找",
+      "steps": [
+        "3 个相同盒子, 1 个藏零食",
+        "让狗狗看藏的过程, 然后找",
+        "找到时说'找'并给盒里零食",
+        "逐步增加盒子数和藏匿距离",
+        "藏主人的物品 (钥匙/手机)"
+      ],
+      "tips": [
+        "用嗅闻脑力, 消耗精力绝佳",
+        "下雨天/不能出门时的室内活动",
+        "为后续找指定物品打基础"
+      ]
+    },
+    {
+      "id": "open_door",
+      "name_zh": "开关门",
+      "name_en": "Open/Close Door",
+      "difficulty": "hard",
+      "category": "高级技能",
+      "age_start_months": 8,
+      "duration_minutes_per_day": 15,
+      "command_word": "开门",
+      "steps": [
+        "用毛巾系门把手, 教狗狗拉毛巾开门",
+        "拉开的瞬间说'开'并给零食",
+        "逐步去掉毛巾, 教用爪/鼻推门",
+        "再教关门 (推门合上)",
+        "真实场景反复练"
+      ],
+      "tips": [
+        "幼犬绝对不要练, 力量控制不好会夹伤",
+        "从不会卡住的安全门开始",
+        "大型犬可以练推门, 小型犬用牵引环"
+      ]
+    },
+    {
+      "id": "turn_off_light",
+      "name_zh": "关灯",
+      "name_en": "Turn Off Light",
+      "difficulty": "hard",
+      "category": "高级技能",
+      "age_start_months": 10,
+      "duration_minutes_per_day": 15,
+      "command_word": "关灯",
+      "steps": [
+        "用脚踩式开关, 教狗狗用爪踩",
+        "踩下去灯灭的瞬间说'关'并给零食",
+        "反复练到狗狗主动踩",
+        "配合'开灯' (按一下) 也练",
+        "在固定位置练成习惯"
+      ],
+      "tips": [
+        "只适合脚踩式开关, 旋转式开关对狗狗有触电风险",
+        "需要反复强化, 不是一个训练周期能学会",
+        "配合'睡觉'口令一起练"
+      ]
+    },
+    {
+      "id": "fetch_newspaper",
+      "name_zh": "取报",
+      "name_en": "Fetch Newspaper",
+      "difficulty": "medium",
+      "category": "高级技能",
+      "age_start_months": 6,
+      "duration_minutes_per_day": 10,
+      "command_word": "取报",
+      "steps": [
+        "把卷起的报纸扔出去, 让狗狗追",
+        "狗狗叼回来时说'给'并接过来给零食",
+        "逐步练习: 报纸放在门口/信箱",
+        "实际场景: 主人示意去取报",
+        "形成'取报' = 去门口叼报纸回来"
+      ],
+      "tips": [
+        "与'衔取'是同一基础",
+        "户外训练注意交通安全",
+        "报纸替代品: 拖鞋、毛绒玩具"
+      ]
+    },
+    {
+      "id": "fetch_slippers",
+      "name_zh": "取拖鞋",
+      "name_en": "Fetch Slippers",
+      "difficulty": "medium",
+      "category": "高级技能",
+      "age_start_months": 6,
+      "duration_minutes_per_day": 10,
+      "command_word": "拿鞋",
+      "steps": [
+        "把拖鞋放地上, 引导狗狗叼起来",
+        "叼到主人面前时说'给'并接过来给零食",
+        "逐步把拖鞋放远、放不同位置",
+        "配合'拿拖鞋'口令",
+        "可同时教拿特定一只 (左/右)"
+      ],
+      "tips": [
+        "拖鞋是天然的训练物品, 容易辨识",
+        "与'找东西'配合: 找指定拖鞋",
+        "不要用太新/太喜欢的鞋, 怕咬坏"
+      ]
+    },
+    {
+      "id": "find_phone",
+      "name_zh": "找手机",
+      "name_en": "Find Phone",
+      "difficulty": "hard",
+      "category": "高级技能",
+      "age_start_months": 10,
+      "duration_minutes_per_day": 15,
+      "command_word": "找手机",
+      "steps": [
+        "前提: 狗狗已会'找东西'",
+        "把家里人的手机藏起来, 教狗狗找",
+        "找到时说'找'并给零食",
+        "户外练习: 在小区/公园找",
+        "进阶: 区分多部手机, 找指定人的"
+      ],
+      "tips": [
+        "现代人的好帮手, 尤其老人养狗",
+        "手机要有独特气味, 可贴个狗粮屑",
+        "反复强化'找'的口令"
+      ]
+    },
+    {
+      "id": "find_keys",
+      "name_zh": "找钥匙",
+      "name_en": "Find Keys",
+      "difficulty": "hard",
+      "category": "高级技能",
+      "age_start_months": 10,
+      "duration_minutes_per_day": 15,
+      "command_word": "找钥匙",
+      "steps": [
+        "基础同'找手机', 藏钥匙",
+        "钥匙声/金属味独特, 狗狗易辨识",
+        "配合'找钥匙'口令",
+        "练习'找指定人的钥匙'",
+        "真实场景反复强化"
+      ],
+      "tips": [
+        "钥匙是金属味强, 狗狗好认",
+        "不要让狗狗误吞钥匙, 训练时监督",
+        "出门前'找钥匙'已成习惯"
+      ]
+    },
+    {
+      "id": "find_wallet",
+      "name_zh": "找钱包",
+      "name_en": "Find Wallet",
+      "difficulty": "hard",
+      "category": "高级技能",
+      "age_start_months": 10,
+      "duration_minutes_per_day": 15,
+      "command_word": "找钱包",
+      "steps": [
+        "基础同'找东西', 用钱包替代",
+        "皮革味独特, 狗狗易辨识",
+        "配合'找钱包'口令",
+        "区分多人的钱包",
+        "真实场景反复强化"
+      ],
+      "tips": [
+        "皮革味是狗狗熟悉的气味",
+        "钱包不能有巧克力等危险品 (狗狗会翻)",
+        "注意不要让狗狗咬坏钱包"
+      ]
+    },
+    {
+      "id": "carry_bag",
+      "name_zh": "帮提袋子",
+      "name_en": "Carry Bag",
+      "difficulty": "hard",
+      "category": "高级技能",
+      "age_start_months": 12,
+      "duration_minutes_per_day": 15,
+      "command_word": "提",
+      "steps": [
+        "从轻的布袋开始, 教狗狗用嘴叼住提手",
+        "叼稳后走几步, 走完给零食",
+        "逐步加重、加距离",
+        "教'送'到指定位置 (门口/桌上)",
+        "户外场景: 实际提袋子回家"
+      ],
+      "tips": [
+        "中型/大型犬更适合, 小型犬力量不够",
+        "袋子里不能有尖锐/易碎品",
+        "不要超负荷, 伤狗狗颈椎"
+      ]
+    },
+    {
+      "id": "push_cart",
+      "name_zh": "推车",
+      "name_en": "Push Cart",
+      "difficulty": "hard",
+      "category": "高级技能",
+      "age_start_months": 12,
+      "duration_minutes_per_day": 20,
+      "command_word": "推",
+      "steps": [
+        "用特制宠物推车, 让狗狗用胸部/前肩推",
+        "推动的瞬间说'推'并给零食",
+        "逐步延长时间和距离",
+        "拐弯训练: 推车转 90 度",
+        "实战: 推着购物袋回家"
+      ],
+      "tips": [
+        "需要专业推车, 不能用超市推车 (太高)",
+        "大型犬专属技能, 中型勉强",
+        "地面要平整, 防止翻车"
+      ]
+    },
+    {
+      "id": "pull_cart",
+      "name_zh": "拉车",
+      "name_en": "Pull Cart",
+      "difficulty": "hard",
+      "category": "高级技能",
+      "age_start_months": 18,
+      "duration_minutes_per_day": 25,
+      "command_word": "拉",
+      "steps": [
+        "前提: 已会'随行'和'衔取'",
+        "用雪橇/小型拉车, 教狗狗拉",
+        "起步说'拉', 停说'停'",
+        "转弯用声音指令 + 绳索引导",
+        "户外空旷地反复练"
+      ],
+      "tips": [
+        "雪橇犬/哈士奇/阿拉斯加等天生擅长",
+        "禁止在炎热天气练, 易中暑",
+        "训练距离从 50 米开始, 逐步加长"
+      ]
+    },
+    {
+      "id": "sort_recycle",
+      "name_zh": "分类垃圾",
+      "name_en": "Sort Recycling",
+      "difficulty": "hard",
+      "category": "高级技能",
+      "age_start_months": 18,
+      "duration_minutes_per_day": 25,
+      "command_word": "分类",
+      "steps": [
+        "准备 2 个垃圾桶 (可回收/不可回收)",
+        "教狗狗把瓶子叼到可回收桶",
+        "把纸巾叼到不可回收桶",
+        "逐步增加类别 (3 类、4 类)",
+        "口令:'可回收'、'不可回收'"
+      ],
+      "tips": [
+        "本质是'找指定容器'的延伸",
+        "需要长期训练, 不可能几天学会",
+        "实际用得少, 主要是脑力训练"
+      ]
+    },
+    {
+      "id": "fetch_specific_item",
+      "name_zh": "找指定物品",
+      "name_en": "Fetch by Name",
+      "difficulty": "hard",
+      "category": "高级技能",
+      "age_start_months": 12,
+      "duration_minutes_per_day": 20,
+      "command_word": "找",
+      "steps": [
+        "前提: 已会'找东西'",
+        "5 个不同物品, 主人说名字, 狗狗找",
+        "找对给零食, 找错没奖励",
+        "逐步加物品、加距离",
+        "真实场景: 找电视遥控器"
+      ],
+      "tips": [
+        "狗狗的'物品识别'能力有限, 5-10 个物品是上限",
+        "每次只换一个, 不要同时教多个",
+        "可结合'找钥匙''找手机'一起练"
+      ]
+    },
+    {
+      "id": "fetch_by_color",
+      "name_zh": "按颜色取物",
+      "name_en": "Fetch by Color",
+      "difficulty": "hard",
+      "category": "高级技能",
+      "age_start_months": 15,
+      "duration_minutes_per_day": 20,
+      "command_word": "颜色",
+      "steps": [
+        "准备 3 个不同颜色的球",
+        "主人说'红的', 狗狗拿红色球",
+        "用零食奖励正确选择",
+        "逐步增加颜色 (最多 5 种)",
+        "加干扰: 形状不同但颜色相同"
+      ],
+      "tips": [
+        "需要长期训练, 是高级智力游戏",
+        "边牧等聪明犬种更容易学会",
+        "每次只换一种颜色, 反复强化"
+      ]
+    },
+    {
+      "id": "find_hidden_food",
+      "name_zh": "找隐藏食物",
+      "name_en": "Find Hidden Food",
+      "difficulty": "medium",
+      "category": "高级技能",
+      "age_start_months": 6,
+      "duration_minutes_per_day": 15,
+      "command_word": "找",
+      "steps": [
+        "把零食藏在房间角落, 让狗狗用鼻子找",
+        "找到时说'找'并让狗狗吃掉",
+        "逐步增加难度: 藏到盒子下、抽屉里",
+        "户外: 藏到草丛中",
+        "最终: 藏到指定几个'藏点'之一"
+      ],
+      "tips": [
+        "用嗅闻消耗精力, 比跑步更累",
+        "阴雨天/不能出门的救星",
+        "是后续搜救/嗅闻犬的基础"
+      ]
+    },
+    {
+      "id": "do_math",
+      "name_zh": "算算术(1+1)",
+      "name_en": "Do Math 1+1",
+      "difficulty": "hard",
+      "category": "高级技能",
+      "age_start_months": 18,
+      "duration_minutes_per_day": 15,
+      "command_word": "等于",
+      "steps": [
+        "主人伸 1 根手指, 狗狗叫 1 声",
+        "主人伸 2 根手指, 狗狗叫 2 声",
+        "伸 3 根手指, 叫 3 声",
+        "配合'1+1=?'口令, 引导叫 2 声",
+        "反复强化, 做成表演节目"
+      ],
+      "tips": [
+        "狗狗其实不理解数学, 是条件反射",
+        "表演性强, 视频圈粉神技",
+        "训练时只能一种手势对应一种叫声"
+      ]
+    },
+    {
+      "id": "find_way_home",
+      "name_zh": "找路回家",
+      "name_en": "Find Way Home",
+      "difficulty": "hard",
+      "category": "高级技能",
+      "age_start_months": 12,
+      "duration_minutes_per_day": 20,
+      "command_word": "回家",
+      "steps": [
+        "前提: 已会'随行'和'召回'",
+        "短距离 (50 米) 让狗狗记住路线",
+        "再走一次, 然后让狗狗带路回",
+        "逐步延距离到 200 米、500 米",
+        "户外复杂路线反复练"
+      ],
+      "tips": [
+        "依赖狗狗的空间记忆, 不是导航",
+        "只在熟悉路线练, 别指望狗狗认陌生路",
+        "始终佩戴定位项圈, 防止走丢"
+      ]
+    },
+    {
+      "id": "weave_poles",
+      "name_zh": "穿越障碍",
+      "name_en": "Weave Poles",
+      "difficulty": "hard",
+      "category": "高级技能",
+      "age_start_months": 12,
+      "duration_minutes_per_day": 20,
+      "command_word": "穿",
+      "steps": [
+        "6-12 根杆子, 间距 50cm",
+        "牵绳引导狗狗 S 型穿越",
+        "穿越完整组时说'过'并给零食",
+        "逐步去掉引导, 纯口令",
+        "加快速度"
+      ],
+      "tips": [
+        "敏捷赛的核心动作",
+        "从慢速开始, 熟练后再加速",
+        "中大型犬更适合, 小型犬杆子要调近"
+      ]
+    },
+    {
+      "id": "scent_detection",
+      "name_zh": "嗅闻找物",
+      "name_en": "Scent Detection",
+      "difficulty": "hard",
+      "category": "高级技能",
+      "age_start_months": 12,
+      "duration_minutes_per_day": 25,
+      "command_word": "搜",
+      "steps": [
+        "前提: 已会'找东西'",
+        "训练特定气味 (茶/咖啡/丁香)",
+        "用纱布包气味, 藏到盒子下",
+        "找到特定气味时'示警' (坐下/扒)",
+        "增加干扰气味, 找指定气味"
+      ],
+      "tips": [
+        "缉毒犬/搜救犬的训练基础",
+        "示警方式要稳定, 不能变",
+        "奖励必须及时, 找对就给"
+      ]
+    },
+    {
+      "id": "no_bite_hand",
+      "name_zh": "不咬手",
+      "name_en": "No Bite Hands",
+      "difficulty": "medium",
+      "category": "纠正行为",
+      "age_start_months": 3,
+      "duration_minutes_per_day": 5,
+      "command_word": "不许咬",
+      "steps": [
+        "狗狗咬手时立刻'啊!'叫一声, 抽回手",
+        "停止互动 10-30 秒",
+        "再次伸手, 狗狗不咬就继续玩",
+        "给狗狗磨牙玩具替代手",
+        "全家统一规则, 不能有人纵容"
+      ],
+      "tips": [
+        "幼犬换牙期更需要磨牙玩具",
+        "咬手 = 停止游戏, 咬玩具 = 继续",
+        "绝对不能打狗狗嘴巴, 会更咬"
+      ]
+    },
+    {
+      "id": "no_bite_feet",
+      "name_zh": "不咬脚",
+      "name_en": "No Bite Feet",
+      "difficulty": "medium",
+      "category": "纠正行为",
+      "age_start_months": 3,
+      "duration_minutes_per_day": 5,
+      "command_word": "不许咬",
+      "steps": [
+        "狗狗咬脚/裤脚时立刻站定不动",
+        "脚不动 = 狗狗失去目标, 自然松口",
+        "松口后给玩具分散注意力",
+        "出门时带玩具, 随时替换",
+        "反复强化: 咬脚 = 不动了"
+      ],
+      "tips": [
+        "幼犬把移动的脚当玩具, 静止是关键",
+        "不要甩脚, 会激发追逐欲",
+        "出门前消耗精力可减少咬脚"
+      ]
+    },
+    {
+      "id": "no_pull_leash",
+      "name_zh": "不爆冲",
+      "name_en": "Loose Leash Walking",
+      "difficulty": "medium",
+      "category": "纠正行为",
+      "age_start_months": 4,
+      "duration_minutes_per_day": 15,
+      "command_word": "慢",
+      "steps": [
+        "爆冲的瞬间立刻停步, 转身反向走",
+        "狗狗追上来给零食",
+        "爆冲再停, 不爆冲才走",
+        "全程不拽绳, 用方向变化引导",
+        "树立'爆冲 = 走不动, 不冲 = 前进'规则"
+      ],
+      "tips": [
+        "前 2 周很难, 散步距离会短一半, 坚持",
+        "配合'随行'训练更好",
+        "永远不拽, 拽绳会加重爆冲"
+      ]
+    },
+    {
+      "id": "no_food_guarding",
+      "name_zh": "不护食",
+      "name_en": "No Food Guarding",
+      "difficulty": "medium",
+      "category": "纠正行为",
+      "age_start_months": 4,
+      "duration_minutes_per_day": 10,
+      "command_word": "放下",
+      "steps": [
+        "狗狗吃饭时, 主人靠近加一块更好吃的",
+        "吃完拿走旧碗, 加新食物还回去",
+        "反复建立'人靠近 = 加餐'的认知",
+        "不戴护食项圈/手套, 那会加剧护食",
+        "全家人都这样练, 不能有人偷食物"
+      ],
+      "tips": [
+        "护食是本能, 不能打, 越打越护",
+        "小时候就要建立'人给食物'的信任",
+        "严重护食需要专业训犬师指导"
+      ]
+    },
+    {
+      "id": "no_toy_guarding",
+      "name_zh": "不护玩具",
+      "name_en": "No Toy Guarding",
+      "difficulty": "medium",
+      "category": "纠正行为",
+      "age_start_months": 4,
+      "duration_minutes_per_day": 10,
+      "command_word": "给我",
+      "steps": [
+        "狗狗玩玩具时, 主人用零食换",
+        "换完还回去, 反复'拿 - 换 - 还'",
+        "建立'人 = 玩具加倍的来源'",
+        "多人练, 尤其小孩和陌生人",
+        "多狗家庭分时玩, 减少冲突"
+      ],
+      "tips": [
+        "多狗家庭重点训练, 避免争抢打架",
+        "切勿强行从嘴里抢, 越抢越护",
+        "初期不要拿贵重玩具练, 用旧玩具"
+      ]
+    },
+    {
+      "id": "no_territory",
+      "name_zh": "不护地盘",
+      "name_en": "No Territory Guarding",
+      "difficulty": "hard",
+      "category": "纠正行为",
+      "age_start_months": 8,
+      "duration_minutes_per_day": 15,
+      "command_word": "不护",
+      "steps": [
+        "有人靠近家门/狗窝, 立刻给零食",
+        "建立'人靠近 = 有好事'的反射",
+        "请朋友帮忙按门铃, 主人先给零食",
+        "严重护地盘要找专业训犬师",
+        "配合'安静''回窝'口令"
+      ],
+      "tips": [
+        "护地盘是严重问题, 不纠正会咬人",
+        "幼犬期社会化不足是主因",
+        "禁止惩罚, 惩罚会加剧攻击性"
+      ]
+    },
+    {
+      "id": "no_bark_v2",
+      "name_zh": "不乱叫",
+      "name_en": "No Excessive Barking",
+      "difficulty": "medium",
+      "category": "纠正行为",
+      "age_start_months": 4,
+      "duration_minutes_per_day": 10,
+      "command_word": "安静",
+      "steps": [
+        "狗狗开始叫时, 立刻说'安静'",
+        "狗狗停叫的瞬间给零食",
+        "逐步延长时间, 5 秒、10 秒、30 秒",
+        "叫的原因: 门外人/孤单/兴奋, 对症下药",
+        "增加运动量消耗精力, 减少无聊叫"
+      ],
+      "tips": [
+        "有些品种 (哈士奇/边牧) 爱叫, 接受事实",
+        "制止叫 ≠ 不让叫, 是要'叫了能停'",
+        "电击止吠项圈是下下策, 会破坏信任"
+      ]
+    },
+    {
+      "id": "no_neighborhood_bark",
+      "name_zh": "不吠叫扰民",
+      "name_en": "No Neighborhood Barking",
+      "difficulty": "medium",
+      "category": "纠正行为",
+      "age_start_months": 4,
+      "duration_minutes_per_day": 10,
+      "command_word": "安静",
+      "steps": [
+        "窗户装隔音/贴膜",
+        "看到路人/猫狗时, 立刻转移注意力",
+        "用'看''吃零食'把目光引回主人",
+        "邻居反馈是关键指标",
+        "严重扰民要找训犬师"
+      ],
+      "tips": [
+        "公寓养狗要特别重视, 邻居投诉会被赶",
+        "狗吠不只是教育, 也是心理需求",
+        "增加运动量是最根本的解决"
+      ]
+    },
+    {
+      "id": "no_beg",
+      "name_zh": "不乞食",
+      "name_en": "No Begging",
+      "difficulty": "medium",
+      "category": "纠正行为",
+      "age_start_months": 4,
+      "duration_minutes_per_day": 5,
+      "command_word": "回去",
+      "steps": [
+        "狗狗盯着人吃饭时, 立刻说'回窝'",
+        "回窝后给狗狗专属磨牙零食",
+        "建立'主人吃饭 = 你回窝有零食'",
+        "全家统一: 吃饭时绝不心软喂人食",
+        "狗狗乞食时绝对不给, 否则前功尽弃"
+      ],
+      "tips": [
+        "乞食是因为主人之前心软过",
+        "人食的盐糖对狗狗有害",
+        "磨牙零食替代是核心"
+      ]
+    },
+    {
+      "id": "no_dig",
+      "name_zh": "不挖洞",
+      "name_en": "No Digging",
+      "difficulty": "medium",
+      "category": "纠正行为",
+      "age_start_months": 5,
+      "duration_minutes_per_day": 10,
+      "command_word": "不许挖",
+      "steps": [
+        "在狗狗常挖的区域埋'禁区'(撒辣椒水/放石子)",
+        "在指定挖沙区埋零食奖励",
+        "挖禁区时'不许'口令 + 引导离开",
+        "挖指定区时说'挖'给奖励",
+        "增加运动量, 挖洞常是精力过剩"
+      ],
+      "tips": [
+        "梗犬/腊肠等天生爱挖, 不能完全制止",
+        "与其制止, 不如指定挖沙区",
+        "注意地下电线/植物根系"
+      ]
+    },
+    {
+      "id": "no_chew_furniture",
+      "name_zh": "不啃家具",
+      "name_en": "No Chew Furniture",
+      "difficulty": "medium",
+      "category": "纠正行为",
+      "age_start_months": 3,
+      "duration_minutes_per_day": 5,
+      "command_word": "不许咬",
+      "steps": [
+        "在家具上喷苦苹果喷雾 (无害但难吃)",
+        "啃家具时'不许咬' + 立刻给磨牙玩具",
+        "建立'家具 = 苦, 玩具 = 香'的区分",
+        "幼犬换牙期提供大量磨牙棒",
+        "出门/睡觉时关航空箱, 减少作案机会"
+      ],
+      "tips": [
+        "幼犬 4-6 月龄换牙, 啃咬是必然",
+        "绝对不能打, 越打越躲着啃",
+        "磨牙玩具要轮换, 新鲜感才有吸引力"
+      ]
+    },
+    {
+      "id": "no_chew_shoes",
+      "name_zh": "不啃鞋",
+      "name_en": "No Chew Shoes",
+      "difficulty": "easy",
+      "category": "纠正行为",
+      "age_start_months": 3,
+      "duration_minutes_per_day": 5,
+      "command_word": "不许咬",
+      "steps": [
+        "鞋子统一放鞋柜/高处, 不给机会",
+        "啃鞋时'不许咬' + 立刻给磨牙玩具",
+        "苦苹果喷雾喷鞋面",
+        "出门时关航空箱, 隔离作案",
+        "建立'鞋不能碰, 玩具可以咬'的规则"
+      ],
+      "tips": [
+        "鞋有主人气味, 对狗狗是'信物', 自然想啃",
+        "不穿的旧鞋可以给狗狗当玩具, 接受损失",
+        "幼犬期最严重, 1 岁后明显改善"
+      ]
+    },
+    {
+      "id": "no_chase_cars",
+      "name_zh": "不追车",
+      "name_en": "No Chase Cars",
+      "difficulty": "hard",
+      "category": "纠正行为",
+      "age_start_months": 6,
+      "duration_minutes_per_day": 15,
+      "command_word": "不许追",
+      "steps": [
+        "看见车立刻说'不' + 拉紧牵引绳",
+        "成功不追给超级零食奖励",
+        "无绳户外, 务必先 100% 召回",
+        "在小区门口/停车场等高危区重点练",
+        "严重追车要找训犬师 + 戴口罩"
+      ],
+      "tips": [
+        "追车是致命行为, 优先级最高",
+        "猎犬/牧羊犬等追猎本能强, 终生注意",
+        "出门必牵绳是法律, 也是保命"
+      ]
+    },
+    {
+      "id": "no_chase_cats",
+      "name_zh": "不追猫",
+      "name_en": "No Chase Cats",
+      "difficulty": "hard",
+      "category": "纠正行为",
+      "age_start_months": 6,
+      "duration_minutes_per_day": 15,
+      "command_word": "不许追",
+      "steps": [
+        "有猫的环境, 牵绳看主人",
+        "看见猫不动立刻给零食",
+        "逐步脱绳 (在封闭环境)",
+        "培养'猫 = 朋友'而非猎物",
+        "猫狗共养时, 幼犬期就一起养最好"
+      ],
+      "tips": [
+        "猎犬追猫是本能, 训练极难",
+        "有猫家庭选幼犬期就接触猫的狗",
+        "无法训练的, 必须永远物理隔离"
+      ]
+    },
+    {
+      "id": "no_chase_kids",
+      "name_zh": "不追小孩",
+      "name_en": "No Chase Kids",
+      "difficulty": "hard",
+      "category": "纠正行为",
+      "age_start_months": 6,
+      "duration_minutes_per_day": 10,
+      "command_word": "不许追",
+      "steps": [
+        "有小孩的环境, 牵绳 + 口罩",
+        "看见小孩不追给零食",
+        "让小孩喂零食, 建立正面联想",
+        "教育小孩: 不尖叫/不奔跑",
+        "严重追小孩必须戴口罩出门"
+      ],
+      "tips": [
+        "小孩的尖叫/奔跑触发追猎本能",
+        "边牧/牧羊犬等尤其危险 (会绊倒小孩)",
+        "永远不要让狗和小孩独处"
+      ]
+    },
+    {
+      "id": "no_separation_anxiety",
+      "name_zh": "不分离焦虑",
+      "name_en": "No Separation Anxiety",
+      "difficulty": "hard",
+      "category": "纠正行为",
+      "age_start_months": 4,
+      "duration_minutes_per_day": 20,
+      "command_word": "等我",
+      "steps": [
+        "出门前 5 分钟忽略狗狗 (不告别)",
+        "出门, 5 分钟回来, 平静打招呼",
+        "逐步延长时间: 5 分 → 30 分 → 1 小时 → 3 小时",
+        "回家时也先冷静 10 分钟再热情",
+        "提供漏食球/KONG 玩具, 让独处 = 好事"
+      ],
+      "tips": [
+        "分离焦虑是常见问题, 主人'宠'出来的",
+        "建立'出门 = 还会回来'的信任",
+        "严重焦虑需用专业脱敏方案"
+      ]
+    },
+    {
+      "id": "no_car_sick",
+      "name_zh": "不晕车",
+      "name_en": "No Car Sickness",
+      "difficulty": "medium",
+      "category": "纠正行为",
+      "age_start_months": 4,
+      "duration_minutes_per_day": 10,
+      "command_word": "不晕",
+      "steps": [
+        "静态: 狗狗坐车里, 不开动, 给零食",
+        "短距离 (1 分钟) 慢开, 平稳给零食",
+        "逐步延距离: 5 分 → 15 分 → 30 分",
+        "车上用航空箱固定, 减少晃动",
+        "出门前 2 小时禁食禁水"
+      ],
+      "tips": [
+        "幼犬晕车多, 大部分成年后改善",
+        "严重的咨询兽医用药 (如赛瑞宁)",
+        "新鲜空气 (开窗) 减少晕车"
+      ]
+    },
+    {
+      "id": "no_thunder_fear",
+      "name_zh": "不畏雷",
+      "name_en": "No Thunder Fear",
+      "difficulty": "hard",
+      "category": "纠正行为",
+      "age_start_months": 6,
+      "duration_minutes_per_day": 15,
+      "command_word": "不怕",
+      "steps": [
+        "录雷声, 音量从低到高播放",
+        "雷声时给零食/玩游戏, 转移注意力",
+        "逐步加大音量, 直到真实雷声",
+        "严重恐惧咨询兽医: 抗焦虑药 + 行为训练",
+        "安全屋/航空箱让狗狗有躲避处"
+      ],
+      "tips": [
+        "雷声恐惧是基因+创伤, 不能完全消除",
+        "永远不要强迫'勇敢', 增加压力",
+        "信息素 (Adaptil) 有一定效果"
+      ]
+    },
+    {
+      "id": "no_firework_fear",
+      "name_zh": "不畏烟花",
+      "name_en": "No Firework Fear",
+      "difficulty": "hard",
+      "category": "纠正行为",
+      "age_start_months": 6,
+      "duration_minutes_per_day": 15,
+      "command_word": "不怕",
+      "steps": [
+        "同雷声脱敏, 录鞭炮/烟花声",
+        "音量阶梯式上升 + 零食",
+        "春节/婚礼前重点脱敏",
+        "严重用抗焦虑药 + 行为训练",
+        "安全屋 + 信息素"
+      ],
+      "tips": [
+        "中国春节烟花集中, 提前 1 个月脱敏",
+        "绝对不要在烟花时带狗狗出门看",
+        "安抚不等于奖励恐惧, 而是陪伴"
+      ]
+    },
+    {
+      "id": "no_vet_fear",
+      "name_zh": "不畏兽医",
+      "name_en": "No Vet Fear",
+      "difficulty": "medium",
+      "category": "纠正行为",
+      "age_start_months": 4,
+      "duration_minutes_per_day": 10,
+      "command_word": "不怕",
+      "steps": [
+        "兽医诊所'happy visit': 只去不吃药不打针, 给零食",
+        "建立'诊所 = 有好事'的反射",
+        "检查台/温度计脱敏: 家里模拟",
+        "打针时主人在场, 立即给零食",
+        "选择'低压力诊所'(Fear Free Certified)"
+      ],
+      "tips": [
+        "幼犬期反复带去'玩耍', 终身受益",
+        "打针前的痛是必要的, 不能因为怕就不去",
+        "主人在场非常重要, 狗狗看着主人会安心"
+      ]
+    },
+    {
+      "id": "play_with_dogs",
+      "name_zh": "和其它狗玩",
+      "name_en": "Play With Dogs",
+      "difficulty": "medium",
+      "category": "社交训练",
+      "age_start_months": 4,
+      "duration_minutes_per_day": 20,
+      "command_word": "朋友",
+      "steps": [
+        "选性格稳定的成年狗作为'狗狗老师'",
+        "初次见面牵绳, 平行走 (不直接见面)",
+        "逐步脱绳, 在封闭围栏场地见面",
+        "观察肢体语言: 摇尾/弓背 = 想玩, 僵硬 = 不想",
+        "建立'看到狗 = 平静'反射, 而非激动"
+      ],
+      "tips": [
+        "不是所有狗都爱社交, 接受你家狗的个性",
+        "1 只稳定的狗朋友 > 100 只不稳定的",
+        "公园里的狗不可控, 建议狗公园"
+      ]
+    },
+    {
+      "id": "no_dog_fight",
+      "name_zh": "不和狗打架",
+      "name_en": "No Dog Fight",
+      "difficulty": "hard",
+      "category": "社交训练",
+      "age_start_months": 6,
+      "duration_minutes_per_day": 15,
+      "command_word": "不打架",
+      "steps": [
+        "看见其他狗, 主人说'看我'引注意力",
+        "成功不冲给零食",
+        "学会看其他狗的警告信号 (瞪眼/呲牙)",
+        "遇紧张情况, 主人立刻带离",
+        "严重攻击性找专业训犬师 + 戴口罩"
+      ],
+      "tips": [
+        "攻击性的狗对社会化不足是主因",
+        "幼犬期 (3-12 周) 多接触各种狗",
+        "已攻击过人的狗, 必须戴口罩出门"
+      ]
+    },
+    {
+      "id": "no_food_steal",
+      "name_zh": "不抢食",
+      "name_en": "No Steal Food",
+      "difficulty": "medium",
+      "category": "社交训练",
+      "age_start_months": 4,
+      "duration_minutes_per_day": 10,
+      "command_word": "不许抢",
+      "steps": [
+        "多狗分食: 每只狗自己的碗, 距离 1 米",
+        "主人说'吃'才开吃",
+        "抢食的狗退回原位, 等口令",
+        "反复'吃' + 退回, 建立'等口令'反射",
+        "撤碗要等所有狗都吃完, 防止抢"
+      ],
+      "tips": [
+        "多狗家庭重点训练, 否则永远有冲突",
+        "绝食训练时要分时/分地, 不让接触",
+        "严重的戴口罩吃饭"
+      ]
+    },
+    {
+      "id": "no_toy_steal",
+      "name_zh": "不抢玩具",
+      "name_en": "No Steal Toys",
+      "difficulty": "medium",
+      "category": "社交训练",
+      "age_start_months": 4,
+      "duration_minutes_per_day": 10,
+      "command_word": "不许抢",
+      "steps": [
+        "多狗分时玩, 不同时给所有玩具",
+        "抢玩具时'不许抢' + 收回玩具",
+        "建立'抢 = 没收, 乖 = 玩得久'",
+        "玩'换玩具'游戏, 减少占有欲",
+        "用 2 倍数量玩具, 避免争抢"
+      ],
+      "tips": [
+        "玩具轮流是核心, 不是同时给",
+        "严重的用'玩具=我说了算'的等级训练",
+        "切勿纵容'老大'心态"
+      ]
+    },
+    {
+      "id": "stranger_friendly",
+      "name_zh": "陌生人友好",
+      "name_en": "Stranger Friendly",
+      "difficulty": "medium",
+      "category": "社交训练",
+      "age_start_months": 3,
+      "duration_minutes_per_day": 10,
+      "command_word": "友好",
+      "steps": [
+        "朋友来家, 先给零食让狗狗坐着",
+        "朋友不主动摸, 等狗狗主动嗅",
+        "嗅了之后, 朋友给零食",
+        "建立'陌生人 = 食物来源'反射",
+        "避免陌生人直冲狗狗, 多数咬人源于此"
+      ],
+      "tips": [
+        "幼犬期 (3-12 周) 多接触各种人",
+        "戴帽子/墨镜/伞/拐杖的人要重点脱敏",
+        "陌生人不要直盯狗狗眼睛, 是威胁"
+      ]
+    },
+    {
+      "id": "no_protect_owner",
+      "name_zh": "不护主人",
+      "name_en": "No Protect Owner",
+      "difficulty": "hard",
+      "category": "社交训练",
+      "age_start_months": 8,
+      "duration_minutes_per_day": 15,
+      "command_word": "不护",
+      "steps": [
+        "有人接近主人, 立刻给零食, 不让吠叫",
+        "建立'陌生人靠近 = 好事'",
+        "护主人的狗, 出门必牵绳+口罩",
+        "严重护主要找专业训犬师",
+        "长期脱敏 + 服从训练"
+      ],
+      "tips": [
+        "护主是犬类本能, 但要可控",
+        "罗威纳/杜宾等护卫犬种更明显",
+        "禁止惩罚'护主', 会加剧攻击"
+      ]
+    },
+    {
+      "id": "kid_friendly",
+      "name_zh": "和小孩友好",
+      "name_en": "Kid Friendly",
+      "difficulty": "medium",
+      "category": "社交训练",
+      "age_start_months": 3,
+      "duration_minutes_per_day": 10,
+      "command_word": "友好",
+      "steps": [
+        "幼犬期就接触各种小孩 (婴儿/幼儿/学龄)",
+        "小孩给零食 (大人监督下)",
+        "教育小孩: 不拽尾巴/不骑狗/不尖叫",
+        "建立'小孩 = 朋友'",
+        "绝不让狗和小孩独处"
+      ],
+      "tips": [
+        "小孩的尖叫/奔跑易触发追猎本能",
+        "狗的容忍度有限, 不是所有狗都爱小孩",
+        "教育小孩和狗的相处方式同等重要"
+      ]
+    },
+    {
+      "id": "name_turn",
+      "name_zh": "听到名字转头",
+      "name_en": "Name Turn",
+      "difficulty": "easy",
+      "category": "社交训练",
+      "age_start_months": 2,
+      "duration_minutes_per_day": 3,
+      "command_word": "名字",
+      "steps": [
+        "叫名字 + 立刻给零食 (重复 20 次/天)",
+        "狗狗一听到名字就转头看你",
+        "户外有干扰时也练",
+        "逐步减零食, 强化纯口令",
+        "结合召回/坐下/看这里等指令"
+      ],
+      "tips": [
+        "所有训练的基石, 越早建立越好",
+        "只用一个固定名字",
+        "永远不把名字和坏事绑定"
+      ]
+    },
+    {
+      "id": "toilet_use",
+      "name_zh": "用马桶",
+      "name_en": "Use Toilet",
+      "difficulty": "hard",
+      "category": "特殊技能",
+      "age_start_months": 6,
+      "duration_minutes_per_day": 20,
+      "command_word": "便便",
+      "steps": [
+        "前提: 已会'定点便便'",
+        "逐步把尿垫往马桶方向移",
+        "马桶圈上铺尿垫, 让狗狗习惯高度",
+        "垫子逐步变小, 直到只剩马桶",
+        "马桶圈下放支撑架, 适应最终形态"
+      ],
+      "tips": [
+        "过程漫长, 2-3 个月起步",
+        "中大型犬不建议, 马桶承重有限",
+        "中途出差/换环境易失败"
+      ]
+    },
+    {
+      "id": "pet_door",
+      "name_zh": "用宠物门",
+      "name_en": "Use Pet Door",
+      "difficulty": "medium",
+      "category": "特殊技能",
+      "age_start_months": 4,
+      "duration_minutes_per_day": 10,
+      "command_word": "出门",
+      "steps": [
+        "宠物门固定开启, 用零食引诱穿过",
+        "逐步关一半, 让狗狗推门过",
+        "完全关闭, 教狗狗用爪/鼻推门",
+        "户外呼叫, 让狗狗自己开门进出",
+        "反复强化, 形成自主进出习惯"
+      ],
+      "tips": [
+        "小户型不建议, 安全风险高",
+        "大门务必选带锁的, 防止外人进",
+        "冬天注意宠物门密封保温"
+      ]
+    },
+    {
+      "id": "ring_bell_to_go_out",
+      "name_zh": "按铃要出门",
+      "name_en": "Ring Bell for Potty",
+      "difficulty": "medium",
+      "category": "特殊技能",
+      "age_start_months": 4,
+      "duration_minutes_per_day": 10,
+      "command_word": "按铃",
+      "steps": [
+        "门边挂铃铛, 出门前引导狗狗用爪/鼻碰铃",
+        "碰铃 + 立刻开门 + 出去便便",
+        "反复强化'碰铃 = 出门'",
+        "狗狗有需要时主动碰铃",
+        "配合'便便'口令"
+      ],
+      "tips": [
+        "比按按钮简单, 适合幼犬和老年犬",
+        "铃铛声别太响, 否则狗害怕不敢碰",
+        "建立后, 主人不用一直猜狗狗要不要便"
+      ]
+    },
+    {
+      "id": "close_crate_cmd",
+      "name_zh": "关笼子指令",
+      "name_en": "Crate Close Command",
+      "difficulty": "easy",
+      "category": "特殊技能",
+      "age_start_months": 3,
+      "duration_minutes_per_day": 5,
+      "command_word": "进笼",
+      "steps": [
+        "航空箱门大开, 狗狗自由进出",
+        "说'进', 狗狗进入",
+        "关门 1 秒, 立刻开门给零食",
+        "逐步延长时间: 5 分 → 30 分 → 1 小时",
+        "出门/睡觉/家里来人时, 主动进笼"
+      ],
+      "tips": [
+        "航空箱是狗狗的安全窝, 不是监狱",
+        "绝不在笼里惩罚狗狗, 否则终身抗拒",
+        "成年后, 狗狗会把笼当'家'"
+      ]
+    },
+    {
+      "id": "go_to_bed",
+      "name_zh": "进窝指令",
+      "name_en": "Go to Bed",
+      "difficulty": "easy",
+      "category": "特殊技能",
+      "age_start_months": 3,
+      "duration_minutes_per_day": 5,
+      "command_word": "回窝",
+      "steps": [
+        "指定窝/垫子, 用零食引导狗狗过去",
+        "到达窝时说'回窝' + 给零食",
+        "逐步去掉零食, 纯口令 + 手指方向",
+        "在客人来/吃饭/看电视时, 强化回窝",
+        "让'回窝' = 安静休息"
+      ],
+      "tips": [
+        "客人来/家里忙时, 狗狗有固定去处",
+        "给狗狗'休息区'很重要, 防止打扰",
+        "窝里放玩具/磨牙棒, 让狗狗爱去"
+      ]
+    },
+    {
+      "id": "sit_at_door",
+      "name_zh": "出门前坐等",
+      "name_en": "Sit Before Exit",
+      "difficulty": "easy",
+      "category": "特殊技能",
+      "age_start_months": 3,
+      "duration_minutes_per_day": 5,
+      "command_word": "坐等",
+      "steps": [
+        "门口, 狗狗坐下, 牵绳",
+        "主人开门, 狗狗不动才放行",
+        "爆冲就不开门, 坐稳才走",
+        "反复练, 形成'出门必坐'的反射",
+        "配合'等''走'口令"
+      ],
+      "tips": [
+        "出门安全第一守则",
+        "防止爆冲出门口 (尤其公寓楼梯口)",
+        "配合外出笼使用更安全"
+      ]
+    },
+    {
+      "id": "no_eat_ground",
+      "name_zh": "不乱吃",
+      "name_en": "No Eat Random Things",
+      "difficulty": "medium",
+      "category": "特殊技能",
+      "age_start_months": 4,
+      "duration_minutes_per_day": 10,
+      "command_word": "不吃",
+      "steps": [
+        "出门牵绳, 看到食物说'不吃' + 拉走",
+        "成功不吃给零食",
+        "地上扔食物, 主人先捡走 + 表扬",
+        "学会'找东西'的'吃'口令, 区分'该吃'和'乱吃'",
+        "户外餐桌旁重点练"
+      ],
+      "tips": [
+        "误食毒饵是致命风险, 必须 100% 服从",
+        "戴口罩出门是最保险的",
+        "严重乱吃咨询兽医是否缺微量元素"
+      ]
+    },
+    {
+      "id": "no_lick_floor",
+      "name_zh": "不舔地板",
+      "name_en": "No Lick Floor",
+      "difficulty": "easy",
+      "category": "特殊技能",
+      "age_start_months": 3,
+      "duration_minutes_per_day": 5,
+      "command_word": "不许舔",
+      "steps": [
+        "看到狗狗舔地板, '不许' + 拉走",
+        "给磨牙零食/玩具替代",
+        "擦地板用宠物安全的清洁剂 (无毒无味)",
+        "饭后擦嘴, 防止残余吸引",
+        "反复强化'地板 = 不许'"
+      ],
+      "tips": [
+        "舔地板常是无聊/缺微量元素",
+        "地板清洁剂残留会害狗, 用宠物专用",
+        "严重异食癖咨询兽医"
+      ]
+    },
+    {
+      "id": "guide_dog",
+      "name_zh": "导盲犬技能",
+      "name_en": "Guide Dog Skills",
+      "difficulty": "hard",
+      "category": "特殊技能",
+      "age_start_months": 12,
+      "duration_minutes_per_day": 60,
+      "command_word": "前进",
+      "steps": [
+        "基础服从 (坐/趴/等/召回) 必须 100% 稳定",
+        "智能压力训练: 上下楼梯、过马路",
+        "示警训练: 障碍物/高度变化/危险物",
+        "拒绝指令训练: 不安全时拒绝执行",
+        "1-2 年专业训练, 通过考核后上岗"
+      ],
+      "tips": [
+        "导盲犬是国家特种工作犬, 不能家养训练",
+        "普通家犬不可能成为导盲犬, 这是专业工作",
+        "家养可学习其基础: 稳定/不扑/不叫",
+        "导盲犬由专业机构 (中国导盲犬大连培训基地) 训练"
+      ]
+    },
+    {
+      "id": "speak",
+      "name_zh": "叫一声 (Speak)",
+      "name_en": "Speak",
+      "difficulty": "beginner",
+      "category": "基础",
+      "duration_min": 5,
+      "steps": [
+        "找一个会激发狗叫的刺激 (门铃/玩具)",
+        "狗叫的瞬间说'叫' + 给零食",
+        "重复 10-20 次建立联系",
+        "过渡到主人主动触发: 主人说'叫'狗叫",
+        "勿过度强化, 安静才是终目标"
+      ],
+      "common_mistakes": [
+        "叫太多次变扰民",
+        "忘记与'安静'指令连训",
+        "用食物在嘴前诱使叫 (形成依赖)"
+      ],
+      "tips": "叫的指令+安静的指令**必须连训**!"
+    },
+    {
+      "id": "quiet",
+      "name_zh": "安静 (Quiet)",
+      "name_en": "Quiet",
+      "difficulty": "intermediate",
+      "category": "基础",
+      "duration_min": 10,
+      "steps": [
+        "狗叫后等 2-3 秒停歇的瞬间",
+        "说'安静' + 给零食奖励",
+        "逐渐延长: 2 秒 → 5 秒 → 10 秒 → 30 秒 → 1 分钟",
+        "在分散注意力环境 (门铃/快递员) 强化",
+        "勿用食物堵嘴 (无效且不公平)"
+      ],
+      "common_mistakes": [
+        "狗还在叫就给零食",
+        "用项圈/喷雾 (破坏信任)",
+        "没能找到触发因素"
+      ],
+      "tips": "要解决'为什么叫', 不只是'叫停'. 多动+运动是关键"
+    },
+    {
+      "id": "high_five",
+      "name_zh": "击掌 (High Five)",
+      "name_en": "High Five",
+      "difficulty": "beginner",
+      "category": "才艺",
+      "duration_min": 5,
+      "steps": [
+        "狗已会'握手'",
+        "将手掌竖起, 举到狗面前略高",
+        "狗抬爪碰触手掌的瞬间说'击掌' + 给零食",
+        "重复强化",
+        "逐步加高度, 狗主动抬手"
+      ],
+      "common_mistakes": [
+        "手掌太低狗直接放上",
+        "没有清晰的击掌瞬间"
+      ],
+      "tips": "适合活泼犬, 是社交表演的明星动作"
+    },
+    {
+      "id": "wave_goodbye",
+      "name_zh": "挥手再见 (Wave)",
+      "name_en": "Wave",
+      "difficulty": "intermediate",
+      "category": "才艺",
+      "duration_min": 10,
+      "steps": [
+        "狗已会'握手'",
+        "说'再见', 轻轻握住狗的爪, 抬起放下 2-3 次",
+        "同时给零食",
+        "逐步减少辅助, 狗自己抬爪",
+        "完全独立: 主人说'再见', 狗自己抬爪摇动"
+      ],
+      "common_mistakes": [
+        "辅助太久不退出",
+        "狗只对特定人挥手"
+      ],
+      "tips": "社交场合超高人气动作, 教得会挥手后续教拜拜也容易"
+    },
+    {
+      "id": "take_a_bow_extended",
+      "name_zh": "鞠躬 (Take a Bow)",
+      "name_en": "Take a Bow",
+      "difficulty": "intermediate",
+      "category": "才艺",
+      "duration_min": 10,
+      "steps": [
+        "狗站立, 手里拿零食",
+        "零食从鼻尖往胸前下方移动, 狗会低头",
+        "但**不要趴下** (屁股保持高)",
+        "维持 2-3 秒说'鞠躬' + 给零食",
+        "狗趴下立即退回到站立重来"
+      ],
+      "common_mistakes": [
+        "狗直接趴下而不是低头",
+        "保持时间太短"
+      ],
+      "tips": "半鞠躬 + 半坐姿, 像'谢谢'的动作"
+    },
+    {
+      "id": "play_dead",
+      "name_zh": "装死 (Play Dead)",
+      "name_en": "Play Dead",
+      "difficulty": "advanced",
+      "category": "才艺",
+      "duration_min": 15,
+      "steps": [
+        "狗已会'趴下'",
+        "一手拿零食从鼻尖缓慢引向狗侧边",
+        "狗自然侧身倒, 立刻说'砰'/'装死' + 给零食",
+        "维持 3-5 秒起身给奖励",
+        "逐步延长侧躺时间, 主人可走开",
+        "用'砰'口令配枪响手势"
+      ],
+      "common_mistakes": [
+        "强行把狗推倒",
+        "狗很快站起来没维持"
+      ],
+      "tips": "是才艺的'高难度'招牌, 派对绝技"
+    },
+    {
+      "id": "roll_over_full",
+      "name_zh": "打滚 (Roll Over)",
+      "name_en": "Roll Over",
+      "difficulty": "intermediate",
+      "category": "才艺",
+      "duration_min": 10,
+      "steps": [
+        "狗已会'趴下'",
+        "零食从鼻尖慢慢引向狗肩部",
+        "狗偏头追, 头过身随",
+        "继续引导, 狗完全侧翻到另一侧",
+        "完成完整翻滚说'滚' + 大奖励"
+      ],
+      "common_mistakes": [
+        "零食举太高, 狗直接站起来",
+        "位置不对, 狗趴着不动"
+      ],
+      "tips": "短身犬 (腊肠/柯基) 学得快, 长身犬可能抗拒"
+    },
+    {
+      "id": "spin",
+      "name_zh": "转圈 (Spin)",
+      "name_en": "Spin",
+      "difficulty": "beginner",
+      "category": "才艺",
+      "duration_min": 5,
+      "steps": [
+        "手里拿零食, 画小圈",
+        "狗鼻子追零食转一圈",
+        "完成时说'转' + 给零食",
+        "反复 10-15 次, 加入手势 (画圈手指)",
+        "逐步脱手只用口令+手势"
+      ],
+      "common_mistakes": [
+        "转的方向不一致 (忽左忽右)"
+      ],
+      "tips": "可训'左转'/'右转' 2 个方向, 是体能训练好动作"
+    },
+    {
+      "id": "twirl",
+      "name_zh": "8 字绕腿 (Weave Through Legs)",
+      "name_en": "Weave Through Legs",
+      "difficulty": "advanced",
+      "category": "才艺",
+      "duration_min": 20,
+      "steps": [
+        "主人站立, 双腿分开",
+        "零食从左腿外侧引向内侧, 狗从主人腿间穿过",
+        "再从右腿外侧绕回 (8 字)",
+        "反复 8-10 次",
+        "加快节奏, 加口令'绕'"
+      ],
+      "common_mistakes": [
+        "腿距太大狗走不进去",
+        "零食抬高狗跳起来"
+      ],
+      "tips": "是舞蹈/敏捷赛的基础, 训练期注意防膝盖疲劳"
+    },
+    {
+      "id": "crawl",
+      "name_zh": "匍匐前进 (Crawl)",
+      "name_en": "Crawl",
+      "difficulty": "advanced",
+      "category": "才艺",
+      "duration_min": 15,
+      "steps": [
+        "狗已会'趴下'",
+        "零食放地上, 距狗鼻 30cm",
+        "狗用爪子扒着想拿, 主人保持零食贴近地面",
+        "狗匍匐前进拿到零食时说'匍匐' + 给奖励",
+        "逐渐延长匍匐距离 (1m → 3m)"
+      ],
+      "common_mistakes": [
+        "站起来就结束",
+        "距离增长太快"
+      ],
+      "tips": "腊肠/柯基的强项, 训练脊椎犬小心"
+    },
+    {
+      "id": "fetch",
+      "name_zh": "取物 (Fetch)",
+      "name_en": "Fetch",
+      "difficulty": "beginner",
+      "category": "互动",
+      "duration_min": 10,
+      "steps": [
+        "用狗最喜欢的玩具 (球/飞盘)",
+        "扔出短距离 (1-2 米), 鼓励狗追",
+        "狗咬到时主人跑开或叫'回来'",
+        "狗回到主人身边后, 拿玩具时说'吐' + 零食",
+        "反复, 逐步加距离"
+      ],
+      "common_mistakes": [
+        "扔太远狗追不回放弃",
+        "狗咬住不放抢 (争抢游戏)"
+      ],
+      "tips": "拉布拉多/金毛/史宾格的看家本领, 是消耗精力的最佳游戏"
+    },
+    {
+      "id": "bring_specific",
+      "name_zh": "取指定物 (Retrieve by Name)",
+      "name_en": "Retrieve by Name",
+      "difficulty": "advanced",
+      "category": "高级",
+      "duration_min": 30,
+      "steps": [
+        "准备 3-5 个不同物品 (球/绳/拖鞋/钥匙/遥控)",
+        "教狗认识每个物品名字 (反复指物说名, 叼起给零食)",
+        "混合 3-5 个物品, 主人说'取XXX', 狗正确选",
+        "逐步加多物品 + 加距离",
+        "可训'找手机'/'取报纸'等实用技能"
+      ],
+      "common_mistakes": [
+        "名字混乱, 狗分不清",
+        "教得太快, 一开始就混合"
+      ],
+      "tips": "贵宾/边牧/金毛/史宾格学得快, 警犬基础技能"
+    },
+    {
+      "id": "find_it",
+      "name_zh": "找东西 (Find It)",
+      "name_en": "Find It",
+      "difficulty": "advanced",
+      "category": "高级",
+      "duration_min": 20,
+      "steps": [
+        "狗爱吃的零食",
+        "主人当着狗面把零食藏在 1 个盒子/房间角落",
+        "说'找' + 鼓励狗嗅闻",
+        "狗找到立刻奖励",
+        "逐步增加难度: 多房间/多盒/有干扰物"
+      ],
+      "common_mistakes": [
+        "藏得过于明显, 狗靠视觉找",
+        "狗失去兴趣时强训"
+      ],
+      "tips": "消耗脑力的最佳游戏, 暴雨/酷暑天在家训"
+    },
+    {
+      "id": "search_lost",
+      "name_zh": "搜寻失踪物 (Search)",
+      "name_en": "Search",
+      "difficulty": "advanced",
+      "category": "高级",
+      "duration_min": 30,
+      "steps": [
+        "基础找东西 + 嗅闻训练",
+        "教狗对特定气味 (薄荷精油/某香料) 标记 (坐下/吠叫)",
+        "让狗在该气味上停留 5 秒再标记",
+        "主人藏带气味的物品, 狗找出并标记",
+        "实际应用: 找钥匙/手机/钱包/药品"
+      ],
+      "common_mistakes": [
+        "气味浓度不统一 (训练与实际差太远)"
+      ],
+      "tips": "是搜救犬/缉毒犬的基础原理, 家犬学会实用又有趣"
+    },
+    {
+      "id": "ring_bell_potty",
+      "name_zh": "按铃上厕所",
+      "name_en": "Ring Bell to Go Out",
+      "difficulty": "intermediate",
+      "category": "基础",
+      "duration_min": 10,
+      "steps": [
+        "门边挂一个响铃/按铃",
+        "每次带狗出门前, 帮狗用爪/鼻碰铃 → 响 → 开门",
+        "狗一碰铃就奖励 + 出门",
+        "10-20 次后, 主人等狗主动碰铃才开门",
+        "建立'碰铃 = 出门'的条件反射"
+      ],
+      "common_mistakes": [
+        "铃太重狗碰不响",
+        "主人忘了等狗主动"
+      ],
+      "tips": "城市公寓养狗神器! 不会一直叫扰民"
+    },
+    {
+      "id": "leave_room",
+      "name_zh": "进笼/进围栏 (Crate)",
+      "name_en": "Crate",
+      "difficulty": "beginner",
+      "category": "基础",
+      "duration_min": 10,
+      "steps": [
+        "让笼子/围栏成为'安全角' (垫子+玩具+水)",
+        "扔零食进去, 狗主动进 → 奖励",
+        "逐步关门 1 秒 → 5 秒 → 30 秒 → 1 分钟",
+        "主人离开又回来, 开门 + 奖励",
+        "勿作惩罚 (绝不放笼子罚)"
+      ],
+      "common_mistakes": [
+        "笼子当牢房",
+        "关太久没水没活动"
+      ],
+      "tips": "幼犬早期笼养 8 周, 减少分离焦虑和夜间便溺"
+    },
+    {
+      "id": "place_board",
+      "name_zh": "上垫子/回窝 (Place)",
+      "name_en": "Place",
+      "difficulty": "beginner",
+      "category": "基础",
+      "duration_min": 10,
+      "steps": [
+        "指定一个垫子/床/围栏区",
+        "引导狗上去, 说'回窝' + 奖励",
+        "狗站上去即奖励, 不要下才奖励",
+        "延长停留时间: 3 秒 → 10 秒 → 30 秒",
+        "加距离: 主人走开 1 米 → 整房间"
+      ],
+      "common_mistakes": [
+        "垫子位置不确定 (每次换)"
+      ],
+      "tips": "客人来访/吃饭时的安静指令"
+    },
+    {
+      "id": "go_to_bed_night",
+      "name_zh": "晚间进窝睡觉",
+      "name_en": "Go to Bed (Night)",
+      "difficulty": "intermediate",
+      "category": "基础",
+      "duration_min": 10,
+      "steps": [
+        "晚间建立'回窝=睡觉'的流程",
+        "睡前带狗出门便溺",
+        "回窝指令 + 关灯 + 主人离开",
+        "最初狗叫, 不理 (勿回来陪)",
+        "3-5 天后狗学会自睡"
+      ],
+      "common_mistakes": [
+        "狗叫就回去陪 (奖励了叫)",
+        "白天过度陪睡"
+      ],
+      "tips": "建立规律作息, 主人也睡好觉"
+    },
+    {
+      "id": "drop_it_advanced",
+      "name_zh": "松口/吐出 (Drop It)",
+      "name_en": "Drop It",
+      "difficulty": "beginner",
+      "category": "基础",
+      "duration_min": 5,
+      "steps": [
+        "狗咬玩具时, 换更高级食物 (奶酪/鸡肉) 凑近鼻子",
+        "狗主动松口换食的瞬间说'吐'",
+        "反复, 形成'吐=得到更好东西'的认知",
+        "勿强行掰嘴 (破坏信任 + 抢食)",
+        "教狗吐**自己不要的**东西 (袜子/石头)"
+      ],
+      "common_mistakes": [
+        "抢玩具 (变成拔河游戏)",
+        "换的食物不够高级"
+      ],
+      "tips": "救命指令! 误食有毒物时立即吐出"
+    },
+    {
+      "id": "leave_it_advanced",
+      "name_zh": "拒食 (Leave It)",
+      "name_en": "Leave It",
+      "difficulty": "intermediate",
+      "category": "基础",
+      "duration_min": 15,
+      "steps": [
+        "手掌合上, 内藏零食",
+        "狗嗅/扒/舔, 完全不理 → 主人说'不' + 另一手给奖励",
+        "逐步狗不碰手 → 主人说'不碰' + 立刻给奖",
+        "把手张开, 狗不碰 → 奖励",
+        "把零食放地上, 主人踩住/盖住, 狗不碰 → 奖励",
+        "高级: 食物掉地上, 主人说'不碰', 狗不碰"
+      ],
+      "common_mistakes": [
+        "不同时给奖励 (狗不知道为什么被奖)"
+      ],
+      "tips": "防误食救命指令, 比抢过来温和有效"
+    },
+    {
+      "id": "take_it",
+      "name_zh": "接住 (Take It)",
+      "name_en": "Take It",
+      "difficulty": "intermediate",
+      "category": "才艺",
+      "duration_min": 10,
+      "steps": [
+        "小零食/小球, 距狗 30cm",
+        "轻轻抛向狗嘴, 狗接住说'接' + 奖励",
+        "逐步加距离 30cm → 1m → 2m",
+        "抛高 + 抛准",
+        "勿扔硬物 (牙损伤)"
+      ],
+      "common_mistakes": [
+        "扔太重/太硬 (牙伤)",
+        "狗怕接不到压力"
+      ],
+      "tips": "金毛/史宾格/可卡特别爱, 派对表演"
+    },
+    {
+      "id": "bring_phone",
+      "name_zh": "取手机/遥控",
+      "name_en": "Bring Phone",
+      "difficulty": "advanced",
+      "category": "高级",
+      "duration_min": 30,
+      "steps": [
+        "教狗认'手机' (反复指手机说名+叼起+奖励)",
+        "把手机放 1-2 米外, 说'取手机'",
+        "狗拿到 → 拿主人手边 → 奖励",
+        "逐步加距离 + 多物品识别",
+        "实际应用: 主人摔倒/不便时取手机"
+      ],
+      "common_mistakes": [
+        "狗咬着玩不放下"
+      ],
+      "tips": "实用又有成就感, 贵宾/边牧擅长"
+    },
+    {
+      "id": "open_door",
+      "name_zh": "开门/关灯 (Open Door / Light Switch)",
+      "name_en": "Open Door",
+      "difficulty": "advanced",
+      "category": "高级",
+      "duration_min": 30,
+      "steps": [
+        "教狗用鼻/爪推门把 (挂毛巾辅助, 狗用鼻子顶开)",
+        "反复练习, 加口令'开门'",
+        "关灯: 教狗用爪按墙上踏板/拉绳",
+        "大狗 (金毛/拉布拉多/标准贵宾) 才能做",
+        "安全第一, 门外必须是安全空间"
+      ],
+      "common_mistakes": [
+        "门后不安全 (狗跑丢)"
+      ],
+      "tips": "实用服务犬技能, 主人行动不便极有用"
+    },
+    {
+      "id": "wait_at_door",
+      "name_zh": "出门前等待 (Wait at Door)",
+      "name_en": "Wait at Door",
+      "difficulty": "beginner",
+      "category": "基础",
+      "duration_min": 10,
+      "steps": [
+        "出门前, 主人说'等', 手势 hold",
+        "狗坐/站, 主人开门 → 狗不动 → 主人说'走' + 出",
+        "反复 5-10 次/天",
+        "加干扰 (门外有人/车)",
+        "勿在'等'时拉狗 (破坏训练)"
+      ],
+      "common_mistakes": [
+        "门一开狗就冲",
+        "主人忘了说'走'狗就动"
+      ],
+      "tips": "防止开门冲出的安全指令"
+    },
+    {
+      "id": "no_jump_people",
+      "name_zh": "不扑人 (No Jump)",
+      "name_en": "No Jump on People",
+      "difficulty": "intermediate",
+      "category": "纠正",
+      "duration_min": 15,
+      "steps": [
+        "客人到, 狗要扑 → 主人/客人立即转身, 不看不说不摸",
+        "狗 4 脚落地 → 主人说'坐' + 让客人奖励",
+        "反复: 狗扑 → 转身; 4 脚落地 → 奖励",
+        "全家人+朋友一致执行",
+        "狗学会: 4 脚落地=互动, 扑=无互动"
+      ],
+      "common_mistakes": [
+        "推狗下来 (仍是互动)",
+        "摸狗头 (更是奖励)"
+      ],
+      "tips": "1-2 周可改, 但需所有人一致"
+    },
+    {
+      "id": "loose_leash_walk",
+      "name_zh": "随行 (Loose Leash)",
+      "name_en": "Loose Leash Walking",
+      "difficulty": "intermediate",
+      "category": "基础",
+      "duration_min": 15,
+      "steps": [
+        "出门带零食, 狗在主人左侧 (右腿旁)",
+        "狗拉绳 → 立刻停, 不动",
+        "狗回看 → 主人说'随行' + 奖励",
+        "狗松绳走几步 → 立即给零食",
+        "反复 15 分钟/天",
+        "勿用项圈猛拉 (伤气管)"
+      ],
+      "common_mistakes": [
+        "用力拉绳 (狗越拉越紧)",
+        "走太久没奖励"
+      ],
+      "tips": "用胸背带 + 6 头 P 字链最有效. 玩具犬/激动犬需 1-2 月"
+    },
+    {
+      "id": "heal_strict",
+      "name_zh": "标准随行 (Heel)",
+      "name_en": "Heel",
+      "difficulty": "advanced",
+      "category": "基础",
+      "duration_min": 20,
+      "steps": [
+        "狗紧贴主人左腿, 头与主人膝齐",
+        "零食在左手中, 引导狗保持位置",
+        "起步/停/转/慢走都保持位置",
+        "口令'靠' + 立刻奖励",
+        "比赛级需 6-12 月训练"
+      ],
+      "common_mistakes": [
+        "狗超前或落后超过半步"
+      ],
+      "tips": "服从赛/敏捷赛必学, 贵宾/边牧学得快"
+    },
+    {
+      "id": "go_potty",
+      "name_zh": "定点排便 (Potty Training)",
+      "name_en": "House Training",
+      "difficulty": "intermediate",
+      "category": "基础",
+      "duration_min": "全天",
+      "steps": [
+        "固定时间带出去 (起床/饭后/睡前/玩耍后)",
+        "到指定地点 (阳台尿垫/草地), 说'便便'/'尿尿'",
+        "狗完成 → 立刻大奖励 + 赞美",
+        "在家便溺 → 安静清理 (不惩罚)",
+        "观察信号: 嗅地/转圈/朝门走 = 要上厕所",
+        "勿在错误地方擦鼻子 (老式误信)"
+      ],
+      "common_mistakes": [
+        "惩罚正确时间内的'失败'",
+        "未给足够出门机会 (幼犬 2-3h 1 次)"
+      ],
+      "tips": "幼犬训练 4-6 周, 成犬要 1-3 月, 老年/病犬可能退步"
+    },
+    {
+      "id": "no_bark_excess",
+      "name_zh": "纠正过度吠叫 (Reduce Barking)",
+      "name_en": "Reduce Excess Barking",
+      "difficulty": "advanced",
+      "category": "纠正",
+      "duration_min": 30,
+      "steps": [
+        "找出吠叫原因 (警戒/无聊/恐惧/分离焦虑)",
+        "增加运动量 (累的狗不吠)",
+        "教会'安静' (见 quiet)",
+        "出门前: 轻运动 + 漏食玩具 + 离开不出声",
+        "勿用防吠项圈 (破坏信任 + 焦虑加重)"
+      ],
+      "common_mistakes": [
+        "打骂 (狗更焦虑叫更多)",
+        "忽视真正原因"
+      ],
+      "tips": "犬吠是工作 (警卫/警报). 转移 + 替代行为最有效"
+    },
+    {
+      "id": "no_bite_people",
+      "name_zh": "不咬人 (No Bite)",
+      "name_en": "No Bite",
+      "difficulty": "advanced",
+      "category": "纠正",
+      "duration_min": 15,
+      "steps": [
+        "幼犬期 (2-4 月): 牙齿痒, 提供磨牙玩具",
+        "咬人手 → 主人说'哎' + 立即停止游戏 10-30 秒",
+        "狗安静后 → 主人重新开始游戏",
+        "咬 = 终止游戏, 不咬 = 继续玩",
+        "社交化: 与多种人/犬接触, 学咬合力"
+      ],
+      "common_mistakes": [
+        "打嘴 (手变成被攻击目标)"
+      ],
+      "tips": "幼犬 3-4 月是'咬合抑制'关键期, 必须教"
+    },
+    {
+      "id": "no_resource_guarding",
+      "name_zh": "不护食/不护物",
+      "name_en": "Resource Guarding",
+      "difficulty": "advanced",
+      "category": "纠正",
+      "duration_min": 20,
+      "steps": [
+        "狗吃东西时, 主人走近 → 扔更好吃 (奶酪/肉) 到碗里 → 退开",
+        "狗学会: 主人靠近 = 加餐",
+        "用手喂食 (狗不护)",
+        "玩具/骨头: 拿走 → 立刻还 + 给更好东西",
+        "勿强行抢 (加重护食)"
+      ],
+      "common_mistakes": [
+        "强行抢 (激发护食)",
+        "惩罚护食 (更严重)"
+      ],
+      "tips": "早期 (2-4 月) 训练效果好, 严重者需行为师"
+    },
+    {
+      "id": "no_separation_anxiety",
+      "name_zh": "分离焦虑训练",
+      "name_en": "Separation Anxiety",
+      "difficulty": "advanced",
+      "category": "纠正",
+      "duration_min": 30,
+      "steps": [
+        "出门前不要长时间告别 (加重焦虑)",
+        "渐进式离开: 1 分钟 → 5 分钟 → 30 分钟 → 1 小时 → 2 小时",
+        "离开前: 充足运动 + 漏食玩具 + 出门不声不响",
+        "回来: 不激动迎接, 等狗 4 脚落地再互动",
+        "严重者需 DAP 扩散器 + 咨询行为师 + 药物 (Clomipramine)"
+      ],
+      "common_mistakes": [
+        "出门告别 5 分钟 (狗焦虑值爆表)",
+        "回家过度激动"
+      ],
+      "tips": "是常见严重问题, 影响邻居 + 邻里关系. 早期干预"
+    },
+    {
+      "id": "no_pull_leash",
+      "name_zh": "不爆冲 (No Pulling)",
+      "name_en": "No Pulling on Leash",
+      "difficulty": "advanced",
+      "category": "纠正",
+      "duration_min": 15,
+      "steps": [
+        "用 6 头 P 字链 / 头套 / 易控胸背",
+        "狗拉 → 立刻停, 不前进",
+        "狗松绳 → 立刻说'走' + 前进",
+        "反复: 拉=停, 松=走",
+        "勿拉回去 (斗牛比赛)"
+      ],
+      "common_mistakes": [
+        "拉绳对抗 (狗更来劲)",
+        "走太久 (狗爆冲累)"
+      ],
+      "tips": "工作犬/大型犬 (哈士奇/边牧/金毛) 精力旺盛, 1 日 2h+"
+    },
+    {
+      "id": "no_digging",
+      "name_zh": "不挖洞 (No Digging)",
+      "name_en": "Stop Digging",
+      "difficulty": "advanced",
+      "category": "纠正",
+      "duration_min": 20,
+      "steps": [
+        "挖洞原因: 藏食/狩猎/无聊/热/焦虑/品种天性 (梗类)",
+        "提供'允许挖'区: 沙箱/指定土区, 埋玩具",
+        "狗去挖指定区 → 奖励",
+        "狗挖其他区 → 平静引导走开",
+        "增加运动+精神刺激 (挖洞是无聊的释放)"
+      ],
+      "common_mistakes": [
+        "当场惩罚 (狗继续挖)"
+      ],
+      "tips": "梗类 (杰克罗素/西高地) 天性挖, 压抑反而不健康"
+    },
+    {
+      "id": "no_beg_table",
+      "name_zh": "不乞食 (No Begging)",
+      "name_en": "No Begging",
+      "difficulty": "intermediate",
+      "category": "纠正",
+      "duration_min": 10,
+      "steps": [
+        "吃饭时, 狗来桌边 → 主人平静引导狗回垫子",
+        "狗 4 脚在垫子上 → 主人说'等' + 喂一口 (或不喂)",
+        "狗离开垫子 → 主人不互动",
+        "全家人一致: 不喂人食",
+        "勿用食物奖励 (狗乞食=得到=继续)"
+      ],
+      "common_mistakes": [
+        "吃饭时给狗 (反复强化)",
+        "狗叫就喂 (重奖)"
+      ],
+      "tips": "所有人不喂, 2-3 周后狗不再乞"
+    },
+    {
+      "id": "no_chew_shoe",
+      "name_zh": "不咬鞋/不咬家具",
+      "name_en": "No Chew",
+      "difficulty": "intermediate",
+      "category": "纠正",
+      "duration_min": 10,
+      "steps": [
+        "提供多样磨牙玩具 (绳/胶/可食)",
+        "狗咬鞋 → 立刻说'哎' + 拿走鞋 + 换玩具",
+        "狗咬玩具 → 奖励 + 赞美",
+        "鞋收进鞋柜 (不挑战)",
+        "出门/睡觉: 笼养/围栏 (防无聊咬)"
+      ],
+      "common_mistakes": [
+        "追狗抢鞋 (游戏)",
+        "事后惩罚 (狗不明白)"
+      ],
+      "tips": "幼犬 3-6 月换牙期最严重, 持续供玩具"
+    },
+    {
+      "id": "no_chase_cars",
+      "name_zh": "不追车/不追车 (No Chase)",
+      "name_en": "No Chasing",
+      "difficulty": "advanced",
+      "category": "纠正",
+      "duration_min": 20,
+      "steps": [
+        "致命危险行为! 出门必须牵绳",
+        "一旦追 → 立即停 + 反方向跑 (狗追主人)",
+        "狗回头 → 立刻奖励 + 赞美",
+        "教会强召回 (见 recall)",
+        "庭院围栏 (防冲出马路)"
+      ],
+      "common_mistakes": [
+        "散步不牵绳 (追车致命)",
+        "追时打 (狗更应激)"
+      ],
+      "tips": "边牧/惠比特/灵缇等追猎天性犬, 必须牵绳终身"
+    },
+    {
+      "id": "dog_dog_friend",
+      "name_zh": "和其它狗友好相处",
+      "name_en": "Dog Socialization",
+      "difficulty": "intermediate",
+      "category": "社交",
+      "duration_min": 20,
+      "steps": [
+        "幼犬期 (3-12 周) 接触多种犬 (种类/体型/年龄)",
+        "正面经验: 一起玩 + 主人平静赞美",
+        "看到其他狗兴奋/吠 → 主人说'看' + 给零食 (转移注意力)",
+        "平行散步 (两狗同方向走) 减压力",
+        "出现攻击 → 立即隔离, 不打不骂"
+      ],
+      "common_mistakes": [
+        "强制社交 (负面经验)"
+      ],
+      "tips": "社交期结束后 (12-16 周) 仍需每周 1-2 次接触"
+    },
+    {
+      "id": "stranger_friend",
+      "name_zh": "对陌生人友好",
+      "name_en": "Stranger Socialization",
+      "difficulty": "intermediate",
+      "category": "社交",
+      "duration_min": 15,
+      "steps": [
+        "幼犬期: 接触各种人 (男女老少/戴帽/戴眼镜/快递员)",
+        "陌生人出现 → 主人平静 + 给零食 (正面联想)",
+        "客人到: 狗坐 → 客人给零食 (建立友好)",
+        "勿让陌生人直接摸头 (侵犯性接触)",
+        "对陌生人吠: 训练'安静' + 转移"
+      ],
+      "common_mistakes": [
+        "陌生人主动摸 (侵犯, 狗反感)"
+      ],
+      "tips": "社会化期后, 仍需持续接触新人事物"
+    },
+    {
+      "id": "no_food_steal",
+      "name_zh": "不抢食 (No Food Stealing)",
+      "name_en": "No Food Stealing",
+      "difficulty": "intermediate",
+      "category": "社交",
+      "duration_min": 15,
+      "steps": [
+        "喂食时, 主人手放在碗旁, 狗敢吃 → 主人说'不' + 拿碗",
+        "狗坐下等 → 主人说'吃' + 放下碗",
+        "反复建立'等 = 吃'的信号",
+        "多犬: 分碗喂, 距离 1 米以上",
+        "教会'等'口令"
+      ],
+      "common_mistakes": [
+        "不教等口令直接放碗 (狗抢)"
+      ],
+      "tips": "可结合'等'指令一起训, 多犬家庭重点"
+    },
+    {
+      "id": "no_toy_guarding",
+      "name_zh": "不护玩具 (No Toy Guarding)",
+      "name_en": "No Toy Guarding",
+      "difficulty": "advanced",
+      "category": "社交",
+      "duration_min": 20,
+      "steps": [
+        "狗玩玩具时, 主人走近 → 扔零食/换更好玩具",
+        "狗放下原玩具 → 立刻奖励",
+        "教'放下'/'换'指令 (见 drop_it)",
+        "多犬: 玩具区充足, 不抢",
+        "严重者咨询行为师"
+      ],
+      "common_mistakes": [
+        "抢玩具 (激发护)",
+        "不教交换 (狗不会)"
+      ],
+      "tips": "是资源护食的延伸, 早期训练效果好"
+    },
+    {
+      "id": "thunder_fireworks",
+      "name_zh": "不畏雷/不畏烟花",
+      "name_en": "Thunderstorm Desensitization",
+      "difficulty": "advanced",
+      "category": "社交",
+      "duration_min": 30,
+      "steps": [
+        "CD 找雷声/烟花录音",
+        "极小音量播放 + 狗做游戏 + 零食",
+        "逐步加音量 (1 周加一点)",
+        "室外雷声: 创造'安全洞' (笼/桌下/角落)",
+        "DAP (狗安抚信息素) 扩散器",
+        "严重者: 兽医开抗焦虑药 (Alprazolam/Trazodone)"
+      ],
+      "common_mistakes": [
+        "抱狗安慰 (强化恐惧)"
+      ],
+      "tips": "10-30% 犬有噪声恐惧, 越早干预越好"
+    },
+    {
+      "id": "car_sickness",
+      "name_zh": "不晕车 (No Car Sickness)",
+      "name_en": "Car Training",
+      "difficulty": "advanced",
+      "category": "社交",
+      "duration_min": 20,
+      "steps": [
+        "静态接触: 车内放零食/玩具, 不开车",
+        "启动引擎: 短时 1-2 分钟, 狗在车内 + 零食",
+        "短距离 5 分钟, 慢速平路",
+        "逐步延长: 5 分钟 → 15 分钟 → 30 分钟",
+        "晕车犬: 兽医开 Cerenia (马罗匹坦)",
+        "不吃饭坐车 2-3h, 减少呕吐"
+      ],
+      "common_mistakes": [
+        "第一次就长途 (创伤)",
+        "狗呕吐还继续"
+      ],
+      "tips": "幼犬 2-4 月是晕车高发期, 多数 1 岁前自愈"
+    },
+    {
+      "id": "jumping_through_hula",
+      "name_zh": "跳圈 (Jump Through Hoop)",
+      "name_en": "Hoop Jump",
+      "difficulty": "advanced",
+      "category": "才艺",
+      "duration_min": 15,
+      "steps": [
+        "呼啦圈竖立, 贴地面",
+        "零食在圈另一侧引诱, 狗穿过",
+        "逐步抬高: 5cm → 15cm → 30cm",
+        "按狗体型调高度 (背高一半)",
+        "勿强迫跳高 (脊椎犬会伤)"
+      ],
+      "common_mistakes": [
+        "高太快 (狗跳不过)"
+      ],
+      "tips": "敏捷赛基础动作, 贵宾/边牧/可卡爱学"
+    },
+    {
+      "id": "dance",
+      "name_zh": "跳舞 (Dance on Hind Legs)",
+      "name_en": "Beg/Dance",
+      "difficulty": "intermediate",
+      "category": "才艺",
+      "duration_min": 10,
+      "steps": [
+        "狗站立, 零食举高",
+        "狗前肢离地 1 秒 → 立刻奖励",
+        "逐步延长时间 + 高度",
+        "加口令'舞'/'起立'",
+        "勿高太久 (关节负担)"
+      ],
+      "common_mistakes": [
+        "高太久 (后肢伤)"
+      ],
+      "tips": "腊肠/柯基因长身短腿不宜; 金毛/大型犬可学. 5-10 秒为限"
+    },
+    {
+      "id": "do_math",
+      "name_zh": "算数 (Math Trick)",
+      "name_en": "Math Trick",
+      "difficulty": "advanced",
+      "category": "才艺",
+      "duration_min": 20,
+      "steps": [
+        "准备 3 个翻盖, 放 1 颗零食在一个下",
+        "狗看主人把 1 颗零食放在一个翻盖下",
+        "主人说'1+1=2', 狗用爪/鼻推 2 个翻盖 (一个无食)",
+        "主人说'对' + 掀开 1 个翻盖给零食 (或 2 个翻盖都给)",
+        "关键: 主人提前放好'答案'位置",
+        "主人说 2 时, 主人要碰一下/暗示'答案'翻盖"
+      ],
+      "common_mistakes": [
+        "真的指望狗算 (它看你暗示!)"
+      ],
+      "tips": "魔术! 主人说数时偷偷暗示, 狗是读你的微表情和动作"
+    },
+    {
+      "id": "cleanup_toy",
+      "name_zh": "收拾玩具 (Clean Up)",
+      "name_en": "Clean Up Toys",
+      "difficulty": "advanced",
+      "category": "高级",
+      "duration_min": 20,
+      "steps": [
+        "教狗认'自己的玩具' (反复指玩具说名)",
+        "狗叼起玩具 → 主人说'收' → 狗放桶里 → 奖励",
+        "教'每个玩具'放对应盒",
+        "主人说'收' → 狗逐个放",
+        "实际应用: 客人来前/小孩散落玩具时"
+      ],
+      "common_mistakes": [
+        "狗玩着不放",
+        "桶太远狗走不动"
+      ],
+      "tips": "贵宾/边牧/可卡爱学, 收玩具 + 拿报 一气呵成"
+    },
+    {
+      "id": "bring_newspaper",
+      "name_zh": "取报纸 (Get Newspaper)",
+      "name_en": "Bring Newspaper",
+      "difficulty": "advanced",
+      "category": "高级",
+      "duration_min": 20,
+      "steps": [
+        "教狗认'报纸' (反复指 + 叼 + 奖励)",
+        "把报纸放门口或信箱",
+        "主人说'取报', 狗去拿 → 带回 → 给主人 → 奖励",
+        "逐步加距离/复杂环境",
+        "实际应用: 早上主人未起时取报"
+      ],
+      "common_mistakes": [
+        "狗撕咬报纸 (强化咬)"
+      ],
+      "tips": "经典服务犬技能, 大型犬 (金毛/拉布拉多) 最适合"
+    },
+    {
+      "id": "muzzle_accept",
+      "name_zh": "戴嘴套训练 (Muzzle)",
+      "name_en": "Muzzle Training",
+      "difficulty": "intermediate",
+      "category": "基础",
+      "duration_min": 10,
+      "steps": [
+        "嘴套内涂花生酱/奶酪",
+        "狗主动把鼻伸进嘴套 (不戴, 只闻)",
+        "逐步戴 1 秒 → 5 秒 → 30 秒",
+        "戴嘴套时喂零食 + 游戏 (正面联想)",
+        "长毛犬: 修嘴套周毛 (防摩擦)"
+      ],
+      "common_mistakes": [
+        "直接硬戴 (狗恐惧)",
+        "只在医院/美容时戴 (负面联想)"
+      ],
+      "tips": "短头犬/有攻击史/特殊场合必须. 训过嘴套 = 救狗命"
+    },
+    {
+      "id": "nail_trim",
+      "name_zh": "剪指甲训练 (Nail Trim)",
+      "name_en": "Nail Trim Training",
+      "difficulty": "intermediate",
+      "category": "基础",
+      "duration_min": 10,
+      "steps": [
+        "幼犬期: 经常摸脚/趾, 不剪 (脱敏)",
+        "指甲刀出现 → 立刻给零食 (正面联想)",
+        "握住爪 → 剪 1 趾 → 大奖励",
+        "逐步全剪完再奖励",
+        "勿剪到血线 (粉色线内)",
+        "恐惧者: 兽医开 Gabapentin 抗焦虑"
+      ],
+      "common_mistakes": [
+        "强行按住剪 (创伤)",
+        "剪出血没止血粉 (痛+怕)"
+      ],
+      "tips": "2-4 周 1 次, 1 次只剪 1-2 趾 (奖励), 2-3 周剪完"
+    },
+    {
+      "id": "teeth_brushing",
+      "name_zh": "刷牙训练 (Teeth Brushing)",
+      "name_en": "Teeth Brushing",
+      "difficulty": "intermediate",
+      "category": "基础",
+      "duration_min": 5,
+      "steps": [
+        "犬专用牙膏 (人用氟/木糖醇毒)",
+        "幼犬期: 手指套/纱布 + 狗牙膏, 摸牙",
+        "逐步过渡到犬牙刷",
+        "刷 5-10 秒 → 奖励 + 赞美",
+        "每日 1 次最佳 (实在不行 1 周 3 次)",
+        "外侧牙 (唇侧) 够用, 内侧少"
+      ],
+      "common_mistakes": [
+        "硬刷 (牙龈伤)"
+      ],
+      "tips": "3 岁后 80% 犬有牙周病, 刷牙延长寿命 2-3 年!"
+    },
+    {
+      "id": "paw_target",
+      "name_zh": "用爪按目标 (Paw Target)",
+      "name_en": "Paw Target",
+      "difficulty": "beginner",
+      "category": "才艺",
+      "duration_min": 5,
+      "steps": [
+        "手掌伸开, 凑近狗前爪",
+        "狗好奇碰手 → 立刻说'碰' + 奖励",
+        "狗主动抬爪碰手 → 升级奖励",
+        "加距离 (手稍远)",
+        "延伸: 按按钮/按铃/关门"
+      ],
+      "common_mistakes": [
+        "手太高狗直接跳起来"
+      ],
+      "tips": "是教'按铃上厕所'/'关门'/'开灯'的基础"
+    },
+    {
+      "id": "ring_bell_toilet",
+      "name_zh": "按铃要出门",
+      "name_en": "Ring Bell to Go Out",
+      "difficulty": "intermediate",
+      "category": "基础",
+      "duration_min": 10,
+      "steps": [
+        "门边挂铃, 高度 = 狗鼻高度",
+        "出门前: 主人引导狗鼻碰铃 → 响 → 开门 + 出门",
+        "10-20 次后: 主人等狗主动碰铃",
+        "建立'碰铃=开门'条件反射"
+      ],
+      "common_mistakes": [
+        "铃太高狗碰不到"
+      ],
+      "tips": "公寓养狗神器, 主人知道狗要上厕所, 不必一直叫"
+    },
+    {
+      "id": "count_1_3",
+      "name_zh": "数数 (1-3)",
+      "name_en": "Count Trick",
+      "difficulty": "advanced",
+      "category": "才艺",
+      "duration_min": 15,
+      "steps": [
+        "教狗'叫 1 次' (见 speak)",
+        "教'叫 2 次' (等狗叫第 2 次后给奖)",
+        "教'叫 3 次' (同理)",
+        "主人说 1 → 狗叫 1 次 (奖励)",
+        "主人说 2 → 狗叫 2 次 (奖励)",
+        "结合'算数'和'按铃'可做出组合表演"
+      ],
+      "common_mistakes": [
+        "狗叫超过说出的数字也奖"
+      ],
+      "tips": "表演性强, 现场很有趣. 贵宾/比熊/边牧学得快"
+    },
+    {
+      "id": "wait_for_food",
+      "name_zh": "吃饭前等待",
+      "name_en": "Wait for Food",
+      "difficulty": "beginner",
+      "category": "基础",
+      "duration_min": 5,
+      "steps": [
+        "饭碗在手, 主人说'等'",
+        "狗坐下等 3-5 秒 → 主人说'吃' + 放碗",
+        "反复 5-10 次",
+        "逐渐延长时间: 5 秒 → 10 秒 → 30 秒",
+        "狗抢吃 → 立刻收碗, 重来"
+      ],
+      "common_mistakes": [
+        "狗抢就放 (强化抢)"
+      ],
+      "tips": "预防护食/护碗, 幼犬期必训. 多犬家庭重点"
+    },
+    {
+      "id": "come_emergency",
+      "name_zh": "紧急召回 (Emergency Recall)",
+      "name_en": "Emergency Recall",
+      "difficulty": "advanced",
+      "category": "基础",
+      "duration_min": 10,
+      "steps": [
+        "选独特声音 (哨/特定词/拍手)",
+        "该声音 = 极高级奖励 (烤鸡/奶酪)",
+        "平时 1-2 周 1 次, 不滥用",
+        "真紧急时, 该声音 100% 召回",
+        "可与普通 'come' 共存, 但紧急召回更高级"
+      ],
+      "common_mistakes": [
+        "平时常用紧急召回 (狗贬值)"
+      ],
+      "tips": "救命技能! 狗追车/吃毒/冲马路的最后一道防线"
+    },
+    {
+      "id": "quiet_alone",
+      "name_zh": "独处不焦虑 (Alone Training)",
+      "name_en": "Alone Training",
+      "difficulty": "advanced",
+      "category": "社交",
+      "duration_min": 30,
+      "steps": [
+        "出门/回家不激动 (不起大反应)",
+        "渐进式离开: 1 分钟 → 5 分钟 → 30 分钟 → 1 小时",
+        "离开前: 出门前 30 分钟遛狗 + 漏食玩具",
+        "独自期间: 留收音机/电视音 + DAP 扩散器",
+        "狗安静 → 主人回来 → 不激动, 等 5 分钟再互动",
+        "严重者需药物 (Clomipramine/Fluoxetine) + 行为师"
+      ],
+      "common_mistakes": [
+        "出门告别 5 分钟 (狗更焦虑)",
+        "回家激动迎接"
+      ],
+      "tips": "破坏家具/吠叫/自残是分离焦虑信号, 早期干预"
+    },
+    {
+      "id": "load_foot",
+      "name_zh": "擦脚 (Wipe Paws)",
+      "name_en": "Wipe Paws",
+      "difficulty": "advanced",
+      "category": "高级",
+      "duration_min": 15,
+      "steps": [
+        "门口放毛巾/垫子",
+        "主人拿狗爪, 在毛巾上擦 2-3 下 → 奖励",
+        "反复 5-10 次",
+        "主人说'擦脚' → 狗自行伸爪到毛巾上擦",
+        "雨天回来特别有用"
+      ],
+      "common_mistakes": [
+        "硬擦 (狗反感)"
+      ],
+      "tips": "保持家中清洁, 大型犬洗脚太累时的好帮手"
+    },
+    {
+      "id": "ring_toilet_trained",
+      "name_zh": "看铃上厕所训练",
+      "name_en": "Potty on Bell",
+      "difficulty": "intermediate",
+      "category": "基础",
+      "duration_min": 10,
+      "steps": [
+        "门边挂铃 (狗鼻高度)",
+        "狗有要上厕所的信号 (嗅地/转圈)",
+        "主人立刻带狗到铃旁, 引导碰铃 → 出门",
+        "10-20 次后, 狗主动碰铃",
+        "碰铃 + 出门 = 狗学会信号"
+      ],
+      "common_mistakes": [
+        "铃太高狗够不到"
+      ],
+      "tips": "公寓养狗必备, 减少叫门扰民"
+    },
+    {
+      "id": "cuddle_calm",
+      "name_zh": "安静拥抱 (Cuddle)",
+      "name_en": "Cuddle on Cue",
+      "difficulty": "beginner",
+      "category": "才艺",
+      "duration_min": 5,
+      "steps": [
+        "狗自然靠主人身边, 主人给零食 + 抚摸",
+        "说'抱抱' + 抱 5 秒 → 奖励",
+        "狗主动靠 = 安静 + 奖励",
+        "激动犬/扑人犬: 先'坐'再'抱'",
+        "建立'抱抱=平静'的联想"
+      ],
+      "common_mistakes": [
+        "激动犬强抱 (更激动)"
+      ],
+      "tips": "建立亲密感的简单技能, 适合与小孩互动"
+    },
+    {
+      "id": "name_recognition_extended",
+      "name_zh": "认多种人/物名字",
+      "name_en": "Multiple Names",
+      "difficulty": "intermediate",
+      "category": "高级",
+      "duration_min": 15,
+      "steps": [
+        "先教 1-2 个名字 (球/球棒)",
+        "反复指物说名 + 狗碰/拿 + 奖",
+        "逐步加到 5-10 个",
+        "狗混在一起, 主人说'取X'狗正确选",
+        "进阶: 人名/食物名/房间名"
+      ],
+      "common_mistakes": [
+        "一次教太多 (混淆)"
+      ],
+      "tips": "贵宾/边牧最多能记 200+ 物品名 (Chaser 边境牧羊犬案例)"
     }
   ]
 }

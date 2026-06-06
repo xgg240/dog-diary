@@ -9,6 +9,7 @@ import '../../core/providers.dart';
 import 'pet_detail_page.dart';
 import 'pet_edit_sheet.dart';
 
+import '../../core/ui/modern_widgets.dart';
 class PetsPage extends ConsumerWidget {
   const PetsPage({super.key});
 
@@ -16,7 +17,7 @@ class PetsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final petsAsync = ref.watch(petsStreamProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('🐕 我的宠物')),
+      appBar: ModernPageHeader(title: '我的宠物'),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           showModalBottomSheet(
@@ -69,7 +70,22 @@ class PetsPage extends ConsumerWidget {
                     p.gender == 'male' ? '♂' : '♀',
                     if (p.neutered) '已绝育',
                   ].join(' · ')),
-                  trailing: const Icon(Icons.chevron_right),
+                  trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+                    IconButton(
+                      icon: const Icon(Icons.edit, color: Colors.blue),
+                      tooltip: '编辑',
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          useSafeArea: true,
+                          showDragHandle: true,
+                          builder: (_) => PetEditSheet(existing: p),
+                        );
+                      },
+                    ),
+                    const Icon(Icons.chevron_right),
+                  ]),
                   onTap: () {
                     Navigator.push(
                       context,

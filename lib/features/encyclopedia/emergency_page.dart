@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'data_loader.dart';
-
+import '../../core/ui/design_tokens.dart';
 // ============================================================
 //  急症选择页 (从 SOS FAB 点开)
 // ============================================================
@@ -110,7 +110,7 @@ class EmergencyListPage extends StatelessWidget {
             ]),
           ),
         ),
-        trailing: Icon(Icons.chevron_right, color: critical ? Colors.red : null),
+        trailing: Icon(Icons.chevron_right, color: critical ? Theme.of(ctx).colorScheme.error : null),
         onTap: () => Navigator.push(ctx, MaterialPageRoute(builder: (_) => EmergencyDetailPage(emergency: e))),
       ),
     );
@@ -132,9 +132,9 @@ class _S extends State<EmergencyDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     final e = widget.emergency;
     final critical = e['severity'] == 'critical';
-    final cs = Theme.of(context).colorScheme;
     final bgColor = critical ? cs.error : cs.tertiary;
     final onBg = critical ? cs.onError : cs.onTertiary;
     return Scaffold(
@@ -203,28 +203,28 @@ class _S extends State<EmergencyDetailPage> {
               const SizedBox(height: 8),
 
               // 警示症状
-              _section('🔍 警示症状', [e['warning_signs']], Colors.red),
+              _section(context, '🔍 警示症状', [e['warning_signs']], Theme.of(context).colorScheme.error),
 
               // 可能原因
               if (e['common_toxins'] != null)
-                _section('☠️ 常见毒物', (e['common_toxins'] as List).cast<String>(), Colors.purple)
+                _section(context, '☠️ 常见毒物', (e['common_toxins'] as List).cast<String>(), Theme.of(context).colorScheme.tertiary)
               else if (e['common_causes'] != null)
-                _section('⚠️ 常见原因', (e['common_causes'] as List).cast<String>(), Colors.orange)
+                _section(context, '⚠️ 常见原因', (e['common_causes'] as List).cast<String>(), Theme.of(context).colorScheme.error)
               else if (e['common_situations'] != null)
-                _section('🚗 常见场景', (e['common_situations'] as List).cast<String>(), Colors.indigo)
+                _section(context, '🚗 常见场景', (e['common_situations'] as List).cast<String>(), Theme.of(context).colorScheme.primary)
               else if (e['common_objects'] != null)
-                _section('🧦 常见物品', (e['common_objects'] as List).cast<String>(), Colors.brown)
+                _section(context, '🧦 常见物品', (e['common_objects'] as List).cast<String>(), Theme.of(context).colorScheme.tertiary)
               else if (e['common_dogs'] != null)
-                _section('🐕 高发犬种', (e['common_dogs'] as List).cast<String>(), Colors.indigo),
+                _section(context, '🐕 高发犬种', (e['common_dogs'] as List).cast<String>(), Theme.of(context).colorScheme.primary),
 
               // 居家急救 (可勾选)
-              _checkList('🏠 居家急救 (按顺序做)', (e['home_care'] as List).cast<String>(), Colors.green),
+              _checkList(context, '🏠 居家急救 (按顺序做)', (e['home_care'] as List).cast<String>(), Theme.of(context).colorScheme.tertiary),
 
               // 绝对禁忌
-              _section('🚫 绝对禁忌', (e['absolute_donts'] as List).cast<String>(), Colors.red),
+              _section(context, '🚫 绝对禁忌', (e['absolute_donts'] as List).cast<String>(), Theme.of(context).colorScheme.error),
 
               // 送医时机
-              _section('🚑 何时送医', [e['when_to_vet']], Colors.red),
+              _section(context, '🚑 何时送医', [e['when_to_vet']], Theme.of(context).colorScheme.error),
 
               // 电话脚本
               if (e['vet_call_script'] != null)
@@ -303,8 +303,7 @@ class _S extends State<EmergencyDetailPage> {
     );
   }
 
-  Widget _section(String title, List<String> items, Color color) {
-    final cs = Theme.of(context).colorScheme;
+  Widget _section(BuildContext context, String title, List<String> items, Color color) {
     return Card(
       color: color.withValues(alpha: 0.08),
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -323,14 +322,14 @@ class _S extends State<EmergencyDetailPage> {
           const SizedBox(height: 10),
           for (final i in items) Padding(
             padding: const EdgeInsets.symmetric(vertical: 3),
-            child: Text('• $i', style: TextStyle(height: 1.55, color: cs.onSurface, fontSize: 13.5)),
+            child: Text('• $i', style: TextStyle(height: 1.55, color: Theme.of(context).colorScheme.onSurface, fontSize: 13.5)),
           ),
         ]),
       ),
     );
   }
 
-  Widget _checkList(String title, List<String> items, Color color) {
+  Widget _checkList(BuildContext context, String title, List<String> items, Color color) {
     return Card(
       color: color.withValues(alpha: 0.08),
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -347,13 +346,13 @@ class _S extends State<EmergencyDetailPage> {
             Expanded(child: Text(title, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: color, letterSpacing: 0.1))),
           ]),
           const SizedBox(height: 10),
-          for (var i = 0; i < items.length; i++) _checkItem(i, items[i], color),
+          for (var i = 0; i < items.length; i++) _checkItem(context, i, items[i], color),
         ]),
       ),
     );
   }
 
-  Widget _checkItem(int idx, String text, Color color) {
+  Widget _checkItem(BuildContext context, int idx, String text, Color color) {
     final cs = Theme.of(context).colorScheme;
     final done = _done.contains(idx);
     return InkWell(

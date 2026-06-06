@@ -1,0 +1,107 @@
+// 养狗日记设计系统 v2 - 真正的"现代简洁"
+// 参考: Linear, Notion, Apple Reminders, Things 3
+// 原则: 单一品牌色 + 大量留白 + 文字驱动 + 不用 emoji 当主图标
+
+import 'package:flutter/material.dart';
+
+class AppColors {
+  AppColors._();
+
+  // 单一品牌色: 暖橘
+  static const Color brand = Color(0xFFFF6B35);
+  static const Color brandDark = Color(0xFFFF8A5C);
+
+  // Light 模式 (暖灰 + 暖白, 不是纯白)
+  static const Color surfaceLight = Color(0xFFFAF7F2);          // 页面背景
+  static const Color surfaceContainerLight = Color(0xFFFFFFFF); // 卡片背景 (纯白浮在暖白上)
+  static const Color surfaceContainerHighLight = Color(0xFFF5F1EA); // chip / 按钮背景
+  static const Color onSurfaceLight = Color(0xFF1C1917);        // 主要文字 (近黑)
+  static const Color onSurfaceVariantLight = Color(0xFF78716C);  // 次要文字
+  static const Color outlineLight = Color(0xFFE7E5E0);
+  static const Color outlineVariantLight = Color(0xFFF0EDE8);
+
+  // Dark 模式
+  static const Color surfaceDark = Color(0xFF0F0E0C);          // 页面背景 (近黑)
+  static const Color surfaceContainerDark = Color(0xFF1C1917);  // 卡片背景
+  static const Color surfaceContainerHighDark = Color(0xFF2A2724);
+  static const Color onSurfaceDark = Color(0xFFF5F5F4);
+  static const Color onSurfaceVariantDark = Color(0xFFA8A29E);
+  static const Color outlineDark = Color(0xFF2A2724);
+  static const Color outlineVariantDark = Color(0xFF1F1D1A);
+
+  // 语义色
+  static const Color success = Color(0xFF10B981);
+  static const Color warning = Color(0xFFF59E0B);
+  static const Color danger = Color(0xFFEF4444);
+  static const Color info = Color(0xFF3B82F6);
+
+  // Dark 模式语义色
+  static const Color successDark = Color(0xFF34D399);
+  static const Color warningDark = Color(0xFFFBBF24);
+  static const Color dangerDark = Color(0xFFF87171);
+  static const Color infoDark = Color(0xFF60A5FA);
+}
+
+class AppRadius {
+  AppRadius._();
+  static const double xs = 8;
+  static const double sm = 12;
+  static const double md = 16;
+  static const double lg = 20;
+  static const double xl = 28;
+  static const double pill = 999;
+}
+
+class AppSpacing {
+  AppSpacing._();
+  static const double xs = 4;
+  static const double sm = 8;
+  static const double md = 12;
+  static const double lg = 16;
+  static const double xl = 24;
+  static const double xxl = 32;
+}
+
+class AppShadow {
+  AppShadow._();
+  // 极轻阴影: 6% 黑色 1 像素深
+  static List<BoxShadow> card(Brightness b) {
+    final isDark = b == Brightness.dark;
+    return [
+      BoxShadow(
+        color: isDark
+            ? Colors.black.withValues(alpha: 0.3)
+            : Colors.black.withValues(alpha: 0.04),
+        blurRadius: 12,
+        offset: const Offset(0, 2),
+      ),
+      BoxShadow(
+        color: isDark
+            ? Colors.black.withValues(alpha: 0.2)
+            : Colors.black.withValues(alpha: 0.02),
+        blurRadius: 4,
+        offset: const Offset(0, 1),
+      ),
+    ];
+  }
+
+  // 浮起阴影: 8% 黑色 8 像素
+  static List<BoxShadow> floating(Brightness b) {
+    final isDark = b == Brightness.dark;
+    return [
+      BoxShadow(
+        color: isDark
+            ? Colors.black.withValues(alpha: 0.5)
+            : Colors.black.withValues(alpha: 0.08),
+        blurRadius: 24,
+        offset: const Offset(0, 8),
+      ),
+    ];
+  }
+}
+
+class AppDuration {
+  AppDuration._();
+  static const fast = Duration(milliseconds: 150);
+  static const normal = Duration(milliseconds: 250);
+}
