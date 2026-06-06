@@ -43,3 +43,31 @@ jobs:
         with:
           name: dog-diary-debug
           path: build/app/outputs/flutter-apk/app-debug.apk
+
+      # ============================================
+      # Release APK 拆 ABI (体积骤减: 162MB → ~30MB/arm64)
+      # 2026-06-07 父要求: iOS 11M, Android debug 162MB 太大
+      # ============================================
+      - name: Build release APK (split per ABI)
+        run: flutter build apk --release --split-per-abi
+
+      - name: Upload arm64-v8a release APK (主流手机)
+        uses: actions/upload-artifact@v4
+        with:
+          name: dog-diary-release-arm64
+          path: build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+
+      - name: Upload armeabi-v7a release APK (老手机)
+        uses: actions/upload-artifact@v4
+        with:
+          name: dog-diary-release-armv7
+          path: build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+
+      - name: Upload x86_64 release APK (模拟器)
+        uses: actions/upload-artifact@v4
+        with:
+          name: dog-diary-release-x64
+          path: build/app/outputs/flutter-apk/app-x86_64-release.apk
+
+      - name: Show release APK sizes
+        run: ls -lh build/app/outputs/flutter-apk/*.apk 2>&1
