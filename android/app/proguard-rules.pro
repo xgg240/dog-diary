@@ -34,3 +34,14 @@
 # 保留行号（崩溃堆栈有用）
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
+
+# ============================================
+# Google Play Core (Flutter PlayStoreSplitApplication / deferred components)
+# 工程未启用 Play Store 动态功能模块, 但 Flutter SDK reference 必须保留
+# 2026-06-07 R8 release 编不过, 加这批 keep rule
+# ============================================
+-keep class com.google.android.play.core.** { *; }
+-dontwarn com.google.android.play.core.**
+-keep class com.google.android.play.core.splitcompat.SplitCompatApplication { *; }
+-keep class com.google.android.play.core.splitinstall.** { *; }
+-keep class com.google.android.play.core.tasks.** { *; }
